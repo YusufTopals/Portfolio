@@ -8,42 +8,42 @@
 /* Portfolio-specific design system */
 @layer base {
   :root {
-    --background: 220 13% 10%; /* donkerblauw-grijs */
+    --background: 0 0% 0%;
     --foreground: 220 30% 96%; /* lichtgrijs */
 
-    --card: 220 10% 12%;
+    --card: 280 100% 5%;
     --card-foreground: 220 30% 96%;
 
-    --popover: 220 13% 14%;
+    --popover: 280 100% 5%;
     --popover-foreground: 220 30% 96%;
 
-    --primary: 220 80% 56%; /* blauw */
+    --primary: 276 100% 43%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 218 15% 24%;
+    --secondary: 280 16% 19%;
     --secondary-foreground: 220 30% 96%;
 
-    --muted: 218 15% 20%;
+    --muted: 280 16% 16%;
     --muted-foreground: 218 11% 65%;
 
-    --accent: 220 80% 45%;
+    --accent: 276 100% 43%;
     --accent-foreground: 220 30% 96%;
 
     --destructive: 0 72% 45%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 218 15% 26%;
-    --input: 218 15% 26%;
-    --ring: 220 80% 56%;
+    --border: 280 9% 19%;
+    --input: 280 9% 19%;
+    --ring: 276 100% 43%;
 
-    --sidebar-background: 220 10% 12%;
+    --sidebar-background: 0 0% 0%;
     --sidebar-foreground: 220 30% 96%;
-    --sidebar-primary: 220 80% 56%;
+    --sidebar-primary: 276 100% 43%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 218 15% 20%;
+    --sidebar-accent: 280 16% 16%;
     --sidebar-accent-foreground: 220 30% 96%;
-    --sidebar-border: 218 15% 20%;
-    --sidebar-ring: 220 80% 56%;
+    --sidebar-border: 280 9% 19%;
+    --sidebar-ring: 276 100% 43%;
 
     --radius: 0.5rem;
   }
@@ -74,34 +74,34 @@
   }
 
   ::-webkit-scrollbar-thumb {
-    @apply bg-blue-600 rounded-full;
+    @apply bg-purple-700 rounded-full;
   }
 
   ::-webkit-scrollbar-thumb:hover {
-    @apply bg-blue-500;
+    @apply bg-purple-500;
   }
 
   /* Selection styles */
   ::selection {
-    @apply bg-blue-600 text-white;
+    @apply bg-purple-700 text-white;
   }
 
   /* Focus styles */
   :focus-visible {
-    @apply outline-2 outline-blue-500 outline-offset-2;
+    @apply outline-2 outline-purple-500 outline-offset-2;
   }
 }
 
 /* Custom utility classes */
 @layer utilities {
   .text-gradient {
-    @apply bg-gradient-to-r from-blue-500 to-indigo-500 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-white via-purple-200 to-purple-500 bg-clip-text text-transparent;
   }
 
   .glass-morphism {
     backdrop-filter: blur(16px) saturate(180%);
-    background-color: rgba(30, 41, 59, 0.75); /* donkerblauwgrijs */
-    border: 1px solid rgba(59, 130, 246, 0.2); /* blue-500 transparant */
+    background-color: rgba(0, 0, 0, 0.65);
+    border: 1px solid #322D36;
   }
 
   .animate-float {

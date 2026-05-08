@@ -13,7 +13,7 @@
 }
 
 .logo:hover {
-  filter: drop-shadow(0 0 2em #3b82f6aa); /* blauw (blue-500) */
+  filter: drop-shadow(0 0 2em #8200dbaa);
 }
 
 .logo.react:hover {
@@ -44,5 +44,5 @@
 }
 
 .read-the-docs {
-  color: #94a3b8; /* grijsblauw tint (text-slate-400) */
+  color: #a8a1ad;
 }

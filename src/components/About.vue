@@ -3,19 +3,19 @@
     <div class="max-w-4xl mx-auto">
       <div class="text-center mb-12">
         <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">
-          Over <span class="bg-gradient-to-r from-blue-400 to-indigo-500 bg-clip-text text-transparent">mij</span>
+          Over <span class="bg-gradient-to-r from-white via-purple-200 to-purple-500 bg-clip-text text-transparent">mij</span>
         </h1>
         <p class="text-xl text-gray-400">Leer meer over mijn achtergrond en passie voor development</p>
       </div>
 
       <div class="grid md:grid-cols-2 gap-12 items-center mb-16">
         <div>
-          <div class="bg-gradient-to-br from-blue-600 to-indigo-600 p-1 rounded-2xl">
-            <div class="bg-slate-900 rounded-2xl p-8">
+          <div class="bg-gradient-to-br from-purple-500/70 via-[#8200DB] to-black p-1 rounded-2xl">
+            <div class="bg-black/80 border border-[#322D36] rounded-2xl p-8">
               <h2 class="text-2xl font-bold text-white mb-6">Persoonlijke Info</h2>
               <div class="space-y-4">
                 <div v-for="info in personalInfo" :key="info.label">
-                  <span class="text-blue-400 font-medium">{{ info.label }}:</span>
+                  <span class="text-purple-300 font-medium">{{ info.label }}:</span>
                   <span class="text-gray-300 ml-2">{{ info.value }}</span>
                 </div>
               </div>
@@ -34,18 +34,18 @@
       </div>
 
       <!-- Skills Section -->
-      <div class="bg-slate-800/50 rounded-2xl p-8">
+      <div class="bg-black/60 border border-[#322D36] rounded-2xl p-8">
         <h2 class="text-2xl font-bold text-white mb-8 text-center">Technische Vaardigheden</h2>
         <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-          <div v-for="(skillList, category) in skills" :key="category" class="bg-slate-900/50 rounded-lg p-6">
-            <h3 class="text-lg font-semibold text-blue-400 mb-4 capitalize">
+          <div v-for="(skillList, category) in skills" :key="category" class="bg-black/50 border border-[#322D36] rounded-lg p-6">
+            <h3 class="text-lg font-semibold text-purple-300 mb-4 capitalize">
               {{ getCategoryLabel(category) }}
             </h3>
             <div class="flex flex-wrap gap-2">
               <span
                   v-for="skill in skillList"
                   :key="skill"
-                  class="bg-blue-600/20 text-blue-300 px-3 py-1 rounded-full text-sm border border-blue-500/30"
+                  class="bg-[#8200DB29] text-purple-100 px-3 py-1 rounded-full text-sm border border-[#322D36]"
               >
                 {{ skill }}
               </span>

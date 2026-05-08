@@ -3,7 +3,7 @@
     <div class="max-w-4xl mx-auto">
       <div class="text-center mb-12">
         <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">
-          Neem <span class="bg-gradient-to-r from-blue-400 to-indigo-500 bg-clip-text text-transparent">Contact</span> op
+          Neem <span class="bg-gradient-to-r from-white via-purple-200 to-purple-500 bg-clip-text text-transparent">Contact</span> op
         </h1>
         <p class="text-xl text-gray-400">
           Heb je een vraag of wil je samenwerken? Ik hoor graag van je!
@@ -12,7 +12,7 @@
 
       <div class="grid md:grid-cols-2 gap-12">
         <!-- Contact Form -->
-        <div class="bg-slate-800/50 rounded-2xl p-8">
+        <div class="bg-black/60 border border-[#322D36] rounded-2xl p-8">
           <h2 class="text-2xl font-bold text-white mb-6">Stuur een bericht</h2>
 
           <div
@@ -30,7 +30,7 @@
                   v-model="formData.name"
                   required
                   placeholder="Je naam"
-                  class="w-full bg-slate-900/50 border border-slate-600 text-white rounded-lg px-4 py-3 focus:outline-none focus:border-blue-500"
+                  class="w-full bg-black/50 border border-[#322D36] text-white rounded-lg px-4 py-3 focus:outline-none focus:border-purple-400"
               />
             </div>
 
@@ -42,7 +42,7 @@
                   required
                   type="email"
                   placeholder="je@email.com"
-                  class="w-full bg-slate-900/50 border border-slate-600 text-white rounded-lg px-4 py-3 focus:outline-none focus:border-blue-500"
+                  class="w-full bg-black/50 border border-[#322D36] text-white rounded-lg px-4 py-3 focus:outline-none focus:border-purple-400"
               />
             </div>
 
@@ -54,14 +54,14 @@
                   rows="5"
                   required
                   placeholder="Vertel me over je project of stel je vraag..."
-                  class="w-full bg-slate-900/50 border border-slate-600 text-white rounded-lg px-4 py-3 focus:outline-none focus:border-blue-500 resize-none"
+                  class="w-full bg-black/50 border border-[#322D36] text-white rounded-lg px-4 py-3 focus:outline-none focus:border-purple-400 resize-none"
               ></textarea>
             </div>
 
             <button
                 type="submit"
                 :disabled="isSubmitting"
-                class="w-full bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                class="w-full bg-[#8200DB29] hover:bg-black/50 border border-[#322D36] text-white py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {{ isSubmitting ? 'Verzenden...' : 'Verstuur bericht' }}
             </button>
@@ -70,7 +70,7 @@
 
         <!-- Contact Info -->
         <div class="space-y-8">
-          <div class="bg-slate-800/50 rounded-2xl p-8">
+          <div class="bg-black/60 border border-[#322D36] rounded-2xl p-8">
             <h2 class="text-2xl font-bold text-white mb-6">Laten we verbinden</h2>
             <p class="text-gray-400 mb-6">
               Ik sta altijd open voor samenwerkingen of nieuwe projecten. Neem gerust contact op!
@@ -78,18 +78,18 @@
 
             <div class="space-y-4">
               <div class="flex items-center gap-3 text-gray-300">
-                <div class="w-8 h-8 bg-blue-600/20 rounded-lg flex items-center justify-center">📍</div>
+                <div class="w-8 h-8 bg-[#8200DB29] border border-[#322D36] rounded-lg flex items-center justify-center">📍</div>
                 <span>Amsterdam-Noord, Nederland</span>
               </div>
               <div class="flex items-center gap-3 text-gray-300">
-                <div class="w-8 h-8 bg-blue-600/20 rounded-lg flex items-center justify-center">🎓</div>
+                <div class="w-8 h-8 bg-[#8200DB29] border border-[#322D36] rounded-lg flex items-center justify-center">🎓</div>
                 <span>HBO-ICT Software Engineering (HvA)</span>
               </div>
             </div>
           </div>
 
           <!-- Socials -->
-          <div class="bg-slate-800/50 rounded-2xl p-8">
+          <div class="bg-black/60 border border-[#322D36] rounded-2xl p-8">
             <h3 class="text-xl font-bold text-white mb-4">Volg me online</h3>
             <div class="flex gap-4">
               <a
@@ -98,17 +98,17 @@
                   :href="social.url"
                   target="_blank"
                   rel="noopener noreferrer"
-                  class="w-12 h-12 bg-blue-600/20 hover:bg-blue-600/40 text-blue-400 hover:text-white rounded-lg flex items-center justify-center transition-all duration-300 transform hover:scale-110"
+                  class="w-12 h-12 bg-[#8200DB29] hover:bg-black/50 border border-[#322D36] text-purple-200 hover:text-white rounded-lg flex items-center justify-center transition-all duration-300 transform hover:scale-110"
                   v-html="social.icon"
               />
             </div>
           </div>
 
           <!-- CV Download -->
-          <div class="bg-gradient-to-br from-blue-600/20 to-indigo-600/20 border border-blue-500/30 rounded-2xl p-8">
+          <div class="bg-[#8200DB29] border border-[#322D36] rounded-2xl p-8">
             <h3 class="text-xl font-bold text-white mb-4">Mijn CV</h3>
             <p class="text-gray-400 mb-4">Download mijn CV voor een volledig overzicht van mijn ervaring en skills.</p>
-            <button class="bg-gradient-to-r from-blue-600 to-indigo-600 hover:from-blue-700 hover:to-indigo-700 text-white px-6 py-3 rounded-lg font-semibold transition-transform duration-300 hover:scale-105 flex items-center gap-2">
+            <button class="bg-black/40 hover:bg-black/60 border border-[#322D36] text-white px-6 py-3 rounded-lg font-semibold transition-transform duration-300 hover:scale-105 flex items-center gap-2">
               <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
