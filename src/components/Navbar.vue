@@ -1,28 +1,26 @@
 <template>
-  <nav class="fixed top-0 left-0 right-0 z-50 bg-black/70 backdrop-blur-md border-b border-[#322D36]">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div class="flex items-center justify-between h-16">
-        <div class="flex-shrink-0">
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-[rgba(13,13,24,0.3)] backdrop-blur-md border-b border-[#322D36]" style="border-radius: 0 0 15px 15px;">
+    <div class="container mx-auto px-4 py-4 md:px-6 lg:px-8">
+      <div class="flex items-center justify-between">
+        <div class="flex items-center space-x-6 lg:space-x-8">
           <button
-              @click="$emit('navigate', 'home')"
-              class="text-2xl font-bold bg-gradient-to-r from-white via-purple-200 to-purple-500 bg-clip-text text-transparent hover:scale-105 transition-transform duration-200"
+              @click="handleNavigate('home')"
+              class="text-white hover:text-purple-200 transition-colors"
+              aria-label="Ga naar home"
           >
-            YT
+            <span class="text-3xl font-bold leading-none">&lt;/&gt;</span>
           </button>
-        </div>
 
-        <!-- Desktop Navigation -->
-        <div class="hidden md:block">
-          <div class="ml-10 flex items-baseline space-x-4">
+          <div class="hidden lg:flex items-center space-x-6">
             <button
                 v-for="item in navItems"
                 :key="item.id"
-                @click="$emit('navigate', item.id)"
+                @click="handleNavigate(item.id)"
                 :class="[
-                'px-3 py-2 rounded-md text-sm font-medium transition-all duration-200',
+                'text-sm transition duration-150',
                 currentPage === item.id
-                  ? 'bg-[#8200DB29] text-white border border-[#322D36]'
-                  : 'text-gray-300 hover:bg-[#8200DB29] hover:text-white'
+                  ? 'text-white'
+                  : 'text-gray-300 hover:text-white'
               ]"
             >
               {{ item.label }}
@@ -30,11 +28,18 @@
           </div>
         </div>
 
-        <!-- Mobile menu button -->
-        <div class="md:hidden">
+        <div class="flex items-center space-x-4 md:space-x-6">
+          <button
+              @click="handleNavigate('contact')"
+              class="bg-[#8200DB29] hover:bg-black/50 text-white font-semibold py-2 px-5 rounded-full text-sm md:text-base border border-[#322D36] transition-colors"
+              style="backdrop-filter: blur(8px);"
+          >
+            Neem contact op
+          </button>
           <button
               @click="isMobileMenuOpen = !isMobileMenuOpen"
-              class="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-white hover:bg-[#8200DB29] transition-colors"
+              class="lg:hidden text-white p-2"
+              aria-label="Toggle mobile menu"
           >
             <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
               <path v-if="isMobileMenuOpen" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12" />
@@ -44,18 +49,21 @@
         </div>
       </div>
 
-      <!-- Mobile Navigation -->
-      <div v-if="isMobileMenuOpen" class="md:hidden">
-        <div class="px-2 pt-2 pb-3 space-y-1 sm:px-3 bg-black/80 border border-[#322D36] rounded-lg mt-2">
+      <div
+          class="lg:hidden bg-black/50 border-t border-gray-700/30 absolute top-full left-0 right-0 z-30 overflow-hidden transition-all duration-300 ease-in-out"
+          :class="isMobileMenuOpen ? 'max-h-screen opacity-100 pointer-events-auto' : 'max-h-0 opacity-0 pointer-events-none'"
+          style="backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);"
+      >
+        <div class="px-4 py-6 flex flex-col space-y-4">
           <button
               v-for="item in navItems"
               :key="item.id"
               @click="handleMobileNavigate(item.id)"
               :class="[
-              'block w-full text-left px-3 py-2 rounded-md text-base font-medium transition-all duration-200',
+              'text-left text-sm py-2 transition duration-150',
               currentPage === item.id
-                ? 'bg-[#8200DB29] text-white border border-[#322D36]'
-                : 'text-gray-300 hover:bg-[#8200DB29] hover:text-white'
+                ? 'text-white'
+                : 'text-gray-300 hover:text-gray-100'
             ]"
           >
             {{ item.label }}
@@ -74,7 +82,7 @@ interface Props {
 }
 
 defineProps<Props>()
-defineEmits<{
+const emit = defineEmits<{
   navigate: [page: 'home' | 'about' | 'projects' | 'contact']
 }>()
 
@@ -84,13 +92,15 @@ const navItems = [
   { id: 'home', label: 'Home' },
   { id: 'about', label: 'Over mij' },
   { id: 'projects', label: 'Projecten' },
-  { id: 'contact', label: 'Contact' },
-]
+] as const
+
+const handleNavigate = (page: 'home' | 'about' | 'projects' | 'contact') => {
+  isMobileMenuOpen.value = false
+  emit('navigate', page)
+  window.dispatchEvent(new CustomEvent('navigate', { detail: page }))
+}
 
 const handleMobileNavigate = (page: 'home' | 'about' | 'projects' | 'contact') => {
-  isMobileMenuOpen.value = false
-  setTimeout(() => {
-    window.dispatchEvent(new CustomEvent('navigate', { detail: page }))
-  }, 0)
+  handleNavigate(page)
 }
 </script>

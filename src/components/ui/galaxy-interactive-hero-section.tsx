@@ -1,7 +1,7 @@
 "use client";
 
 import React, { Suspense, lazy, useEffect, useRef, useState } from "react";
-import { ChevronDown, Code2, Menu, PlayCircle, X } from "lucide-react";
+import { ArrowRight, ChevronDown, Code2, Menu, PlayCircle, X } from "lucide-react";
 
 const Spline = lazy(() => import("@splinetool/react-spline"));
 type PortfolioPage = "home" | "about" | "projects" | "contact";
@@ -108,6 +108,92 @@ function HeroContent({ onNavigate }: { onNavigate?: (page: PortfolioPage) => voi
           Neem contact op
         </button>
       </div>
+    </div>
+  );
+}
+
+const latestProjects = [
+  {
+    title: "Webshop",
+    category: "Fullstack",
+    description: "Fullstack webshop met gebruikersauthenticatie, database en beheer.",
+    tags: ["Node.js", "Express", "MySQL"],
+    href: "https://gitlab.fdmci.hva.nl/propedeuse-hbo-ict/onderwijs/student-projecten/2023-2024/out-e-cs-se/blok-4/haayaazoosii78.git",
+  },
+  {
+    title: "Elections",
+    category: "Fullstack",
+    description: "Realtime verkiezingsresultaten met Spring Boot + Vue.",
+    tags: ["Java", "Spring Boot", "Vue"],
+    href: "https://gitlab.fdmci.hva.nl/semester-3-hbo-ict/onderwijs/student-projecten/2024-2025/out-s-se-gd/semester-1/luuhiijaafee13.git",
+  },
+  {
+    title: "Dark Tech AI Stylist Mirror",
+    category: "Mobile AI App",
+    description: "Mobiele AI-stylist app waarin gebruikers outfits scannen en persoonlijke stijladviezen krijgen.",
+    tags: ["React Native", "Expo", "Supabase"],
+    page: "ai-stylist",
+  },
+];
+
+function LatestProjectsSection() {
+  return (
+    <div className="mt-12 grid gap-6 md:grid-cols-3">
+      {latestProjects.map((project) => {
+        const content = (
+          <>
+            <div>
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-purple-200">
+                {project.category}
+              </p>
+              <h3 className="mt-3 text-2xl font-bold text-white">{project.title}</h3>
+            </div>
+            <p className="text-sm leading-relaxed text-gray-300">{project.description}</p>
+            <div className="flex flex-wrap gap-2">
+              {project.tags.map((tag) => (
+                <span
+                  key={tag}
+                  className="rounded-full border border-[#322D36] bg-[#8200DB29] px-3 py-1 text-xs text-purple-100"
+                >
+                  {tag}
+                </span>
+              ))}
+            </div>
+            <div className="mt-auto inline-flex items-center gap-2 text-sm font-semibold text-white">
+              {project.page ? "Bekijk project" : "Bekijk op GitLab"}
+              <ArrowRight className="h-4 w-4" />
+            </div>
+          </>
+        );
+
+        const className =
+          "group flex min-h-[280px] flex-col gap-5 rounded-2xl border border-[#322D36] bg-black/65 p-6 text-left shadow-lg backdrop-blur-sm transition duration-300 hover:-translate-y-1 hover:border-purple-500/50 hover:bg-[#120018]/80";
+
+        if (project.page) {
+          return (
+            <button
+              key={project.title}
+              type="button"
+              data-navigate={project.page}
+              className={className}
+            >
+              {content}
+            </button>
+          );
+        }
+
+        return (
+          <a
+            key={project.title}
+            href={project.href}
+            target="_blank"
+            rel="noopener noreferrer"
+            className={className}
+          >
+            {content}
+          </a>
+        );
+      })}
     </div>
   );
 }
@@ -325,7 +411,13 @@ function Navbar({ onNavigate }: { onNavigate?: (page: PortfolioPage) => void }) 
   );
 }
 
-export const HeroSection = ({ onNavigate }: { onNavigate?: (page: PortfolioPage) => void }) => {
+export const HeroSection = ({
+  onNavigate,
+  showNavbar = false,
+}: {
+  onNavigate?: (page: PortfolioPage) => void;
+  showNavbar?: boolean;
+}) => {
   const screenshotRef = useRef<HTMLDivElement>(null);
   const heroContentRef = useRef<HTMLDivElement>(null);
 
@@ -352,7 +444,7 @@ export const HeroSection = ({ onNavigate }: { onNavigate?: (page: PortfolioPage)
 
   return (
     <div className="relative">
-      <Navbar onNavigate={onNavigate} />
+      {showNavbar && <Navbar onNavigate={onNavigate} />}
 
       <div className="relative min-h-screen">
         <div className="absolute inset-0 z-0 pointer-events-auto">
@@ -384,9 +476,7 @@ export const HeroSection = ({ onNavigate }: { onNavigate?: (page: PortfolioPage)
         <ScreenshotSection screenshotRef={screenshotRef} />
         <div className="container mx-auto px-4 py-16 text-white">
           <h2 className="text-4xl font-bold text-center mb-8">Mijn werk hieronder</h2>
-          <p className="text-center max-w-xl mx-auto opacity-80">
-            Hier komen mijn projecten, skills en contactgegevens samen op een plek.
-          </p>
+          <LatestProjectsSection />
         </div>
       </div>
     </div>

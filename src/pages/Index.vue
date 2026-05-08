@@ -3,7 +3,7 @@
     <GalaxyBackground v-if="currentPage !== 'home'" />
     <div v-if="currentPage !== 'home'" class="fixed inset-0 z-0 bg-black/70 pointer-events-none"></div>
 
-    <Navbar v-if="currentPage !== 'home'" :current-page="currentPage" @navigate="setCurrentPage" />
+    <Navbar :current-page="currentPage" @navigate="setCurrentPage" />
 
     <main class="relative z-10 transition-all duration-500 ease-in-out">
       <component :is="currentComponent" @navigate="setCurrentPage" />
@@ -34,9 +34,11 @@ import Home from '../components/Home.vue'
 import About from '../components/About.vue'
 import Projects from '../components/Projects.vue'
 import Contact from '../components/Contact.vue'
+import AIStylistProject from '../components/AIStylistProject.vue'
 import Footer from '../components/Footer.vue'
 
-type Page = 'home' | 'about' | 'projects' | 'contact'
+type Page = 'home' | 'about' | 'projects' | 'contact' | 'ai-stylist'
+const pages: Page[] = ['home', 'about', 'projects', 'contact', 'ai-stylist']
 
 const currentPage = ref<Page>('home')
 const isLoading = ref(true)
@@ -47,6 +49,7 @@ const currentComponent = computed(() => {
     about: About,
     projects: Projects,
     contact: Contact,
+    'ai-stylist': AIStylistProject,
   }
   return components[currentPage.value] || Home
 })
@@ -58,7 +61,7 @@ const setCurrentPage = (page: Page) => {
 
 const handleNavigateEvent = (event: Event) => {
   const page = (event as CustomEvent<Page>).detail
-  if (['home', 'about', 'projects', 'contact'].includes(page)) {
+  if (pages.includes(page)) {
     setCurrentPage(page)
   }
 }
@@ -68,7 +71,7 @@ const handleDocumentClick = (event: MouseEvent) => {
   const trigger = target?.closest<HTMLElement>('[data-navigate]')
   const page = trigger?.dataset.navigate as Page | undefined
 
-  if (page && ['home', 'about', 'projects', 'contact'].includes(page)) {
+  if (page && pages.includes(page)) {
     setCurrentPage(page)
   }
 }
