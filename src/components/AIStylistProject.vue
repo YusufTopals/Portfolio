@@ -45,6 +45,23 @@
             <p class="leading-relaxed">
               Binnen dit project heb ik vooral gewerkt aan de inlog- en registratiefunctionaliteit en aan het dashboard. Voor authenticatie en gebruikerssessies is Supabase gebruikt. In het dashboard wordt zichtbaar hoe likes, suggesties en beinvloeding werken binnen de app.
             </p>
+            <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-5">
+              <figure
+                  v-for="image in contributionImages"
+                  :key="image.src"
+                  class="overflow-hidden rounded-xl border border-[#322D36] bg-black/50"
+              >
+                <img
+                    :src="image.src"
+                    :alt="image.alt"
+                    class="h-80 w-full object-cover object-top"
+                    loading="lazy"
+                />
+                <figcaption class="border-t border-[#322D36] px-4 py-3 text-sm font-semibold text-white">
+                  {{ image.label }}
+                </figcaption>
+              </figure>
+            </div>
           </section>
 
           <section>
@@ -81,6 +98,34 @@ const highlights = [
   { label: 'Platform', value: 'React Native + Expo' },
   { label: 'Authenticatie', value: 'Supabase login en sessies' },
   { label: 'Focus', value: 'Dashboard en gebruikersflow' },
+]
+
+const contributionImages = [
+  {
+    src: '/ai-stylist/register.png',
+    label: 'Registreren',
+    alt: 'Registratiescherm van AI Stylist Mirror',
+  },
+  {
+    src: '/ai-stylist/login.png',
+    label: 'Inloggen',
+    alt: 'Inlogscherm van AI Stylist Mirror',
+  },
+  {
+    src: '/ai-stylist/dashboard-overview.png',
+    label: 'Dashboard',
+    alt: 'Dashboardoverzicht met persoonlijke inzichten',
+  },
+  {
+    src: '/ai-stylist/admin-observation.png',
+    label: 'Admin view',
+    alt: 'Admin-overzicht met gebruikersobservaties',
+  },
+  {
+    src: '/ai-stylist/dashboard-detail.png',
+    label: 'Gebruikersdetail',
+    alt: 'Detaildashboard voor een gebruiker',
+  },
 ]
 
 const features = [

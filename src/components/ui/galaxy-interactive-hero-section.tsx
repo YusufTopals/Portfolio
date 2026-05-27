@@ -1,6 +1,6 @@
 "use client";
 
-import React, { Suspense, lazy, useEffect, useRef, useState } from "react";
+import React, { Suspense, lazy, useEffect, useState } from "react";
 import { ArrowRight, ChevronDown, Code2, Menu, PlayCircle, X } from "lucide-react";
 
 const Spline = lazy(() => import("@splinetool/react-spline"));
@@ -46,29 +46,6 @@ export function GalaxySplineBackground() {
         }}
       />
     </div>
-  );
-}
-
-function ScreenshotSection({
-  screenshotRef,
-}: {
-  screenshotRef: React.RefObject<HTMLDivElement | null>;
-}) {
-  return (
-    <section className="relative z-10 container mx-auto px-4 md:px-6 lg:px-8 mt-11 md:mt-12">
-      <div
-        ref={screenshotRef}
-        className="bg-gray-900 rounded-xl overflow-hidden shadow-2xl border border-gray-700/50 w-full md:w-[80%] lg:w-[70%] mx-auto"
-      >
-        <div>
-          <img
-            src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?auto=format&fit=crop&w=1600&q=80"
-            alt="Portfolio project screenshot"
-            className="w-full h-auto block rounded-lg mx-auto"
-          />
-        </div>
-      </div>
-    </section>
   );
 }
 
@@ -418,30 +395,6 @@ export const HeroSection = ({
   onNavigate?: (page: PortfolioPage) => void;
   showNavbar?: boolean;
 }) => {
-  const screenshotRef = useRef<HTMLDivElement>(null);
-  const heroContentRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (screenshotRef.current && heroContentRef.current) {
-        requestAnimationFrame(() => {
-          const scrollPosition = window.pageYOffset;
-          if (screenshotRef.current) {
-            screenshotRef.current.style.transform = `translateY(-${scrollPosition * 0.5}px)`;
-          }
-
-          const maxScroll = 400;
-          const opacity = 1 - Math.min(scrollPosition / maxScroll, 1);
-          if (heroContentRef.current) {
-            heroContentRef.current.style.opacity = opacity.toString();
-          }
-        });
-      }
-    };
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
   return (
     <div className="relative">
       {showNavbar && <Navbar onNavigate={onNavigate} />}
@@ -452,7 +405,6 @@ export const HeroSection = ({
         </div>
 
         <div
-          ref={heroContentRef}
           style={{
             position: "absolute",
             top: 0,
@@ -473,7 +425,6 @@ export const HeroSection = ({
       </div>
 
       <div className="bg-black relative z-10" style={{ marginTop: "-10vh" }}>
-        <ScreenshotSection screenshotRef={screenshotRef} />
         <div className="container mx-auto px-4 py-16 text-white">
           <h2 className="text-4xl font-bold text-center mb-8">Mijn werk hieronder</h2>
           <LatestProjectsSection />
