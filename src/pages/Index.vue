@@ -1,7 +1,7 @@
 <template>
-  <div class="relative min-h-screen overflow-hidden bg-black">
+  <div class="relative min-h-screen overflow-hidden bg-background">
     <GalaxyBackground v-if="currentPage !== 'home'" />
-    <div v-if="currentPage !== 'home'" class="fixed inset-0 z-0 bg-blue-950/70 pointer-events-none"></div>
+    <div v-if="currentPage !== 'home'" class="fixed inset-0 z-0 bg-slate-950/82 pointer-events-none"></div>
 
     <Navbar :current-page="currentPage" @navigate="setCurrentPage" />
 
@@ -16,7 +16,7 @@
     <!-- Loading Screen -->
     <div
         v-if="isLoading"
-        class="fixed inset-0 bg-black flex items-center justify-center z-50"
+        class="fixed inset-0 bg-background flex items-center justify-center z-50"
     >
       <AiLoader label="Loading" />
     </div>

@@ -1,26 +1,26 @@
 <template>
-  <nav class="fixed top-0 left-0 right-0 z-50 bg-[rgba(4,16,36,0.42)] backdrop-blur-md border-b border-[#1E4E7A]" style="border-radius: 0 0 15px 15px;">
-    <div class="container mx-auto px-4 py-4 md:px-6 lg:px-8">
-      <div class="flex items-center justify-between">
-        <div class="flex items-center space-x-6 lg:space-x-8">
+  <nav class="fixed left-0 right-0 top-0 z-50 border-b border-white/10 bg-slate-950/58 backdrop-blur-xl">
+    <div class="mx-auto flex max-w-6xl items-center justify-between px-5 py-4 sm:px-6 lg:px-8">
+      <div class="flex w-full items-center justify-between">
+        <div class="flex items-center gap-7 lg:gap-9">
           <button
               @click="handleNavigate('home')"
-              class="text-white hover:text-sky-100 transition-colors"
+              class="text-white transition-colors hover:text-sky-100"
               aria-label="Ga naar home"
           >
-            <span class="text-3xl font-bold leading-none">&lt;/&gt;</span>
+            <span class="text-2xl font-semibold leading-none tracking-tight">&lt;/&gt;</span>
           </button>
 
-          <div class="hidden lg:flex items-center space-x-6">
+          <div class="hidden items-center gap-6 lg:flex">
             <button
                 v-for="item in navItems"
                 :key="item.id"
                 @click="handleNavigate(item.id)"
                 :class="[
-                'text-sm transition duration-150',
+                'text-sm font-medium transition duration-150',
                 currentPage === item.id
                   ? 'text-white'
-                  : 'text-gray-300 hover:text-white'
+                  : 'text-slate-400 hover:text-slate-100'
               ]"
             >
               {{ item.label }}
@@ -28,17 +28,16 @@
           </div>
         </div>
 
-        <div class="flex items-center space-x-4 md:space-x-6">
+        <div class="flex items-center gap-3 md:gap-5">
           <button
               @click="handleNavigate('contact')"
-              class="bg-sky-500/15 hover:bg-blue-950/60 text-white font-semibold py-2 px-5 rounded-full text-sm md:text-base border border-[#1E4E7A] transition-colors"
-              style="backdrop-filter: blur(8px);"
+              class="secondary-action hidden py-2 md:inline-flex"
           >
             Neem contact op
           </button>
           <button
               @click="isMobileMenuOpen = !isMobileMenuOpen"
-              class="lg:hidden text-white p-2"
+              class="rounded-full border border-white/10 p-2 text-white transition hover:bg-white/5 lg:hidden"
               aria-label="Toggle mobile menu"
           >
             <svg class="h-6 w-6" stroke="currentColor" fill="none" viewBox="0 0 24 24">
@@ -50,23 +49,29 @@
       </div>
 
       <div
-          class="lg:hidden bg-black/50 border-t border-gray-700/30 absolute top-full left-0 right-0 z-30 overflow-hidden transition-all duration-300 ease-in-out"
+          class="absolute left-0 right-0 top-full z-30 overflow-hidden border-t border-white/10 bg-slate-950/92 transition-all duration-300 ease-in-out lg:hidden"
           :class="isMobileMenuOpen ? 'max-h-screen opacity-100 pointer-events-auto' : 'max-h-0 opacity-0 pointer-events-none'"
-          style="backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);"
+          style="backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);"
       >
-        <div class="px-4 py-6 flex flex-col space-y-4">
+        <div class="mx-auto flex max-w-6xl flex-col gap-4 px-5 py-6">
           <button
               v-for="item in navItems"
               :key="item.id"
               @click="handleMobileNavigate(item.id)"
               :class="[
-              'text-left text-sm py-2 transition duration-150',
+              'text-left text-sm font-medium py-2 transition duration-150',
               currentPage === item.id
                 ? 'text-white'
-                : 'text-gray-300 hover:text-gray-100'
+                : 'text-slate-400 hover:text-slate-100'
             ]"
           >
             {{ item.label }}
+          </button>
+          <button
+              @click="handleMobileNavigate('contact')"
+              class="text-left text-sm font-medium py-2 text-slate-400 transition duration-150 hover:text-slate-100"
+          >
+            Contact
           </button>
         </div>
       </div>

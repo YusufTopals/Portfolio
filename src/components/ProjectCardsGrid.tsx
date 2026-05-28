@@ -4,7 +4,7 @@ import { PlaceCard } from "@/components/ui/card-22";
 const projects = [
   {
     title: "Dokkie",
-    description: "Een moderne Tikkie-achtige betaalapp ontwikkeld met TypeScript en object-georienteerd programmeren.",
+    description: "Een betaalapp waarin ik TypeScript, DOM-structuur en object-georienteerd programmeren heb toegepast.",
     technologies: ["HTML", "CSS", "TypeScript"],
     link: "https://gitlab.fdmci.hva.nl/propedeuse-hbo-ict/onderwijs/student-projecten/2023-2024/out-e-cs-se/PB1-topaly1.git",
     category: "Frontend",
@@ -18,7 +18,7 @@ const projects = [
   },
   {
     title: "Code Exchange",
-    description: "Een volledig functioneel Q&A platform geinspireerd door Stack Overflow.",
+    description: "Een Q&A platform waarin gebruikers vragen kunnen plaatsen en antwoorden kunnen bekijken.",
     technologies: ["HTML", "CSS", "TypeScript", "OOP"],
     link: "https://gitlab.fdmci.hva.nl/propedeuse-hbo-ict/onderwijs/student-projecten/2023-2024/out-e-cs-se/blok-2/sooxeequulee88.git",
     category: "Frontend",
@@ -32,7 +32,7 @@ const projects = [
   },
   {
     title: "The Game",
-    description: "Een interactieve game met Lit en TypeScript.",
+    description: "Een interactieve browsergame gebouwd met Lit, TypeScript en duidelijke game-logica.",
     technologies: ["TypeScript", "Lit", "Game Engine", "OOP"],
     link: "https://gitlab.fdmci.hva.nl/propedeuse-hbo-ict/onderwijs/student-projecten/2023-2024/out-e-cs-se/blok-3/riizooxoovoo10.git",
     category: "Game",
@@ -46,7 +46,7 @@ const projects = [
   },
   {
     title: "Webshop",
-    description: "Fullstack webshop met gebruikersauthenticatie, database en beheer.",
+    description: "Een fullstack webshop met authenticatie, databasekoppeling en beheerfunctionaliteit.",
     technologies: ["Node.js", "Express", "MySQL", "TypeScript", "Lit"],
     link: "https://gitlab.fdmci.hva.nl/propedeuse-hbo-ict/onderwijs/student-projecten/2023-2024/out-e-cs-se/blok-4/haayaazoosii78.git",
     category: "Fullstack",
@@ -60,7 +60,7 @@ const projects = [
   },
   {
     title: "Elections",
-    description: "Realtime verkiezingsresultaten met Spring Boot + Vue.",
+    description: "Een applicatie voor verkiezingsdata met Spring Boot, Vue en een duidelijke frontend.",
     technologies: ["Java", "Spring Boot", "Vue", "TailwindCSS"],
     link: "https://gitlab.fdmci.hva.nl/semester-3-hbo-ict/onderwijs/student-projecten/2024-2025/out-s-se-gd/semester-1/luuhiijaafee13.git",
     category: "Fullstack",
@@ -73,8 +73,8 @@ const projects = [
     ],
   },
   {
-    title: "Dark Tech AI Stylist Mirror",
-    description: "Mobiele AI-stylist app waarin gebruikers outfits scannen en persoonlijke stijladviezen krijgen.",
+    title: "AI Stylist Mirror",
+    description: "Een mobiele case study rond outfitadvies, dashboardinzichten en deceptive design onderzoek.",
     technologies: ["React Native", "Expo", "Supabase", "AI", "Dashboard"],
     link: "",
     page: "ai-stylist",
@@ -91,7 +91,7 @@ const projects = [
 
 export function ProjectCardsGrid() {
   return (
-    <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
+    <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
       {projects.map((project) => (
         <PlaceCard
           key={project.title}

@@ -98,7 +98,7 @@ export const PlaceCard = ({
 
   const action = (
     <Button
-      className="group bg-sky-500/15 hover:bg-blue-950/60 border border-[#1E4E7A] text-white"
+      className="group rounded-full border border-white/10 bg-white/[0.04] text-white hover:bg-white/[0.07]"
       data-navigate={actionPage}
       onClick={navigateToPage}
     >
@@ -115,18 +115,18 @@ export const PlaceCard = ({
       transition={{ duration: 0.5 }}
       variants={contentVariants}
       whileHover={{
-        scale: 1.03,
-        boxShadow: "0px 10px 30px -5px rgba(56, 189, 248, 0.3)",
-        transition: { type: "spring", stiffness: 300, damping: 20 },
+        y: -4,
+        boxShadow: "0px 22px 70px -35px rgba(148, 163, 184, 0.45)",
+        transition: { type: "spring", stiffness: 260, damping: 24 },
       }}
       className={cn(
-        "w-full overflow-hidden rounded-2xl border border-[#1E4E7A] bg-black/65 text-card-foreground shadow-lg cursor-pointer backdrop-blur-sm",
+        "w-full cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-white/[0.035] text-card-foreground shadow-[0_18px_60px_rgba(0,0,0,0.24)] backdrop-blur-sm transition-colors hover:border-white/18 hover:bg-white/[0.055]",
         className
       )}
       data-navigate={actionPage}
       onClick={handleCardClick}
     >
-      <div className="relative group h-64">
+      <div className="relative group h-56">
         <AnimatePresence initial={false} custom={direction}>
           <motion.img
             key={currentIndex}
@@ -141,31 +141,31 @@ export const PlaceCard = ({
               x: { type: "spring", stiffness: 300, damping: 30 },
               opacity: { duration: 0.2 },
             }}
-            className="absolute h-full w-full object-cover"
+            className="absolute h-full w-full object-cover saturate-[0.9]"
           />
         </AnimatePresence>
 
-        <div className="absolute inset-0 bg-gradient-to-b from-black/10 via-transparent to-black/45" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/5 via-transparent to-black/55" />
 
-        <div className="absolute inset-0 flex items-center justify-between p-2 opacity-0 group-hover:opacity-100 transition-opacity">
-          <Button variant="ghost" size="icon" className="rounded-full bg-black/30 hover:bg-black/50 text-white" onClick={() => changeImage(-1)}>
+        <div className="absolute inset-0 flex items-center justify-between p-3 opacity-0 transition-opacity group-hover:opacity-100">
+          <Button variant="ghost" size="icon" className="rounded-full bg-slate-950/45 text-white hover:bg-slate-950/65" onClick={() => changeImage(-1)} aria-label="Vorige afbeelding">
             <ChevronLeft className="h-5 w-5" />
           </Button>
-          <Button variant="ghost" size="icon" className="rounded-full bg-black/30 hover:bg-black/50 text-white" onClick={() => changeImage(1)}>
+          <Button variant="ghost" size="icon" className="rounded-full bg-slate-950/45 text-white hover:bg-slate-950/65" onClick={() => changeImage(1)} aria-label="Volgende afbeelding">
             <ChevronRight className="h-5 w-5" />
           </Button>
         </div>
 
         <div className="absolute top-3 left-3 flex flex-wrap gap-2 pr-16">
           {tags.map((tag) => (
-            <Badge key={tag} variant="secondary" className="bg-black/60 border border-[#1E4E7A] text-sky-50 backdrop-blur-sm">
+            <Badge key={tag} variant="secondary" className="border border-white/10 bg-slate-950/55 text-slate-100 backdrop-blur-sm">
               {tag}
             </Badge>
           ))}
         </div>
         <div className="absolute top-3 right-3">
-          <Badge variant="secondary" className="flex items-center gap-1 bg-black/60 border border-[#1E4E7A] text-white backdrop-blur-sm">
-            <Star className="h-4 w-4 text-yellow-400 fill-yellow-400" /> {rating}
+          <Badge variant="secondary" className="flex items-center gap-1 border border-white/10 bg-slate-950/55 text-white backdrop-blur-sm">
+            <Star className="h-4 w-4 fill-sky-200 text-sky-200" /> {rating}
           </Badge>
         </div>
 
@@ -184,17 +184,17 @@ export const PlaceCard = ({
         </div>
       </div>
 
-      <motion.div variants={contentVariants} className="p-5 space-y-4">
+      <motion.div variants={contentVariants} className="space-y-4 p-5">
         <motion.div variants={itemVariants} className="flex justify-between items-start gap-3">
-          <h3 className="text-xl font-bold text-white">{title}</h3>
-          {isTopRated && <Badge variant="outline" className="border-[#1E4E7A] text-sky-50">Featured</Badge>}
+          <h3 className="text-xl font-semibold tracking-tight text-white">{title}</h3>
+          {isTopRated && <Badge variant="outline" className="border-white/10 text-slate-200">Uitgelicht</Badge>}
         </motion.div>
 
-        <motion.div variants={itemVariants} className="text-sm text-muted-foreground">
+        <motion.div variants={itemVariants} className="text-sm text-slate-400">
           <span>{dateRange}</span> &bull; <span>{hostType}</span>
         </motion.div>
 
-        <motion.p variants={itemVariants} className="text-sm text-muted-foreground leading-relaxed">
+        <motion.p variants={itemVariants} className="text-sm leading-7 text-slate-300">
           {description}
         </motion.p>
 
@@ -205,7 +205,7 @@ export const PlaceCard = ({
               <span className="text-sm font-normal text-muted-foreground">/ night</span>
             </p>
           ) : (
-            <p className="font-semibold text-sky-50">Portfolio project</p>
+            <p className="font-semibold text-slate-100">Portfolio project</p>
           )}
           {actionHref ? (
             <a href={actionHref} target="_blank" rel="noopener noreferrer">

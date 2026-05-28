@@ -8,42 +8,42 @@
 /* Portfolio-specific design system */
 @layer base {
   :root {
-    --background: 0 0% 0%;
-    --foreground: 220 30% 96%; /* lichtgrijs */
+    --background: 222 47% 5%;
+    --foreground: 220 33% 96%;
 
-    --card: 217 100% 6%;
+    --card: 220 39% 8%;
     --card-foreground: 220 30% 96%;
 
-    --popover: 217 100% 6%;
+    --popover: 220 39% 8%;
     --popover-foreground: 220 30% 96%;
 
-    --primary: 210 100% 48%;
+    --primary: 207 82% 58%;
     --primary-foreground: 0 0% 100%;
 
-    --secondary: 215 42% 18%;
+    --secondary: 218 35% 14%;
     --secondary-foreground: 220 30% 96%;
 
-    --muted: 215 34% 15%;
-    --muted-foreground: 218 11% 65%;
+    --muted: 218 30% 13%;
+    --muted-foreground: 218 16% 70%;
 
-    --accent: 204 100% 58%;
+    --accent: 204 78% 64%;
     --accent-foreground: 220 30% 96%;
 
     --destructive: 0 72% 45%;
     --destructive-foreground: 0 0% 100%;
 
-    --border: 212 47% 25%;
-    --input: 212 47% 25%;
-    --ring: 204 100% 62%;
+    --border: 216 28% 21%;
+    --input: 216 28% 21%;
+    --ring: 204 78% 64%;
 
     --sidebar-background: 0 0% 0%;
     --sidebar-foreground: 220 30% 96%;
-    --sidebar-primary: 210 100% 48%;
+    --sidebar-primary: 207 82% 58%;
     --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 215 34% 15%;
+    --sidebar-accent: 218 30% 13%;
     --sidebar-accent-foreground: 220 30% 96%;
-    --sidebar-border: 212 47% 25%;
-    --sidebar-ring: 204 100% 62%;
+    --sidebar-border: 216 28% 21%;
+    --sidebar-ring: 204 78% 64%;
 
     --radius: 0.5rem;
   }
@@ -58,6 +58,9 @@
     @apply bg-background text-foreground font-inter;
     font-feature-settings: "cv11", "ss01";
     font-variation-settings: "opsz" 32;
+    background:
+      radial-gradient(circle at top left, rgba(59, 130, 246, 0.14), transparent 32rem),
+      linear-gradient(180deg, #050914 0%, #070b16 48%, #05070d 100%);
   }
 
   html {
@@ -95,13 +98,13 @@
 /* Custom utility classes */
 @layer utilities {
   .text-gradient {
-    @apply bg-gradient-to-r from-white via-sky-100 to-blue-400 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-white via-slate-100 to-sky-300 bg-clip-text text-transparent;
   }
 
   .glass-morphism {
     backdrop-filter: blur(16px) saturate(180%);
-    background-color: rgba(0, 0, 0, 0.65);
-    border: 1px solid #1E4E7A;
+    background-color: rgba(5, 10, 22, 0.68);
+    border: 1px solid rgba(148, 163, 184, 0.18);
   }
 
   .animate-float {
@@ -111,6 +114,52 @@
   @keyframes float {
     0%, 100% { transform: translateY(0px); }
     50% { transform: translateY(-20px); }
+  }
+}
+
+@layer components {
+  .page-shell {
+    @apply min-h-screen px-5 py-28 sm:px-6 lg:px-8;
+  }
+
+  .content-shell {
+    @apply mx-auto w-full max-w-6xl;
+  }
+
+  .narrow-shell {
+    @apply mx-auto w-full max-w-4xl;
+  }
+
+  .section-kicker {
+    @apply mb-3 text-xs font-semibold uppercase tracking-[0.22em] text-sky-200/80;
+  }
+
+  .section-title {
+    @apply text-3xl font-semibold tracking-tight text-white sm:text-4xl md:text-5xl;
+  }
+
+  .section-copy {
+    @apply text-base leading-8 text-slate-300 sm:text-lg;
+  }
+
+  .surface-panel {
+    @apply rounded-2xl border border-white/10 bg-slate-950/55 shadow-[0_18px_70px_rgba(0,0,0,0.24)] backdrop-blur-md;
+  }
+
+  .subtle-card {
+    @apply rounded-xl border border-white/10 bg-white/[0.035] backdrop-blur-sm;
+  }
+
+  .pill {
+    @apply rounded-full border border-white/10 bg-white/[0.04] px-3 py-1 text-xs font-medium text-slate-200;
+  }
+
+  .primary-action {
+    @apply inline-flex items-center justify-center rounded-full border border-sky-300/30 bg-sky-400/10 px-5 py-3 text-sm font-semibold text-white transition duration-200 hover:border-sky-200/45 hover:bg-sky-300/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-300/70;
+  }
+
+  .secondary-action {
+    @apply inline-flex items-center justify-center rounded-full border border-white/15 bg-white/[0.03] px-5 py-3 text-sm font-semibold text-slate-100 transition duration-200 hover:border-white/25 hover:bg-white/[0.06] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-300/70;
   }
 }
 

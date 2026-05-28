@@ -1,7 +1,7 @@
 "use client";
 
 import React, { Suspense, lazy, useEffect, useState } from "react";
-import { ArrowRight, ChevronDown, Code2, Menu, PlayCircle, X } from "lucide-react";
+import { ArrowRight, ChevronDown, Code2, Mail, Menu, X } from "lucide-react";
 
 const Spline = lazy(() => import("@splinetool/react-spline"));
 type PortfolioPage = "home" | "about" | "projects" | "contact";
@@ -27,7 +27,7 @@ export function GalaxySplineBackground() {
             width: "100%",
             height: "100vh",
             pointerEvents: "auto",
-            filter: "hue-rotate(-62deg) saturate(1.25) brightness(1.08)",
+            filter: "hue-rotate(-58deg) saturate(0.78) brightness(0.82) contrast(0.95)",
           }}
           scene="https://prod.spline.design/us3ALejTXl6usHZ7/scene.splinecode"
         />
@@ -41,9 +41,9 @@ export function GalaxySplineBackground() {
           height: "100vh",
           background: `
             radial-gradient(circle at 72% 38%, rgba(255, 255, 255, 0.22), transparent 24%),
-            radial-gradient(circle at 64% 45%, rgba(56, 189, 248, 0.28), transparent 30%),
-            linear-gradient(to right, rgba(2, 9, 23, 0.86), transparent 34%, transparent 70%, rgba(2, 9, 23, 0.78)),
-            linear-gradient(to bottom, transparent 50%, rgba(2, 9, 23, 0.94))
+            radial-gradient(circle at 64% 45%, rgba(56, 189, 248, 0.16), transparent 34%),
+            linear-gradient(to right, rgba(2, 6, 15, 0.9), rgba(2, 6, 15, 0.28) 48%, rgba(2, 6, 15, 0.72)),
+            linear-gradient(to bottom, rgba(2, 6, 15, 0.12), rgba(2, 6, 15, 0.9) 82%, rgba(2, 6, 15, 1))
           `,
           pointerEvents: "none",
         }}
@@ -59,34 +59,36 @@ function HeroContent({ onNavigate }: { onNavigate?: (page: PortfolioPage) => voi
   };
 
   return (
-    <div className="text-left text-white pt-16 sm:pt-24 md:pt-32 px-4 max-w-3xl">
-      <h1 className="text-3xl sm:text-5xl md:text-7xl font-bold mb-4 leading-tight tracking-wide">
-        Yusuf Topal <br className="sm:hidden" />Software Engineering
-        <br className="sm:hidden" /> Portfolio.
-      </h1>
-      <p className="text-base sm:text-lg md:text-xl mb-6 sm:mb-8 opacity-80 max-w-xl">
-        19-jarige developer die moderne webapplicaties bouwt met TypeScript,
-        Java, Vue, Node.js, MySQL en Spring Boot.
+    <div className="px-5 pt-20 text-left text-white sm:px-6 sm:pt-24 lg:px-8">
+      <div className="max-w-2xl">
+      <p className="mb-5 text-xs font-semibold uppercase tracking-[0.24em] text-sky-100/75">
+        Portfolio
       </p>
-      <div className="flex pointer-events-auto flex-col sm:flex-row items-start space-y-3 sm:space-y-0 sm:space-x-3">
+      <h1 className="mb-6 text-4xl font-semibold leading-[1.05] tracking-tight sm:text-5xl md:text-6xl">
+        Yusuf Topal Software Engineering Student
+      </h1>
+      <p className="max-w-xl text-base leading-8 text-slate-300 sm:text-lg">
+        Ik ben 20 jaar oud en studeer Software Engineering aan de HvA. Op deze portfolio laat ik projecten zien waar ik tijdens mijn opleiding en eigen ontwikkeling aan heb gewerkt.
+      </p>
+      <div className="pointer-events-auto mt-8 flex flex-col items-start gap-3 sm:flex-row">
         <button
           type="button"
           data-navigate="projects"
           onClick={() => navigate("projects")}
-          className="bg-sky-500/15 hover:bg-blue-950/60 text-white font-semibold py-2 sm:py-3 px-6 sm:px-8 rounded-full transition duration-300 w-full sm:w-auto border border-[#1E4E7A] text-center"
-          style={{ backdropFilter: "blur(8px)" }}
+          className="primary-action w-full sm:w-auto"
         >
-          Bekijk mijn projecten
+          Bekijk projecten
         </button>
         <button
           type="button"
           data-navigate="contact"
           onClick={() => navigate("contact")}
-          className="pointer-events-auto bg-[#0009] border border-gray-600 hover:border-gray-400 text-gray-200 hover:text-white font-medium py-2 sm:py-3 px-6 sm:px-8 rounded-full transition duration-300 flex items-center justify-center w-full sm:w-auto"
+          className="secondary-action w-full gap-2 sm:w-auto"
         >
-          <PlayCircle className="w-4 h-4 sm:w-5 sm:h-5 mr-2" />
-          Neem contact op
+          <Mail className="h-4 w-4" />
+          Contact
         </button>
+      </div>
       </div>
     </div>
   );
@@ -96,21 +98,21 @@ const latestProjects = [
   {
     title: "Webshop",
     category: "Fullstack",
-    description: "Fullstack webshop met gebruikersauthenticatie, database en beheer.",
+    description: "Een webshop met authenticatie, databasekoppeling en beheerfunctionaliteit.",
     tags: ["Node.js", "Express", "MySQL"],
     href: "https://gitlab.fdmci.hva.nl/propedeuse-hbo-ict/onderwijs/student-projecten/2023-2024/out-e-cs-se/blok-4/haayaazoosii78.git",
   },
   {
     title: "Elections",
     category: "Fullstack",
-    description: "Realtime verkiezingsresultaten met Spring Boot + Vue.",
+    description: "Een applicatie voor verkiezingsdata met Spring Boot en Vue.",
     tags: ["Java", "Spring Boot", "Vue"],
     href: "https://gitlab.fdmci.hva.nl/semester-3-hbo-ict/onderwijs/student-projecten/2024-2025/out-s-se-gd/semester-1/luuhiijaafee13.git",
   },
   {
-    title: "Dark Tech AI Stylist Mirror",
+    title: "AI Stylist Mirror",
     category: "Mobile AI App",
-    description: "Mobiele AI-stylist app waarin gebruikers outfits scannen en persoonlijke stijladviezen krijgen.",
+    description: "Een mobiele case study rond outfitadvies, dashboards en deceptive design.",
     tags: ["React Native", "Expo", "Supabase"],
     page: "ai-stylist",
   },
@@ -118,28 +120,28 @@ const latestProjects = [
 
 function LatestProjectsSection() {
   return (
-    <div className="mt-12 grid gap-6 md:grid-cols-3">
+    <div className="mt-10 grid gap-4 md:grid-cols-3">
       {latestProjects.map((project) => {
         const content = (
           <>
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-sky-200">
+              <p className="text-xs font-semibold uppercase tracking-[0.18em] text-sky-100/70">
                 {project.category}
               </p>
-              <h3 className="mt-3 text-2xl font-bold text-white">{project.title}</h3>
+              <h3 className="mt-3 text-xl font-semibold text-white">{project.title}</h3>
             </div>
-            <p className="text-sm leading-relaxed text-gray-300">{project.description}</p>
+            <p className="text-sm leading-7 text-slate-300">{project.description}</p>
             <div className="flex flex-wrap gap-2">
               {project.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="rounded-full border border-[#1E4E7A] bg-sky-500/15 px-3 py-1 text-xs text-sky-50"
+                  className="pill"
                 >
                   {tag}
                 </span>
               ))}
             </div>
-            <div className="mt-auto inline-flex items-center gap-2 text-sm font-semibold text-white">
+            <div className="mt-auto inline-flex items-center gap-2 text-sm font-semibold text-slate-100">
               {project.page ? "Bekijk project" : "Bekijk op GitLab"}
               <ArrowRight className="h-4 w-4" />
             </div>
@@ -147,7 +149,7 @@ function LatestProjectsSection() {
         );
 
         const className =
-          "group flex min-h-[280px] flex-col gap-5 rounded-2xl border border-[#1E4E7A] bg-black/65 p-6 text-left shadow-lg backdrop-blur-sm transition duration-300 hover:-translate-y-1 hover:border-sky-300/60 hover:bg-blue-950/45";
+          "group flex min-h-[260px] flex-col gap-5 rounded-2xl border border-white/10 bg-white/[0.035] p-6 text-left shadow-[0_18px_60px_rgba(0,0,0,0.22)] backdrop-blur-sm transition duration-300 hover:-translate-y-0.5 hover:border-white/18 hover:bg-white/[0.055]";
 
         if (project.page) {
           return (
@@ -402,7 +404,7 @@ export const HeroSection = ({
     <div className="relative">
       {showNavbar && <Navbar onNavigate={onNavigate} />}
 
-      <div className="relative min-h-screen">
+      <div className="relative min-h-[92vh]">
         <div className="absolute inset-0 z-0 pointer-events-auto">
           <GalaxySplineBackground />
         </div>
@@ -413,7 +415,7 @@ export const HeroSection = ({
             top: 0,
             left: 0,
             width: "100%",
-            height: "100vh",
+            minHeight: "92vh",
             display: "flex",
             justifyContent: "flex-start",
             alignItems: "center",
@@ -421,15 +423,21 @@ export const HeroSection = ({
             pointerEvents: "none",
           }}
         >
-          <div className="container mx-auto">
+          <div className="mx-auto w-full max-w-6xl">
             <HeroContent onNavigate={onNavigate} />
           </div>
         </div>
       </div>
 
-      <div className="bg-slate-950 relative z-10" style={{ marginTop: "-10vh" }}>
-        <div className="container mx-auto px-4 py-16 text-white">
-          <h2 className="text-4xl font-bold text-center mb-8">Mijn werk hieronder</h2>
+      <div className="relative z-10 bg-background">
+        <div className="mx-auto max-w-6xl px-5 py-20 text-white sm:px-6 lg:px-8">
+          <div className="max-w-2xl">
+            <p className="section-kicker">Selectie</p>
+            <h2 className="section-title">Projecten waar ik van heb geleerd</h2>
+            <p className="section-copy mt-4">
+              Een compacte selectie van studieprojecten waarin frontend, backend, data en UX samenkomen.
+            </p>
+          </div>
           <LatestProjectsSection />
         </div>
       </div>
@@ -439,7 +447,7 @@ export const HeroSection = ({
 
 export function HeroSectionBasic({ onNavigate }: { onNavigate?: (page: PortfolioPage) => void }) {
   return (
-    <main className="bg-slate-950 relative min-h-screen w-screen">
+    <main className="relative min-h-screen w-screen bg-background">
       <HeroSection onNavigate={onNavigate} />
     </main>
   );

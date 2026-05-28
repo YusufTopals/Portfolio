@@ -1,121 +1,103 @@
 <template>
-  <div class="min-h-screen py-20 px-4">
-    <div class="max-w-4xl mx-auto">
-      <div class="text-center mb-12">
-        <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">
-          Neem <span class="text-gradient">Contact</span> op
-        </h1>
-        <p class="text-xl text-gray-400">
-          Heb je een vraag of wil je samenwerken? Ik hoor graag van je!
+  <div class="page-shell">
+    <div class="narrow-shell">
+      <div class="mb-12 max-w-2xl">
+        <p class="section-kicker">Contact</p>
+        <h1 class="section-title">Laten we kennismaken.</h1>
+        <p class="section-copy mt-5">
+          Heb je een vraag, feedback of een idee voor een project? Stuur gerust een bericht.
         </p>
       </div>
 
-      <div class="grid md:grid-cols-2 gap-12">
-        <!-- Contact Form -->
-        <div class="bg-black/60 border border-[#1E4E7A] rounded-2xl p-8">
-          <h2 class="text-2xl font-bold text-white mb-6">Stuur een bericht</h2>
+      <div class="grid gap-6 md:grid-cols-[1.15fr_0.85fr]">
+        <section class="surface-panel p-6 sm:p-8">
+          <h2 class="mb-6 text-xl font-semibold text-white">Stuur een bericht</h2>
 
           <div
-              v-if="submitStatus === 'success'"
-              class="bg-green-500/20 border border-green-500/30 text-green-300 p-4 rounded-lg mb-6"
+            v-if="submitStatus === 'success'"
+            class="mb-6 rounded-xl border border-emerald-400/25 bg-emerald-400/10 p-4 text-sm text-emerald-200"
           >
-            Bedankt voor je bericht! Ik neem zo snel mogelijk contact met je op.
+            Bedankt voor je bericht. Ik neem zo snel mogelijk contact met je op.
           </div>
 
-          <form @submit.prevent="handleSubmit" class="space-y-6">
+          <form @submit.prevent="handleSubmit" class="space-y-5">
             <div>
-              <label for="name" class="block text-gray-300 font-medium mb-2">Naam *</label>
+              <label for="name" class="mb-2 block text-sm font-medium text-slate-300">Naam *</label>
               <input
-                  id="name"
-                  v-model="formData.name"
-                  required
-                  placeholder="Je naam"
-                  class="w-full bg-black/50 border border-[#1E4E7A] text-white rounded-lg px-4 py-3 focus:outline-none focus:border-sky-300"
+                id="name"
+                v-model="formData.name"
+                required
+                placeholder="Je naam"
+                class="w-full rounded-xl border border-white/10 bg-white/[0.035] px-4 py-3 text-white outline-none transition placeholder:text-slate-500 focus:border-sky-300/50"
               />
             </div>
 
             <div>
-              <label for="email" class="block text-gray-300 font-medium mb-2">E-mail *</label>
+              <label for="email" class="mb-2 block text-sm font-medium text-slate-300">E-mail *</label>
               <input
-                  id="email"
-                  v-model="formData.email"
-                  required
-                  type="email"
-                  placeholder="je@email.com"
-                  class="w-full bg-black/50 border border-[#1E4E7A] text-white rounded-lg px-4 py-3 focus:outline-none focus:border-sky-300"
+                id="email"
+                v-model="formData.email"
+                required
+                type="email"
+                placeholder="je@email.com"
+                class="w-full rounded-xl border border-white/10 bg-white/[0.035] px-4 py-3 text-white outline-none transition placeholder:text-slate-500 focus:border-sky-300/50"
               />
             </div>
 
             <div>
-              <label for="message" class="block text-gray-300 font-medium mb-2">Bericht *</label>
+              <label for="message" class="mb-2 block text-sm font-medium text-slate-300">Bericht *</label>
               <textarea
-                  id="message"
-                  v-model="formData.message"
-                  rows="5"
-                  required
-                  placeholder="Vertel me over je project of stel je vraag..."
-                  class="w-full bg-black/50 border border-[#1E4E7A] text-white rounded-lg px-4 py-3 focus:outline-none focus:border-sky-300 resize-none"
+                id="message"
+                v-model="formData.message"
+                rows="5"
+                required
+                placeholder="Vertel kort waar je aan denkt."
+                class="w-full resize-none rounded-xl border border-white/10 bg-white/[0.035] px-4 py-3 text-white outline-none transition placeholder:text-slate-500 focus:border-sky-300/50"
               ></textarea>
             </div>
 
             <button
-                type="submit"
-                :disabled="isSubmitting"
-                class="w-full bg-sky-500/15 hover:bg-blue-950/60 border border-[#1E4E7A] text-white py-3 rounded-lg font-semibold transition-all duration-300 transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+              type="submit"
+              :disabled="isSubmitting"
+              class="primary-action w-full disabled:cursor-not-allowed disabled:opacity-50"
             >
               {{ isSubmitting ? 'Verzenden...' : 'Verstuur bericht' }}
             </button>
           </form>
-        </div>
+        </section>
 
-        <!-- Contact Info -->
-        <div class="space-y-8">
-          <div class="bg-black/60 border border-[#1E4E7A] rounded-2xl p-8">
-            <h2 class="text-2xl font-bold text-white mb-6">Laten we verbinden</h2>
-            <p class="text-gray-400 mb-6">
-              Ik sta altijd open voor samenwerkingen of nieuwe projecten. Neem gerust contact op!
-            </p>
-
-            <div class="space-y-4">
-              <div class="flex items-center gap-3 text-gray-300">
-                <div class="w-8 h-8 bg-sky-500/15 border border-[#1E4E7A] rounded-lg flex items-center justify-center">📍</div>
-                <span>Amsterdam-Noord, Nederland</span>
-              </div>
-              <div class="flex items-center gap-3 text-gray-300">
-                <div class="w-8 h-8 bg-sky-500/15 border border-[#1E4E7A] rounded-lg flex items-center justify-center">🎓</div>
-                <span>HBO-ICT Software Engineering (HvA)</span>
+        <aside class="space-y-5">
+          <section class="surface-panel p-6">
+            <h2 class="mb-4 text-xl font-semibold text-white">Gegevens</h2>
+            <div class="space-y-4 text-sm text-slate-300">
+              <div v-for="item in contactInfo" :key="item.label" class="flex gap-3">
+                <span class="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-white/[0.04] text-xs font-semibold text-sky-100">
+                  {{ item.short }}
+                </span>
+                <div>
+                  <p class="text-slate-500">{{ item.label }}</p>
+                  <p class="mt-1 text-slate-200">{{ item.value }}</p>
+                </div>
               </div>
             </div>
-          </div>
+          </section>
 
-          <!-- Socials -->
-          <div class="bg-black/60 border border-[#1E4E7A] rounded-2xl p-8">
-            <h3 class="text-xl font-bold text-white mb-4">Volg me online</h3>
-            <div class="flex gap-4">
+          <section class="surface-panel p-6">
+            <h3 class="mb-4 text-lg font-semibold text-white">Online</h3>
+            <div class="flex flex-wrap gap-3">
               <a
-                  v-for="social in socialLinks"
-                  :key="social.name"
-                  :href="social.url"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  class="w-12 h-12 bg-sky-500/15 hover:bg-blue-950/60 border border-[#1E4E7A] text-sky-100 hover:text-white rounded-lg flex items-center justify-center transition-all duration-300 transform hover:scale-110"
-                  v-html="social.icon"
-              />
+                v-for="social in socialLinks"
+                :key="social.name"
+                :href="social.url"
+                target="_blank"
+                rel="noopener noreferrer"
+                class="secondary-action px-4 py-2"
+              >
+                {{ social.name }}
+              </a>
             </div>
-          </div>
-
-          <!-- CV Download -->
-          <div class="bg-sky-500/15 border border-[#1E4E7A] rounded-2xl p-8">
-            <h3 class="text-xl font-bold text-white mb-4">Mijn CV</h3>
-            <p class="text-gray-400 mb-4">Download mijn CV voor een volledig overzicht van mijn ervaring en skills.</p>
-            <button class="bg-black/40 hover:bg-blue-950/60 border border-[#1E4E7A] text-white px-6 py-3 rounded-lg font-semibold transition-transform duration-300 hover:scale-105 flex items-center gap-2">
-              <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
-              Download CV
-            </button>
-          </div>
-        </div>
+          </section>
+        </aside>
       </div>
     </div>
   </div>
@@ -128,27 +110,14 @@ const formData = ref({ name: '', email: '', message: '' })
 const isSubmitting = ref(false)
 const submitStatus = ref<'idle' | 'success'>('idle')
 
+const contactInfo = [
+  { label: 'Locatie', value: 'Amsterdam-Noord, Nederland', short: 'NL' },
+  { label: 'Opleiding', value: 'HBO-ICT Software Engineering, HvA', short: 'HvA' },
+]
+
 const socialLinks = [
-  {
-    name: 'GitHub',
-    url: 'https://github.com/YusufTopal61',
-    icon: `
-      <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24">
-        <path
-          d="M12 0.5C5.65 0.5 0.5 5.65 0.5 12c0 5.1 3.3 9.4 7.9 10.9.6.1.8-.3.8-.6v-2.2c-3.2.7-3.8-1.4-3.8-1.4-.6-1.4-1.5-1.8-1.5-1.8-1.2-.8.1-.8.1-.8 1.3.1 2 1.4 2 1.4 1.1 2 2.9 1.4 3.6 1.1.1-.8.4-1.4.7-1.8-2.6-.3-5.4-1.3-5.4-5.9 0-1.3.5-2.3 1.2-3.1-.1-.3-.5-1.5.1-3.1 0 0 1-.3 3.2 1.2.9-.2 1.8-.4 2.8-.4s1.9.1 2.8.4c2.1-1.5 3.2-1.2 3.2-1.2.6 1.6.2 2.8.1 3.1.8.9 1.2 1.9 1.2 3.1 0 4.6-2.8 5.6-5.4 5.9.4.3.8 1 .8 2v3c0 .3.2.7.8.6A11.5 11.5 0 0 0 23.5 12c0-6.35-5.15-11.5-11.5-11.5z"
-        />
-      </svg>
-    `
-  },
-  {
-    name: 'LinkedIn',
-    url: 'https://www.linkedin.com/in/-yusuf-topal/',
-    icon: `
-    <svg class="w-6 h-6" fill="currentColor" viewBox="0 0 448 512">
-      <path d="M100.28 448H7.4V148.9h92.88zm-46.44-340C24.28 108 0 83.72 0 53.64A53.64 53.64 0 01106.56 53.6c0 30.08-24.28 54.36-54.72 54.36zM447.9 448h-92.4V302.4c0-34.7-12.4-58.4-43.4-58.4-23.6 0-37.6 15.8-43.8 31.1-2.2 5.3-2.8 12.7-2.8 20.2V448h-92.5s1.2-261.6 0-288.9h92.4v40.9c12.3-19 34.3-46 83.6-46 61 0 106.8 39.8 106.8 125.2V448z"/>
-    </svg>
-  `
-  }
+  { name: 'GitHub', url: 'https://github.com/YusufTopal61' },
+  { name: 'LinkedIn', url: 'https://www.linkedin.com/in/-yusuf-topal/' },
 ]
 
 const handleSubmit = async () => {

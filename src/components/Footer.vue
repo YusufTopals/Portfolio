@@ -1,28 +1,28 @@
 <template>
-  <footer class="bg-black/70 border-t border-[#1E4E7A] py-8 backdrop-blur-md">
-    <div class="max-w-4xl mx-auto px-4 text-center">
-      <div class="mb-4">
-        <h3 class="text-2xl font-bold text-gradient mb-2">
+  <footer class="border-t border-white/10 bg-slate-950/70 py-10 backdrop-blur-md">
+    <div class="mx-auto flex max-w-6xl flex-col gap-6 px-5 text-center sm:px-6 md:flex-row md:items-center md:justify-between md:text-left lg:px-8">
+      <div>
+        <h3 class="mb-2 text-xl font-semibold text-white">
           Yusuf Topal
         </h3>
-        <p class="text-gray-400">Fullstack Developer uit Amsterdam-Noord</p>
+        <p class="text-sm text-slate-400">Software Engineering student uit Amsterdam-Noord</p>
       </div>
 
-      <div class="flex justify-center gap-6 mb-6">
+      <div class="flex justify-center gap-5">
         <a
             v-for="link in socialLinks"
             :key="link.name"
             :href="link.url"
             target="_blank"
             rel="noopener noreferrer"
-            class="text-gray-400 hover:text-sky-200 transition-colors"
+            class="text-sm text-slate-400 transition-colors hover:text-slate-100"
         >
           {{ link.name }}
         </a>
       </div>
 
-      <div class="text-gray-500 text-sm">
-        <p>&copy; 2025 Yusuf Topal. Alle rechten voorbehouden.</p>
+      <div class="text-sm text-slate-500">
+        <p>&copy; 2026 Yusuf Topal.</p>
       </div>
     </div>
   </footer>

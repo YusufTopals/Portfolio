@@ -1,12 +1,13 @@
 <template>
-  <div class="min-h-screen py-20 px-4">
-    <div class="max-w-6xl mx-auto">
-      <div class="text-center mb-12">
-        <h1 class="text-4xl md:text-5xl font-bold text-white mb-4">
-          Mijn <span class="text-gradient">Projecten</span>
+  <div class="page-shell">
+    <div class="content-shell">
+      <div class="mb-12 max-w-2xl">
+        <p class="section-kicker">Projecten</p>
+        <h1 class="section-title">
+          Werk waarin techniek en gebruikerservaring samenkomen.
         </h1>
-        <p class="text-xl text-gray-400 mb-8">
-          Een overzicht van de projecten die ik heb ontwikkeld
+        <p class="section-copy mt-5">
+          Een selectie van studieprojecten en eigen werk. Elk project laat een ander onderdeel van mijn ontwikkeling zien: frontend, backend, data, mobile en UX.
         </p>
       </div>
 
