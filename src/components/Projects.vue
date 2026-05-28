@@ -4,7 +4,7 @@
       <div class="mb-12 max-w-2xl">
         <p class="section-kicker">Projecten</p>
         <h1 class="section-title">
-          Werk waarin techniek en gebruikerservaring samenkomen.
+          Projecten die ik heb gemaakt of waar ik een bijdrage in heb geleverd.
         </h1>
         <p class="section-copy mt-5">
           Een selectie van studieprojecten en eigen werk. Elk project laat een ander onderdeel van mijn ontwikkeling zien: frontend, backend, data, mobile en UX.
