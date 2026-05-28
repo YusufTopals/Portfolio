@@ -27,6 +27,7 @@ export function GalaxySplineBackground() {
             width: "100%",
             height: "100vh",
             pointerEvents: "auto",
+            filter: "hue-rotate(-62deg) saturate(1.25) brightness(1.08)",
           }}
           scene="https://prod.spline.design/us3ALejTXl6usHZ7/scene.splinecode"
         />
@@ -39,8 +40,10 @@ export function GalaxySplineBackground() {
           width: "100%",
           height: "100vh",
           background: `
-            linear-gradient(to right, rgba(0, 0, 0, 0.8), transparent 30%, transparent 70%, rgba(0, 0, 0, 0.8)),
-            linear-gradient(to bottom, transparent 50%, rgba(0, 0, 0, 0.9))
+            radial-gradient(circle at 72% 38%, rgba(255, 255, 255, 0.22), transparent 24%),
+            radial-gradient(circle at 64% 45%, rgba(56, 189, 248, 0.28), transparent 30%),
+            linear-gradient(to right, rgba(2, 9, 23, 0.86), transparent 34%, transparent 70%, rgba(2, 9, 23, 0.78)),
+            linear-gradient(to bottom, transparent 50%, rgba(2, 9, 23, 0.94))
           `,
           pointerEvents: "none",
         }}
@@ -70,7 +73,7 @@ function HeroContent({ onNavigate }: { onNavigate?: (page: PortfolioPage) => voi
           type="button"
           data-navigate="projects"
           onClick={() => navigate("projects")}
-          className="bg-[#8200DB29] hover:bg-black/50 text-white font-semibold py-2 sm:py-3 px-6 sm:px-8 rounded-full transition duration-300 w-full sm:w-auto border border-[#322D36] text-center"
+          className="bg-sky-500/15 hover:bg-blue-950/60 text-white font-semibold py-2 sm:py-3 px-6 sm:px-8 rounded-full transition duration-300 w-full sm:w-auto border border-[#1E4E7A] text-center"
           style={{ backdropFilter: "blur(8px)" }}
         >
           Bekijk mijn projecten
@@ -120,7 +123,7 @@ function LatestProjectsSection() {
         const content = (
           <>
             <div>
-              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-purple-200">
+              <p className="text-xs font-semibold uppercase tracking-[0.2em] text-sky-200">
                 {project.category}
               </p>
               <h3 className="mt-3 text-2xl font-bold text-white">{project.title}</h3>
@@ -130,7 +133,7 @@ function LatestProjectsSection() {
               {project.tags.map((tag) => (
                 <span
                   key={tag}
-                  className="rounded-full border border-[#322D36] bg-[#8200DB29] px-3 py-1 text-xs text-purple-100"
+                  className="rounded-full border border-[#1E4E7A] bg-sky-500/15 px-3 py-1 text-xs text-sky-50"
                 >
                   {tag}
                 </span>
@@ -144,7 +147,7 @@ function LatestProjectsSection() {
         );
 
         const className =
-          "group flex min-h-[280px] flex-col gap-5 rounded-2xl border border-[#322D36] bg-black/65 p-6 text-left shadow-lg backdrop-blur-sm transition duration-300 hover:-translate-y-1 hover:border-purple-500/50 hover:bg-[#120018]/80";
+          "group flex min-h-[280px] flex-col gap-5 rounded-2xl border border-[#1E4E7A] bg-black/65 p-6 text-left shadow-lg backdrop-blur-sm transition duration-300 hover:-translate-y-1 hover:border-sky-300/60 hover:bg-blue-950/45";
 
         if (project.page) {
           return (
@@ -237,7 +240,7 @@ function Navbar({ onNavigate }: { onNavigate?: (page: PortfolioPage) => void }) 
     <nav
       className="fixed top-0 left-0 right-0 z-20"
       style={{
-        backgroundColor: "rgba(13, 13, 24, 0.3)",
+        backgroundColor: "rgba(4, 16, 36, 0.42)",
         backdropFilter: "blur(8px)",
         WebkitBackdropFilter: "blur(8px)",
         borderRadius: "0 0 15px 15px",
@@ -328,7 +331,7 @@ function Navbar({ onNavigate }: { onNavigate?: (page: PortfolioPage) => void }) 
             type="button"
             data-navigate="contact"
             onClick={() => navigate("contact")}
-            className="bg-[#8200DB29] hover:bg-black/50 text-white font-semibold py-2 px-5 rounded-full text-sm md:text-base border border-[#322D36]"
+            className="bg-sky-500/15 hover:bg-blue-950/60 text-white font-semibold py-2 px-5 rounded-full text-sm md:text-base border border-[#1E4E7A]"
             style={{ backdropFilter: "blur(8px)" }}
           >
             Neem contact op
@@ -424,7 +427,7 @@ export const HeroSection = ({
         </div>
       </div>
 
-      <div className="bg-black relative z-10" style={{ marginTop: "-10vh" }}>
+      <div className="bg-slate-950 relative z-10" style={{ marginTop: "-10vh" }}>
         <div className="container mx-auto px-4 py-16 text-white">
           <h2 className="text-4xl font-bold text-center mb-8">Mijn werk hieronder</h2>
           <LatestProjectsSection />
@@ -436,7 +439,7 @@ export const HeroSection = ({
 
 export function HeroSectionBasic({ onNavigate }: { onNavigate?: (page: PortfolioPage) => void }) {
   return (
-    <main className="bg-black relative min-h-screen w-screen">
+    <main className="bg-slate-950 relative min-h-screen w-screen">
       <HeroSection onNavigate={onNavigate} />
     </main>
   );

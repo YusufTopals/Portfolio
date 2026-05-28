@@ -98,7 +98,7 @@ export const PlaceCard = ({
 
   const action = (
     <Button
-      className="group bg-[#8200DB29] hover:bg-black/50 border border-[#322D36] text-white"
+      className="group bg-sky-500/15 hover:bg-blue-950/60 border border-[#1E4E7A] text-white"
       data-navigate={actionPage}
       onClick={navigateToPage}
     >
@@ -116,11 +116,11 @@ export const PlaceCard = ({
       variants={contentVariants}
       whileHover={{
         scale: 1.03,
-        boxShadow: "0px 10px 30px -5px rgba(130, 0, 219, 0.35)",
+        boxShadow: "0px 10px 30px -5px rgba(56, 189, 248, 0.3)",
         transition: { type: "spring", stiffness: 300, damping: 20 },
       }}
       className={cn(
-        "w-full overflow-hidden rounded-2xl border border-[#322D36] bg-black/65 text-card-foreground shadow-lg cursor-pointer backdrop-blur-sm",
+        "w-full overflow-hidden rounded-2xl border border-[#1E4E7A] bg-black/65 text-card-foreground shadow-lg cursor-pointer backdrop-blur-sm",
         className
       )}
       data-navigate={actionPage}
@@ -158,13 +158,13 @@ export const PlaceCard = ({
 
         <div className="absolute top-3 left-3 flex flex-wrap gap-2 pr-16">
           {tags.map((tag) => (
-            <Badge key={tag} variant="secondary" className="bg-black/60 border border-[#322D36] text-purple-100 backdrop-blur-sm">
+            <Badge key={tag} variant="secondary" className="bg-black/60 border border-[#1E4E7A] text-sky-50 backdrop-blur-sm">
               {tag}
             </Badge>
           ))}
         </div>
         <div className="absolute top-3 right-3">
-          <Badge variant="secondary" className="flex items-center gap-1 bg-black/60 border border-[#322D36] text-white backdrop-blur-sm">
+          <Badge variant="secondary" className="flex items-center gap-1 bg-black/60 border border-[#1E4E7A] text-white backdrop-blur-sm">
             <Star className="h-4 w-4 text-yellow-400 fill-yellow-400" /> {rating}
           </Badge>
         </div>
@@ -187,7 +187,7 @@ export const PlaceCard = ({
       <motion.div variants={contentVariants} className="p-5 space-y-4">
         <motion.div variants={itemVariants} className="flex justify-between items-start gap-3">
           <h3 className="text-xl font-bold text-white">{title}</h3>
-          {isTopRated && <Badge variant="outline" className="border-[#322D36] text-purple-100">Featured</Badge>}
+          {isTopRated && <Badge variant="outline" className="border-[#1E4E7A] text-sky-50">Featured</Badge>}
         </motion.div>
 
         <motion.div variants={itemVariants} className="text-sm text-muted-foreground">
@@ -205,7 +205,7 @@ export const PlaceCard = ({
               <span className="text-sm font-normal text-muted-foreground">/ night</span>
             </p>
           ) : (
-            <p className="font-semibold text-purple-100">Portfolio project</p>
+            <p className="font-semibold text-sky-50">Portfolio project</p>
           )}
           {actionHref ? (
             <a href={actionHref} target="_blank" rel="noopener noreferrer">

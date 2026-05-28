@@ -1,7 +1,7 @@
 <template>
   <div class="relative min-h-screen overflow-hidden bg-black">
     <GalaxyBackground v-if="currentPage !== 'home'" />
-    <div v-if="currentPage !== 'home'" class="fixed inset-0 z-0 bg-black/70 pointer-events-none"></div>
+    <div v-if="currentPage !== 'home'" class="fixed inset-0 z-0 bg-blue-950/70 pointer-events-none"></div>
 
     <Navbar :current-page="currentPage" @navigate="setCurrentPage" />
 
@@ -16,12 +16,9 @@
     <!-- Loading Screen -->
     <div
         v-if="isLoading"
-        class="fixed inset-0 bg-gradient-to-br from-slate-900 via-blue-900 to-slate-900 flex items-center justify-center z-50"
+        class="fixed inset-0 bg-black flex items-center justify-center z-50"
     >
-      <div class="text-center">
-        <div class="w-16 h-16 border-4 border-blue-500 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
-        <p class="text-white text-lg font-medium">Portfolio wordt geladen...</p>
-      </div>
+      <AiLoader label="Loading" />
     </div>
   </div>
 </template>
@@ -36,6 +33,7 @@ import Projects from '../components/Projects.vue'
 import Contact from '../components/Contact.vue'
 import AIStylistProject from '../components/AIStylistProject.vue'
 import Footer from '../components/Footer.vue'
+import AiLoader from '../components/ui/AiLoader.vue'
 
 type Page = 'home' | 'about' | 'projects' | 'contact' | 'ai-stylist'
 const pages: Page[] = ['home', 'about', 'projects', 'contact', 'ai-stylist']

@@ -1,11 +1,11 @@
 <template>
-  <nav class="fixed top-0 left-0 right-0 z-50 bg-[rgba(13,13,24,0.3)] backdrop-blur-md border-b border-[#322D36]" style="border-radius: 0 0 15px 15px;">
+  <nav class="fixed top-0 left-0 right-0 z-50 bg-[rgba(4,16,36,0.42)] backdrop-blur-md border-b border-[#1E4E7A]" style="border-radius: 0 0 15px 15px;">
     <div class="container mx-auto px-4 py-4 md:px-6 lg:px-8">
       <div class="flex items-center justify-between">
         <div class="flex items-center space-x-6 lg:space-x-8">
           <button
               @click="handleNavigate('home')"
-              class="text-white hover:text-purple-200 transition-colors"
+              class="text-white hover:text-sky-100 transition-colors"
               aria-label="Ga naar home"
           >
             <span class="text-3xl font-bold leading-none">&lt;/&gt;</span>
@@ -31,7 +31,7 @@
         <div class="flex items-center space-x-4 md:space-x-6">
           <button
               @click="handleNavigate('contact')"
-              class="bg-[#8200DB29] hover:bg-black/50 text-white font-semibold py-2 px-5 rounded-full text-sm md:text-base border border-[#322D36] transition-colors"
+              class="bg-sky-500/15 hover:bg-blue-950/60 text-white font-semibold py-2 px-5 rounded-full text-sm md:text-base border border-[#1E4E7A] transition-colors"
               style="backdrop-filter: blur(8px);"
           >
             Neem contact op

@@ -3,18 +3,18 @@
     <div class="max-w-5xl mx-auto">
       <button
           @click="$emit('navigate', 'projects')"
-          class="mb-8 inline-flex items-center gap-2 rounded-full border border-[#322D36] bg-[#8200DB29] px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-black/50"
+          class="mb-8 inline-flex items-center gap-2 rounded-full border border-[#1E4E7A] bg-sky-500/15 px-5 py-2 text-sm font-semibold text-white transition-colors hover:bg-blue-950/60"
       >
         Terug naar projecten
       </button>
 
-      <section class="rounded-2xl border border-[#322D36] bg-black/65 p-6 md:p-10 backdrop-blur-sm">
+      <section class="rounded-2xl border border-[#1E4E7A] bg-black/65 p-6 md:p-10 backdrop-blur-sm">
         <div class="mb-8">
-          <p class="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-purple-200">
+          <p class="mb-3 text-sm font-semibold uppercase tracking-[0.2em] text-sky-200">
             Mobile AI App
           </p>
           <h1 class="text-4xl md:text-6xl font-bold text-white mb-5">
-            Dark Tech <span class="bg-gradient-to-r from-white via-purple-200 to-purple-500 bg-clip-text text-transparent">AI Stylist Mirror</span>
+            Dark Tech <span class="text-gradient">AI Stylist Mirror</span>
           </h1>
           <p class="max-w-3xl text-lg leading-relaxed text-gray-300">
             AI Stylist Mirror is een mobiele app waarin gebruikers hun outfit kunnen scannen met de camera en daarna persoonlijke stijladviezen krijgen.
@@ -25,7 +25,7 @@
           <div
               v-for="item in highlights"
               :key="item.label"
-              class="rounded-xl border border-[#322D36] bg-black/50 p-5"
+              class="rounded-xl border border-[#1E4E7A] bg-black/50 p-5"
           >
             <p class="text-sm text-gray-400">{{ item.label }}</p>
             <p class="mt-2 font-semibold text-white">{{ item.value }}</p>
@@ -49,7 +49,7 @@
               <figure
                   v-for="image in contributionImages"
                   :key="image.src"
-                  class="overflow-hidden rounded-xl border border-[#322D36] bg-black/50"
+                  class="overflow-hidden rounded-xl border border-[#1E4E7A] bg-black/50"
               >
                 <img
                     :src="image.src"
@@ -57,7 +57,7 @@
                     class="h-80 w-full object-cover object-top"
                     loading="lazy"
                 />
-                <figcaption class="border-t border-[#322D36] px-4 py-3 text-sm font-semibold text-white">
+                <figcaption class="border-t border-[#1E4E7A] px-4 py-3 text-sm font-semibold text-white">
                   {{ image.label }}
                 </figcaption>
               </figure>
@@ -70,7 +70,7 @@
               <div
                   v-for="feature in features"
                   :key="feature"
-                  class="rounded-lg border border-[#322D36] bg-[#8200DB14] px-4 py-3 text-sm"
+                  class="rounded-lg border border-[#1E4E7A] bg-sky-500/10 px-4 py-3 text-sm"
               >
                 {{ feature }}
               </div>

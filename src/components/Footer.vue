@@ -1,8 +1,8 @@
 <template>
-  <footer class="bg-black/70 border-t border-[#322D36] py-8 backdrop-blur-md">
+  <footer class="bg-black/70 border-t border-[#1E4E7A] py-8 backdrop-blur-md">
     <div class="max-w-4xl mx-auto px-4 text-center">
       <div class="mb-4">
-        <h3 class="text-2xl font-bold bg-gradient-to-r from-white via-purple-200 to-purple-500 bg-clip-text text-transparent mb-2">
+        <h3 class="text-2xl font-bold text-gradient mb-2">
           Yusuf Topal
         </h3>
         <p class="text-gray-400">Fullstack Developer uit Amsterdam-Noord</p>
@@ -15,7 +15,7 @@
             :href="link.url"
             target="_blank"
             rel="noopener noreferrer"
-            class="text-gray-400 hover:text-purple-300 transition-colors"
+            class="text-gray-400 hover:text-sky-200 transition-colors"
         >
           {{ link.name }}
         </a>
