@@ -74,7 +74,7 @@ const projects = [
   },
   {
     title: "AI Stylist Mirror",
-    description: "Een mobiele case study rond outfitadvies, dashboardinzichten en deceptive design onderzoek.",
+    description: "Mijn Dark Tech semesterproject over AI-styling, smaakmanipulatie en de vraag waar persoonlijk advies overgaat in sturen.",
     technologies: ["React Native", "Expo", "Supabase", "AI", "Dashboard"],
     link: "",
     page: "ai-stylist",
@@ -82,9 +82,9 @@ const projects = [
     featured: true,
     rating: 4.9,
     images: [
-      "https://images.unsplash.com/photo-1496747611176-843222e1e57c?q=80&w=1200&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1515886657613-9f3515b0c78f?q=80&w=1200&auto=format&fit=crop",
-      "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?q=80&w=1200&auto=format&fit=crop",
+      "/ai-stylist/ai-stylist-home.png",
+      "/ai-stylist/login.png",
+      "/ai-stylist/admin-observation.png",
     ],
   },
 ];

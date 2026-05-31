@@ -1,7 +1,7 @@
 import * as React from "react";
 import { useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { ChevronLeft, ChevronRight, Star, ArrowRight } from "lucide-react";
+import { ChevronLeft, ChevronRight, ArrowRight } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -120,7 +120,7 @@ export const PlaceCard = ({
         transition: { type: "spring", stiffness: 260, damping: 24 },
       }}
       className={cn(
-        "w-full cursor-pointer overflow-hidden rounded-2xl border border-white/10 bg-white/[0.035] text-card-foreground shadow-[0_18px_60px_rgba(0,0,0,0.24)] backdrop-blur-sm transition-colors hover:border-white/18 hover:bg-white/[0.055]",
+        "w-full cursor-pointer overflow-hidden rounded-lg border border-white/10 bg-slate-950/55 text-card-foreground shadow-[0_18px_60px_rgba(0,0,0,0.24)] backdrop-blur-md transition-colors hover:border-sky-200/25 hover:bg-white/[0.045]",
         className
       )}
       data-navigate={actionPage}
@@ -163,11 +163,13 @@ export const PlaceCard = ({
             </Badge>
           ))}
         </div>
-        <div className="absolute top-3 right-3">
-          <Badge variant="secondary" className="flex items-center gap-1 border border-white/10 bg-slate-950/55 text-white backdrop-blur-sm">
-            <Star className="h-4 w-4 fill-sky-200 text-sky-200" /> {rating}
-          </Badge>
-        </div>
+        {isTopRated && (
+          <div className="absolute top-3 right-3">
+            <Badge variant="secondary" className="border border-sky-200/20 bg-slate-950/65 text-sky-100 backdrop-blur-sm">
+              Uitgelicht
+            </Badge>
+          </div>
+        )}
 
         <div className="absolute bottom-3 left-1/2 -translate-x-1/2 flex gap-1.5">
           {images.map((_, index) => (
@@ -187,11 +189,12 @@ export const PlaceCard = ({
       <motion.div variants={contentVariants} className="space-y-4 p-5">
         <motion.div variants={itemVariants} className="flex justify-between items-start gap-3">
           <h3 className="text-xl font-semibold tracking-tight text-white">{title}</h3>
-          {isTopRated && <Badge variant="outline" className="border-white/10 text-slate-200">Uitgelicht</Badge>}
         </motion.div>
 
         <motion.div variants={itemVariants} className="text-sm text-slate-400">
-          <span>{dateRange}</span> &bull; <span>{hostType}</span>
+          <span className="font-medium text-slate-200">{dateRange}</span>
+          <span className="mx-2 text-slate-600">/</span>
+          <span>{hostType}</span>
         </motion.div>
 
         <motion.p variants={itemVariants} className="text-sm leading-7 text-slate-300">
@@ -205,7 +208,7 @@ export const PlaceCard = ({
               <span className="text-sm font-normal text-muted-foreground">/ night</span>
             </p>
           ) : (
-            <p className="font-semibold text-slate-100">Portfolio project</p>
+            <p className="text-sm font-semibold text-slate-100">Portfolio case</p>
           )}
           {actionHref ? (
             <a href={actionHref} target="_blank" rel="noopener noreferrer">

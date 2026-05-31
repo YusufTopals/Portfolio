@@ -112,7 +112,7 @@ const latestProjects = [
   {
     title: "AI Stylist Mirror",
     category: "Mobile AI App",
-    description: "Een mobiele case study rond outfitadvies, dashboards en deceptive design.",
+    description: "Een Dark Tech case rond AI-styling, smaakmanipulatie en keuzevrijheid.",
     tags: ["React Native", "Expo", "Supabase"],
     page: "ai-stylist",
   },
@@ -149,7 +149,7 @@ function LatestProjectsSection() {
         );
 
         const className =
-          "group flex min-h-[260px] flex-col gap-5 rounded-2xl border border-white/10 bg-white/[0.035] p-6 text-left shadow-[0_18px_60px_rgba(0,0,0,0.22)] backdrop-blur-sm transition duration-300 hover:-translate-y-0.5 hover:border-white/18 hover:bg-white/[0.055]";
+          "group flex min-h-[260px] flex-col gap-5 rounded-lg border border-white/10 bg-slate-950/55 p-6 text-left shadow-[0_18px_60px_rgba(0,0,0,0.22)] backdrop-blur-md transition duration-300 hover:-translate-y-0.5 hover:border-sky-200/25 hover:bg-white/[0.045]";
 
         if (project.page) {
           return (
