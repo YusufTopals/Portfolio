@@ -58,9 +58,7 @@
     @apply bg-background text-foreground font-inter;
     font-feature-settings: "cv11", "ss01";
     font-variation-settings: "opsz" 32;
-    background:
-      radial-gradient(circle at top left, rgba(59, 130, 246, 0.14), transparent 32rem),
-      linear-gradient(180deg, #050914 0%, #070b16 48%, #05070d 100%);
+    background: #050914;
   }
 
   html {
@@ -111,6 +109,13 @@
     animation: float 6s ease-in-out infinite;
   }
 
+  .portfolio-gradient-bg {
+    background:
+      radial-gradient(circle at 28% 28%, rgba(56, 189, 248, 0.22), transparent 34rem),
+      radial-gradient(circle at 78% 64%, rgba(30, 78, 122, 0.24), transparent 30rem),
+      linear-gradient(135deg, rgba(2, 6, 15, 0.98), rgba(7, 11, 22, 0.88) 48%, rgba(5, 7, 13, 1));
+  }
+
   @keyframes float {
     0%, 100% { transform: translateY(0px); }
     50% { transform: translateY(-20px); }
@@ -158,72 +163,7 @@
     @apply inline-flex items-center justify-center rounded-full border border-sky-300/30 bg-sky-400/10 px-5 py-3 text-sm font-semibold text-white transition duration-200 hover:border-sky-200/45 hover:bg-sky-300/15 focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-300/70;
   }
 
-  .secondary-action {
+.secondary-action {
     @apply inline-flex items-center justify-center rounded-full border border-white/15 bg-white/[0.03] px-5 py-3 text-sm font-semibold text-slate-100 transition duration-200 hover:border-white/25 hover:bg-white/[0.06] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-sky-300/70;
-  }
-}
-
-@keyframes loader-rotate {
-  0% {
-    transform: rotate(90deg);
-    box-shadow: 0 10px 20px 0 #fff inset,
-      0 20px 30px 0 #7dd3fc inset,
-      0 60px 60px 0 #1d4ed8 inset;
-  }
-  50% {
-    transform: rotate(270deg);
-    box-shadow: 0 10px 20px 0 #fff inset,
-      0 20px 10px 0 #38bdf8 inset,
-      0 40px 60px 0 #0f3d8a inset;
-  }
-  100% {
-    transform: rotate(450deg);
-    box-shadow: 0 10px 20px 0 #fff inset,
-      0 20px 30px 0 #7dd3fc inset,
-      0 60px 60px 0 #1d4ed8 inset;
-  }
-}
-
-@keyframes loader-letter-anim {
-  0%,
-  100% {
-    opacity: 0.4;
-    transform: translateY(0);
-  }
-  20% {
-    opacity: 1;
-    transform: scale(1.15);
-  }
-  40% {
-    opacity: 0.7;
-    transform: translateY(0);
-  }
-}
-
-@layer components {
-  .ai-loader-shell {
-    @apply flex items-center justify-center;
-  }
-
-  .loader-wrapper {
-    @apply relative flex items-center justify-center gap-1.5 text-white;
-    min-height: 7rem;
-  }
-
-  .loader-letter {
-    @apply relative z-10 text-lg font-semibold tracking-normal;
-    animation: loader-letter-anim 1.6s ease-in-out infinite;
-    text-shadow: 0 0 18px rgba(125, 211, 252, 0.7);
-  }
-
-  .loader {
-    @apply absolute left-1/2 top-1/2 rounded-full;
-    width: 5.5rem;
-    height: 5.5rem;
-    margin-left: -2.75rem;
-    margin-top: 1.25rem;
-    filter: blur(0.2px);
-    opacity: 0.9;
-    animation: loader-rotate 2s linear infinite;
   }
 }

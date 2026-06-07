@@ -1,5 +1,5 @@
 <template>
-  <footer class="border-t border-white/10 bg-slate-950/70 py-10 backdrop-blur-md">
+  <footer class="border-t border-white/10 bg-white/[0.025] py-10 backdrop-blur-md">
     <div class="mx-auto flex max-w-6xl flex-col gap-6 px-5 text-center sm:px-6 md:flex-row md:items-center md:justify-between md:text-left lg:px-8">
       <div>
         <h3 class="mb-2 text-xl font-semibold text-white">

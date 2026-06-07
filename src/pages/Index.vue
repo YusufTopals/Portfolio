@@ -1,24 +1,22 @@
 <template>
-  <div class="relative min-h-screen overflow-hidden bg-background">
-    <GalaxyBackground v-if="currentPage !== 'home'" />
-    <div v-if="currentPage !== 'home'" class="fixed inset-0 z-0 bg-slate-950/82 pointer-events-none"></div>
-
+  <div class="portfolio-gradient-bg relative min-h-screen overflow-hidden bg-background">
+    <AnimatedPortfolioBackground />
     <Navbar :current-page="currentPage" @navigate="setCurrentPage" />
 
     <main class="relative z-10 transition-all duration-500 ease-in-out">
       <component :is="currentComponent" @navigate="setCurrentPage" />
     </main>
 
-    <div v-if="currentPage !== 'home'" class="relative z-10">
+    <div class="relative z-10">
       <Footer />
     </div>
 
     <!-- Loading Screen -->
     <div
         v-if="isLoading"
-        class="fixed inset-0 bg-background flex items-center justify-center z-50"
+        class="portfolio-gradient-bg fixed inset-0 flex items-center justify-center z-50 text-sky-100"
     >
-      <AiLoader label="Loading" />
+      <OrbitalLoader message="Loading" />
     </div>
   </div>
 </template>
@@ -26,14 +24,14 @@
 <script setup lang="ts">
 import { ref, computed, onBeforeUnmount, onMounted } from 'vue'
 import Navbar from '../components/Navbar.vue'
-import GalaxyBackground from '../components/GalaxyBackground.vue'
 import Home from '../components/Home.vue'
 import About from '../components/About.vue'
 import Projects from '../components/Projects.vue'
 import Contact from '../components/Contact.vue'
 import AIStylistProject from '../components/AIStylistProject.vue'
 import Footer from '../components/Footer.vue'
-import AiLoader from '../components/ui/AiLoader.vue'
+import OrbitalLoader from '../components/ui/OrbitalLoader.vue'
+import AnimatedPortfolioBackground from '../components/ui/AnimatedPortfolioBackground.vue'
 
 type Page = 'home' | 'about' | 'projects' | 'contact' | 'ai-stylist'
 const pages: Page[] = ['home', 'about', 'projects', 'contact', 'ai-stylist']

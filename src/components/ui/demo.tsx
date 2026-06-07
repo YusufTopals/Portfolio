@@ -1,6 +1,5 @@
-import { Component } from "@/components/ui/ai-loader";
+import { OrbitalLoader } from "@/components/ui/orbital-loader";
 
 export default function DemoOne() {
-  return <Component />;
+  return <OrbitalLoader />;
 }
-
