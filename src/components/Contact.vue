@@ -1,103 +1,108 @@
 <template>
-  <div class="page-shell">
-    <div class="narrow-shell">
-      <div class="mb-12 max-w-2xl">
-        <p class="section-kicker">Contact</p>
-        <h1 class="section-title">Laten we kennismaken.</h1>
-        <p class="section-copy mt-5">
-          Heb je een vraag, feedback of een idee voor een project? Stuur gerust een bericht.
-        </p>
-      </div>
+  <div class="min-h-screen px-4 pb-20 pt-28 sm:px-6 md:px-10 md:pt-36">
+    <div class="mx-auto max-w-6xl">
+      <PageHeader
+          title="Laten we kennismaken"
+          subtitle="Heb je een vraag, feedback of een idee voor een project? Stuur gerust een bericht."
+      />
 
-      <div class="grid gap-6 md:grid-cols-[1.15fr_0.85fr]">
-        <section class="surface-panel p-6 sm:p-8">
-          <h2 class="mb-6 text-xl font-semibold text-white">Stuur een bericht</h2>
+      <div class="grid gap-6 md:grid-cols-2 md:gap-8">
+        <!-- Contact Form -->
+        <div v-reveal class="panel p-6 sm:p-8">
+          <h2 class="mb-6 text-2xl font-medium tracking-tight">Stuur een bericht</h2>
 
-          <div
-            v-if="submitStatus === 'success'"
-            class="mb-6 rounded-xl border border-emerald-400/25 bg-emerald-400/10 p-4 text-sm text-emerald-200"
-          >
+          <div v-if="submitStatus === 'success'" class="mb-6 rounded-2xl border border-sage/30 bg-sage/10 p-4 text-sage">
             Bedankt voor je bericht. Ik neem zo snel mogelijk contact met je op.
           </div>
 
-          <form @submit.prevent="handleSubmit" class="space-y-5">
+          <form @submit.prevent="handleSubmit" class="space-y-6">
             <div>
-              <label for="name" class="mb-2 block text-sm font-medium text-slate-300">Naam *</label>
+              <label for="name" class="eyebrow mb-2 block">
+                Naam *
+              </label>
               <input
-                id="name"
-                v-model="formData.name"
-                required
-                placeholder="Je naam"
-                class="w-full rounded-xl border border-white/10 bg-white/[0.035] px-4 py-3 text-white outline-none transition placeholder:text-slate-500 focus:border-sky-300/50"
+                  type="text"
+                  id="name"
+                  v-model="formData.name"
+                  required
+                  class="w-full rounded-2xl border border-cream/10 bg-panel-2 px-4 py-3 text-cream placeholder:text-cream/30 transition-colors focus:border-cream/40 focus:outline-none"
+                  placeholder="Je naam"
               />
             </div>
 
             <div>
-              <label for="email" class="mb-2 block text-sm font-medium text-slate-300">E-mail *</label>
+              <label for="email" class="eyebrow mb-2 block">
+                E-mail *
+              </label>
               <input
-                id="email"
-                v-model="formData.email"
-                required
-                type="email"
-                placeholder="je@email.com"
-                class="w-full rounded-xl border border-white/10 bg-white/[0.035] px-4 py-3 text-white outline-none transition placeholder:text-slate-500 focus:border-sky-300/50"
+                  type="email"
+                  id="email"
+                  v-model="formData.email"
+                  required
+                  class="w-full rounded-2xl border border-cream/10 bg-panel-2 px-4 py-3 text-cream placeholder:text-cream/30 transition-colors focus:border-cream/40 focus:outline-none"
+                  placeholder="je@email.com"
               />
             </div>
 
             <div>
-              <label for="message" class="mb-2 block text-sm font-medium text-slate-300">Bericht *</label>
+              <label for="message" class="eyebrow mb-2 block">
+                Bericht *
+              </label>
               <textarea
-                id="message"
-                v-model="formData.message"
-                rows="5"
-                required
-                placeholder="Vertel kort waar je aan denkt."
-                class="w-full resize-none rounded-xl border border-white/10 bg-white/[0.035] px-4 py-3 text-white outline-none transition placeholder:text-slate-500 focus:border-sky-300/50"
-              ></textarea>
+                  id="message"
+                  v-model="formData.message"
+                  required
+                  rows="5"
+                  class="w-full resize-none rounded-2xl border border-cream/10 bg-panel-2 px-4 py-3 text-cream placeholder:text-cream/30 transition-colors focus:border-cream/40 focus:outline-none"
+                  placeholder="Vertel me over je project of stel je vraag..."
+              />
             </div>
 
-            <button
-              type="submit"
-              :disabled="isSubmitting"
-              class="primary-action w-full disabled:cursor-not-allowed disabled:opacity-50"
-            >
+            <PillButton type="submit" :disabled="isSubmitting">
               {{ isSubmitting ? 'Verzenden...' : 'Verstuur bericht' }}
-            </button>
+            </PillButton>
           </form>
-        </section>
+        </div>
 
-        <aside class="space-y-5">
-          <section class="surface-panel p-6">
-            <h2 class="mb-4 text-xl font-semibold text-white">Gegevens</h2>
-            <div class="space-y-4 text-sm text-slate-300">
-              <div v-for="item in contactInfo" :key="item.label" class="flex gap-3">
-                <span class="mt-0.5 flex h-8 w-8 shrink-0 items-center justify-center rounded-lg border border-white/10 bg-white/[0.04] text-xs font-semibold text-sky-100">
-                  {{ item.short }}
-                </span>
-                <div>
-                  <p class="text-slate-500">{{ item.label }}</p>
-                  <p class="mt-1 text-slate-200">{{ item.value }}</p>
+        <!-- Contact Info -->
+        <div class="space-y-6">
+          <div v-reveal="100" class="panel p-6 sm:p-8">
+            <h2 class="mb-6 text-2xl font-medium tracking-tight">Gegevens</h2>
+
+            <div class="space-y-4">
+              <div class="flex items-center gap-3 text-cream/80">
+                <div class="flex h-9 w-9 items-center justify-center rounded-full bg-panel-2">
+                  📍
                 </div>
+                <span>Amsterdam-Noord, Nederland</span>
+              </div>
+
+              <div class="flex items-center gap-3 text-cream/80">
+                <div class="flex h-9 w-9 items-center justify-center rounded-full bg-panel-2">
+                  🎓
+                </div>
+                <span>HBO-ICT Software Engineering, HvA</span>
               </div>
             </div>
-          </section>
+          </div>
 
-          <section class="surface-panel p-6">
-            <h3 class="mb-4 text-lg font-semibold text-white">Online</h3>
-            <div class="flex flex-wrap gap-3">
+          <!-- Social Links -->
+          <div v-reveal="200" class="panel p-6 sm:p-8">
+            <h3 class="mb-4 text-xl font-medium tracking-tight">Online</h3>
+            <div class="flex gap-3">
               <a
-                v-for="social in socialLinks"
-                :key="social.name"
-                :href="social.url"
-                target="_blank"
-                rel="noopener noreferrer"
-                class="secondary-action px-4 py-2"
-              >
-                {{ social.name }}
-              </a>
+                  v-for="social in socialLinks"
+                  :key="social.name"
+                  :href="social.url"
+                  :aria-label="social.name"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  class="flex h-12 w-12 items-center justify-center rounded-full border border-cream/15 text-cream/70 transition-all duration-300 hover:scale-110 hover:bg-cream hover:text-ink"
+                  v-html="social.icon"
+              />
             </div>
-          </section>
-        </aside>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -105,27 +110,41 @@
 
 <script setup lang="ts">
 import { ref } from 'vue'
+import PageHeader from '@/components/ui/PageHeader.vue'
+import PillButton from '@/components/ui/PillButton.vue'
 
-const formData = ref({ name: '', email: '', message: '' })
+const formData = ref({
+  name: '',
+  email: '',
+  message: ''
+})
+
 const isSubmitting = ref(false)
-const submitStatus = ref<'idle' | 'success'>('idle')
-
-const contactInfo = [
-  { label: 'Locatie', value: 'Amsterdam-Noord, Nederland', short: 'NL' },
-  { label: 'Opleiding', value: 'HBO-ICT Software Engineering, HvA', short: 'HvA' },
-]
+const submitStatus = ref<'idle' | 'success' | 'error'>('idle')
 
 const socialLinks = [
-  { name: 'GitHub', url: 'https://github.com/YusufTopal61' },
-  { name: 'LinkedIn', url: 'https://www.linkedin.com/in/-yusuf-topal/' },
+  {
+    name: 'GitHub',
+    url: 'https://github.com/YusufTopal61',
+    icon: '<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/></svg>'
+  },
+  {
+    name: 'LinkedIn',
+    url: 'https://www.linkedin.com/in/-yusuf-topal/',
+    icon: '<svg class="w-6 h-6" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>'
+  }
 ]
 
 const handleSubmit = async () => {
   isSubmitting.value = true
+
+  // Simulate form submission
   setTimeout(() => {
+    console.log('Form submitted:', formData.value)
     submitStatus.value = 'success'
     isSubmitting.value = false
     formData.value = { name: '', email: '', message: '' }
+
     setTimeout(() => {
       submitStatus.value = 'idle'
     }, 3000)

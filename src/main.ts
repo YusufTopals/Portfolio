@@ -1,14 +1,10 @@
-
 import { createApp } from 'vue'
-import { createRouter, createWebHistory } from 'vue-router'
 import App from './App.vue'
+import router from './router'
+import { vReveal } from './directives/reveal'
 import './index.css'
 
-const router = createRouter({
-  history: createWebHistory(),
-  routes: [
-    { path: '/', component: () => import('./pages/Index.vue') },
-  ]
-})
-
-createApp(App).use(router).mount('#app')
+createApp(App)
+    .use(router)
+    .directive('reveal', vReveal)
+    .mount('#app')

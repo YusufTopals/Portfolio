@@ -1,20 +1,25 @@
 <template>
-  <div class="page-shell">
-    <div class="content-shell">
-      <button
-        @click="$emit('navigate', 'projects')"
-        class="secondary-action mb-8 px-4 py-2"
+  <div class="min-h-screen px-4 pb-20 pt-28 sm:px-6 md:px-10 md:pt-36">
+    <div class="mx-auto max-w-6xl">
+      <router-link
+          to="/projects"
+          class="mb-10 inline-flex items-center gap-2 text-sm text-cream/60 transition-colors hover:text-cream"
       >
-        Terug naar projecten
-      </button>
+        <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+          <path stroke-linecap="round" stroke-linejoin="round" d="M19 12H5m6-6l-6 6 6 6" />
+        </svg>
+        Alle projecten
+      </router-link>
 
-      <section class="surface-panel overflow-hidden">
+      <section v-reveal class="panel overflow-hidden">
         <div class="grid gap-8 p-6 sm:p-8 lg:grid-cols-[1.04fr_0.96fr] lg:p-10">
           <div class="flex flex-col justify-between gap-8">
             <div>
-              <p class="section-kicker">Dark Tech · Smaakmanipulatie</p>
-              <h1 class="section-title">AI Stylist Mirror</h1>
-              <div class="mt-6 space-y-4 text-base leading-8 text-slate-300">
+              <p class="eyebrow mb-3">Dark Tech · Smaakmanipulatie</p>
+              <h1 class="display-heading text-5xl sm:text-6xl md:text-7xl">
+                <WordsPullUp text="AI Stylist Mirror" show-asterisk />
+              </h1>
+              <div class="mt-6 space-y-4 text-base leading-8 text-cream/70">
                 <p>
                   Dit project was voor mij een manier om te onderzoeken hoe onschuldig een slimme app kan lijken, terwijl je ondertussen heel bewust richting bepaalde keuzes wordt gestuurd.
                 </p>
@@ -25,14 +30,14 @@
             </div>
 
             <div class="grid gap-3 sm:grid-cols-3">
-              <div v-for="item in highlights" :key="item.label" class="subtle-card p-4">
-                <p class="text-xs font-semibold uppercase tracking-[0.16em] text-sky-200/70">{{ item.label }}</p>
-                <p class="mt-2 text-sm font-medium leading-6 text-slate-100">{{ item.value }}</p>
+              <div v-for="item in highlights" :key="item.label" class="rounded-2xl border border-cream/10 bg-panel-2 p-4">
+                <p class="eyebrow">{{ item.label }}</p>
+                <p class="mt-2 text-sm font-medium leading-6 text-cream">{{ item.value }}</p>
               </div>
             </div>
           </div>
 
-          <figure class="overflow-hidden rounded-lg border border-white/10 bg-white/[0.035]">
+          <figure class="overflow-hidden rounded-2xl border border-cream/10 bg-panel-2">
             <img
               src="/ai-stylist/ai-stylist-home.png"
               alt="Algemeen startscherm van AI Stylist Mirror"
@@ -42,11 +47,11 @@
         </div>
       </section>
 
-      <section class="mt-8 grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
-        <article class="surface-panel p-6 sm:p-8">
-          <p class="section-kicker">Mijn rol</p>
-          <h2 class="mb-5 text-2xl font-semibold text-white">Wat ik zelf heb gedaan</h2>
-          <div class="space-y-4 text-sm leading-7 text-slate-300">
+      <section v-reveal class="mt-8 grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
+        <article class="panel p-6 sm:p-8">
+          <p class="eyebrow mb-3">Mijn rol</p>
+          <h2 class="mb-5 text-2xl font-medium tracking-tight text-cream">Wat ik zelf heb gedaan</h2>
+          <div class="space-y-4 text-sm leading-7 text-cream/70">
             <p>
               Mijn bijdrage zat vooral in de schermen waar de gebruiker echt door de app beweegt. Ik heb gewerkt aan de login- en registratiepagina's, de aanbevelingsschermen, het gebruikersdashboard en het admin-dashboard.
             </p>
@@ -56,22 +61,22 @@
           </div>
         </article>
 
-        <article class="surface-panel p-6 sm:p-8">
-          <p class="section-kicker">Wat ik heb gebouwd</p>
+        <article class="panel p-6 sm:p-8">
+          <p class="eyebrow mb-3">Wat ik heb gebouwd</p>
           <div class="grid gap-3 sm:grid-cols-2">
-            <div v-for="item in builtParts" :key="item.title" class="subtle-card p-5">
-              <h3 class="font-semibold text-white">{{ item.title }}</h3>
-              <p class="mt-2 text-sm leading-7 text-slate-400">{{ item.description }}</p>
+            <div v-for="item in builtParts" :key="item.title" class="rounded-2xl border border-cream/10 bg-panel-2 p-5">
+              <h3 class="font-medium tracking-tight text-cream">{{ item.title }}</h3>
+              <p class="mt-2 text-sm leading-7 text-cream/60">{{ item.description }}</p>
             </div>
           </div>
         </article>
       </section>
 
-      <section class="mt-8 surface-panel p-6 sm:p-8">
+      <section v-reveal class="mt-8 panel p-6 sm:p-8">
         <div class="mb-7 max-w-3xl">
-          <p class="section-kicker">Bewijs uit het prototype</p>
-          <h2 class="text-2xl font-semibold text-white">Schermen waar ik aan heb gewerkt</h2>
-          <p class="mt-3 text-sm leading-7 text-slate-400">
+          <p class="eyebrow mb-3">Bewijs uit het prototype</p>
+          <h2 class="text-2xl font-medium tracking-tight text-cream">Schermen waar ik aan heb gewerkt</h2>
+          <p class="mt-3 text-sm leading-7 text-cream/60">
             Deze screenshots laten de belangrijkste onderdelen zien: accountflow, persoonlijke inzichten en het admin-overzicht waarmee gebruikersgedrag kon worden bekeken.
           </p>
         </div>
@@ -80,7 +85,7 @@
           <figure
             v-for="image in contributionImages"
             :key="image.src"
-            class="group overflow-hidden rounded-lg border border-white/10 bg-white/[0.035] transition duration-200 hover:-translate-y-1 hover:border-sky-200/25 hover:bg-white/[0.055]"
+            class="group overflow-hidden rounded-2xl border border-cream/10 bg-panel-2 transition duration-200 hover:-translate-y-1 hover:border-cream/30"
           >
             <img
               :src="image.src"
@@ -88,61 +93,61 @@
               class="h-72 w-full object-cover object-top transition duration-300 group-hover:scale-[1.03]"
               loading="lazy"
             />
-            <figcaption class="border-t border-white/10 px-4 py-3">
-              <p class="text-sm font-semibold text-slate-100">{{ image.label }}</p>
-              <p class="mt-1 text-xs leading-5 text-slate-500">{{ image.note }}</p>
+            <figcaption class="border-t border-cream/10 px-4 py-3">
+              <p class="text-sm font-semibold text-cream">{{ image.label }}</p>
+              <p class="mt-1 text-xs leading-5 text-cream/40">{{ image.note }}</p>
             </figcaption>
           </figure>
         </div>
       </section>
 
-      <section class="mt-8 surface-panel p-6 sm:p-8">
+      <section v-reveal class="mt-8 panel p-6 sm:p-8">
         <div class="mb-7 max-w-3xl">
-          <p class="section-kicker">Dark Tech technieken</p>
-          <h2 class="text-2xl font-semibold text-white">Manipulatie expres ingebouwd</h2>
-          <p class="mt-3 text-sm leading-7 text-slate-400">
+          <p class="eyebrow mb-3">Dark Tech technieken</p>
+          <h2 class="text-2xl font-medium tracking-tight text-cream">Manipulatie expres ingebouwd</h2>
+          <p class="mt-3 text-sm leading-7 text-cream/60">
             We gebruikten deze technieken bewust overdreven. Niet omdat de app mensen echt moest misleiden, maar omdat je daardoor beter ziet hoe zulke patronen werken in echte platformen.
           </p>
         </div>
 
         <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          <article v-for="item in darkTechniques" :key="item.title" class="subtle-card p-5">
-            <p class="text-xs font-semibold uppercase tracking-[0.18em] text-red-300/80">{{ item.label }}</p>
-            <h3 class="mt-3 font-semibold text-white">{{ item.title }}</h3>
-            <p class="mt-2 text-sm leading-7 text-slate-400">{{ item.description }}</p>
+          <article v-for="item in darkTechniques" :key="item.title" class="rounded-2xl border border-cream/10 bg-panel-2 p-5">
+            <p class="text-xs uppercase tracking-[0.2em] text-clay">{{ item.label }}</p>
+            <h3 class="mt-3 font-medium tracking-tight text-cream">{{ item.title }}</h3>
+            <p class="mt-2 text-sm leading-7 text-cream/60">{{ item.description }}</p>
           </article>
         </div>
       </section>
 
-      <section class="mt-8 grid gap-5 lg:grid-cols-2">
-        <article class="surface-panel p-6 sm:p-8">
-          <p class="section-kicker">Gebruikerstesten</p>
-          <h2 class="mb-5 text-2xl font-semibold text-white">Wat gebruikers sterk vonden</h2>
+      <section v-reveal class="mt-8 grid gap-5 lg:grid-cols-2">
+        <article class="panel p-6 sm:p-8">
+          <p class="eyebrow mb-3">Gebruikerstesten</p>
+          <h2 class="mb-5 text-2xl font-medium tracking-tight text-cream">Wat gebruikers sterk vonden</h2>
           <ul class="space-y-3">
-            <li v-for="item in positiveFeedback" :key="item" class="flex gap-3 text-sm leading-7 text-slate-300">
-              <span class="mt-2 h-2 w-2 shrink-0 rounded-full bg-sky-200"></span>
+            <li v-for="item in positiveFeedback" :key="item" class="flex gap-3 text-sm leading-7 text-cream/70">
+              <span class="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-sage"></span>
               <span>{{ item }}</span>
             </li>
           </ul>
         </article>
 
-        <article class="surface-panel p-6 sm:p-8">
-          <p class="section-kicker">Inzichten</p>
-          <h2 class="mb-5 text-2xl font-semibold text-white">Wat beter moest</h2>
+        <article class="panel p-6 sm:p-8">
+          <p class="eyebrow mb-3">Inzichten</p>
+          <h2 class="mb-5 text-2xl font-medium tracking-tight text-cream">Wat beter moest</h2>
           <ul class="space-y-3">
-            <li v-for="item in improvements" :key="item" class="flex gap-3 text-sm leading-7 text-slate-300">
-              <span class="mt-2 h-2 w-2 shrink-0 rounded-full bg-red-300"></span>
+            <li v-for="item in improvements" :key="item" class="flex gap-3 text-sm leading-7 text-cream/70">
+              <span class="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-clay"></span>
               <span>{{ item }}</span>
             </li>
           </ul>
         </article>
       </section>
 
-      <section class="mt-8 grid gap-5 lg:grid-cols-[1.05fr_0.95fr]">
-        <article class="surface-panel p-6 sm:p-8">
-          <p class="section-kicker">Mijn advies</p>
-          <h2 class="mb-5 text-2xl font-semibold text-white">Maak beïnvloeding zichtbaar</h2>
-          <div class="space-y-4 text-sm leading-7 text-slate-300">
+      <section v-reveal class="mt-8 grid gap-5 lg:grid-cols-[1.05fr_0.95fr]">
+        <article class="panel p-6 sm:p-8">
+          <p class="eyebrow mb-3">Mijn advies</p>
+          <h2 class="mb-5 text-2xl font-medium tracking-tight text-cream">Maak beïnvloeding zichtbaar</h2>
+          <div class="space-y-4 text-sm leading-7 text-cream/70">
             <p>
               Mijn advies was om een transparantie-dashboard toe te voegen. Daarin kan een gebruiker terugzien welke aanbevelingen zijn getoond, welke technieken zijn gebruikt en welke data daarvoor is ingezet.
             </p>
@@ -155,21 +160,21 @@
           </div>
         </article>
 
-        <aside class="surface-panel p-6 sm:p-8">
-          <p class="section-kicker">Dashboard idee</p>
+        <aside class="panel p-6 sm:p-8">
+          <p class="eyebrow mb-3">Dashboard idee</p>
           <div class="space-y-3">
-            <div v-for="item in transparencyItems" :key="item" class="subtle-card px-4 py-3 text-sm text-slate-300">
+            <div v-for="item in transparencyItems" :key="item" class="rounded-2xl border border-cream/10 bg-panel-2 px-4 py-3 text-sm text-cream/70">
               {{ item }}
             </div>
           </div>
         </aside>
       </section>
 
-      <section class="mt-8 surface-panel p-6 sm:p-8">
+      <section v-reveal class="mt-8 panel p-6 sm:p-8">
         <div class="max-w-3xl">
-          <p class="section-kicker">Reflectie</p>
-          <h2 class="mb-5 text-2xl font-semibold text-white">Wat ik heb geleerd</h2>
-          <div class="space-y-4 text-sm leading-7 text-slate-300">
+          <p class="eyebrow mb-3">Reflectie</p>
+          <h2 class="mb-5 text-2xl font-medium tracking-tight text-cream">Wat ik heb geleerd</h2>
+          <div class="space-y-4 text-sm leading-7 text-cream/70">
             <p>
               Ik ben door dit project anders gaan kijken naar kleine ontwerpkeuzes. Een tekst op een knop lijkt soms onbelangrijk, maar kan precies het verschil maken tussen vrij kiezen en gestuurd worden.
             </p>
@@ -187,9 +192,7 @@
 </template>
 
 <script setup lang="ts">
-defineEmits<{
-  navigate: [page: 'projects']
-}>()
+import WordsPullUp from '@/components/ui/WordsPullUp.vue'
 
 const highlights = [
   { label: 'Groep', value: 'Smaakmanipulatie' },

@@ -1,69 +1,61 @@
 <template>
-  <div class="page-shell">
-    <div class="narrow-shell">
-      <div class="mb-14">
-        <p class="section-kicker">Over mij</p>
-        <h1 class="section-title">
-          Ik ben Yusuf Topal, Software Engineering student aan de HvA.
-        </h1>
-        <p class="section-copy mt-5">
-          Ik ben 20 jaar oud, woon in Amsterdam-Noord en volg HBO-ICT Software Engineering aan de HvA.
-        </p>
-      </div>
+  <div class="min-h-screen px-4 pb-20 pt-28 sm:px-6 md:px-10 md:pt-36">
+    <div class="mx-auto max-w-6xl">
+      <PageHeader
+          title="Over mij"
+          subtitle="Ik ben 20 jaar oud, woon in Amsterdam-Noord en volg HBO-ICT Software Engineering aan de HvA."
+      />
 
-      <div class="grid gap-6 md:grid-cols-[0.9fr_1.1fr] md:items-start">
-        <section class="surface-panel p-6 sm:p-7">
-          <h2 class="mb-6 text-xl font-semibold text-white">Kort profiel</h2>
-          <div class="space-y-4">
-            <div v-for="info in personalInfo" :key="info.label" class="border-b border-white/10 pb-4 last:border-0 last:pb-0">
-              <p class="text-sm text-slate-400">{{ info.label }}</p>
-              <p class="mt-1 font-medium text-slate-100">{{ info.value }}</p>
+      <div class="mb-16 grid items-start gap-6 md:grid-cols-5 md:gap-12">
+        <div v-reveal class="panel relative overflow-hidden p-8 md:col-span-2">
+          <div class="noise-overlay pointer-events-none absolute inset-0 opacity-30 mix-blend-overlay" />
+          <h2 class="relative mb-6 text-2xl font-medium tracking-tight">Kort profiel</h2>
+          <dl class="relative space-y-4">
+            <div v-for="info in personalInfo" :key="info.label" class="border-b border-cream/10 pb-3 last:border-0">
+              <dt class="eyebrow mb-1">{{ info.label }}</dt>
+              <dd class="text-cream/90">{{ info.value }}</dd>
             </div>
-          </div>
-        </section>
+          </dl>
+        </div>
 
-        <section class="surface-panel p-6 sm:p-8">
-          <h2 class="mb-5 text-xl font-semibold text-white">Over mij</h2>
-          <div class="space-y-5 text-base leading-8 text-slate-300">
+        <div v-reveal="150" class="md:col-span-3">
+          <h2 class="mb-6 text-2xl font-medium tracking-tight">Over mij</h2>
+          <div class="space-y-4 text-lg leading-relaxed text-cream/70">
             <p v-for="paragraph in storyParagraphs" :key="paragraph.substring(0, 50)">
               {{ paragraph }}
             </p>
           </div>
-        </section>
+        </div>
       </div>
 
-      <section class="mt-8 surface-panel p-6 sm:p-8">
-        <div class="mb-8 flex flex-col gap-3 sm:flex-row sm:items-end sm:justify-between">
-          <div>
-            <p class="section-kicker">Skills</p>
-            <h2 class="text-2xl font-semibold text-white">Technische basis</h2>
-          </div>
-          <p class="max-w-lg text-sm leading-6 text-slate-400">Technologieen waar ik mee heb gewerkt tijdens mijn projecten.</p>
-        </div>
-
+      <!-- Skills Section -->
+      <section>
+        <h2 v-reveal class="mb-8 text-2xl font-medium tracking-tight">Technische basis</h2>
         <div class="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          <div v-for="(skillList, category) in skills" :key="category" class="subtle-card p-5">
-            <h3 class="mb-4 text-sm font-semibold uppercase tracking-[0.16em] text-sky-100/75">
+          <div
+              v-for="(skillList, category, index) in skills"
+              :key="category"
+              v-reveal="index * 80"
+              class="panel p-6"
+          >
+            <h3 class="eyebrow mb-4">
               {{ getCategoryLabel(category) }}
             </h3>
             <div class="flex flex-wrap gap-2">
-              <span
-                v-for="skill in skillList"
-                :key="skill"
-                class="pill"
-              >
+              <span v-for="skill in skillList" :key="skill" class="tag">
                 {{ skill }}
               </span>
             </div>
           </div>
         </div>
       </section>
-
     </div>
   </div>
 </template>
 
 <script setup lang="ts">
+import PageHeader from '@/components/ui/PageHeader.vue'
+
 const personalInfo = [
   { label: 'Naam', value: 'Yusuf Topal' },
   { label: 'Leeftijd', value: '20 jaar' },
@@ -77,7 +69,7 @@ const storyParagraphs = [
   'Wat ik leuk vind aan development is dat je zelf iets moois en bruikbaars kunt maken. Vooral het ontwerpen en bouwen van moderne en gebruiksvriendelijke websites vind ik leuk.'
 ]
 
-const skills = {
+const skills: Record<string, string[]> = {
   frontend: ['HTML', 'CSS', 'JavaScript', 'TypeScript', 'Vue', 'React'],
   backend: ['Java', 'Node.js', 'Express', 'Spring Boot'],
   database: ['MySQL', 'Database Design', 'Supabase'],

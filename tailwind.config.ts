@@ -21,8 +21,20 @@ export default {
 		extend: {
 			fontFamily: {
 				'inter': ['Inter', 'sans-serif'],
+				sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+			},
+			transitionTimingFunction: {
+				'out-expo': 'cubic-bezier(0.16, 1, 0.3, 1)',
 			},
 			colors: {
+				// Portfolio design tokens (Prisma-stijl)
+				ink: '#0b0b0a',        // pagina-achtergrond
+				panel: '#151513',      // kaarten / panelen
+				'panel-2': '#1d1d1a',  // hover / inputs
+				cream: '#e1e0cc',      // primaire tekst + knoppen
+				sage: '#8fb3a8',       // positief accent
+				clay: '#d0866f',       // aandachtspunt accent
+
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
 				ring: 'hsl(var(--ring))',
