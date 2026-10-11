@@ -5,6 +5,7 @@ import About    from '@/components/About.vue'
 import Projects from '@/components/Projects.vue'
 import Contact  from '@/components/Contact.vue'
 import { setSeoMeta } from '@/composables/useSeoMeta'
+import { stopSmoothScroll } from '@/lib/smoothScroll'
 
 declare module 'vue-router' {
     interface RouteMeta {
@@ -44,9 +45,14 @@ const router = createRouter({
     routes,
     scrollBehavior(to, _from, savedPosition) {
         if (to.hash) return { el: to.hash, top: 96, behavior: 'smooth' }
-        if (savedPosition) return savedPosition
-        return { top: 0 }
+        if (savedPosition) return { ...savedPosition, behavior: 'instant' }
+        // Nieuwe pagina: direct bovenaan beginnen (niet omhoog laten glijden)
+        return { top: 0, behavior: 'instant' }
     },
+})
+
+router.beforeEach(() => {
+    stopSmoothScroll()
 })
 
 router.afterEach((to) => {

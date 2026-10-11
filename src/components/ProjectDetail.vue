@@ -15,10 +15,6 @@
       <header class="mb-12 md:mb-16">
         <div v-reveal class="mb-6 flex flex-wrap items-center gap-2">
           <span class="eyebrow mr-2">Devlog</span>
-          <span v-if="project.status" class="inline-flex items-center gap-2 rounded-full bg-clay/15 px-3 py-1 text-xs text-clay">
-            <span class="h-1.5 w-1.5 animate-pulse rounded-full bg-clay" aria-hidden="true" />
-            {{ project.status }}
-          </span>
         </div>
         <h1 class="display-heading max-w-5xl text-4xl sm:text-5xl md:text-7xl">
           <WordsPullUp :text="detail.heading" />

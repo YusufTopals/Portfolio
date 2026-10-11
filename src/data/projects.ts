@@ -40,13 +40,11 @@ export interface Project {
     description: string
     technologies: string[]
     category: string
-    featured?: boolean
     /** Externe link (bijv. GitLab) */
     link?: string
     /** Als gezet: project heeft een eigen detailpagina op /projects/:slug */
     slug?: string
     subtitle?: string
-    status?: string
     thumbnail?: ProjectImage
     detail?: ProjectDetail
 }
@@ -96,7 +94,6 @@ export const projects: Project[] = [
         description: 'Een installatie en app die laten zien hoe makkelijk je smaak te sturen is – via herhaling, sociale bevestiging en een spiegel die meekijkt.',
         technologies: ['UX/UI Design', 'Prototyping', 'User Testing', 'Dark Patterns'],
         category: 'Design',
-        status: 'In ontwikkeling – Sprint 1 van 4',
         thumbnail: darkTechImages.eersteDesign,
         detail: {
             heading: 'Dark Tech – Semester 1: Smaakmanipulatie',
@@ -194,7 +191,6 @@ export const projects: Project[] = [
         description: 'Mijn Dark Tech semesterproject over AI-styling, smaakmanipulatie en de vraag waar persoonlijk advies overgaat in sturen.',
         technologies: ['React Native', 'Expo', 'Supabase', 'AI', 'Dashboard'],
         category: 'Mobile AI App',
-        featured: true,
         thumbnail: { src: '/ai-stylist/ai-stylist-home.png', alt: 'Algemeen startscherm van AI Stylist Mirror', width: 812, height: 1340 },
     },
     {
@@ -203,7 +199,6 @@ export const projects: Project[] = [
         technologies: ['HTML', 'CSS', 'TypeScript'],
         link: 'https://gitlab.fdmci.hva.nl/propedeuse-hbo-ict/onderwijs/student-projecten/2023-2024/out-e-cs-se/PB1-topaly1.git',
         category: 'Frontend',
-        thumbnail: { src: 'https://images.unsplash.com/photo-1554224155-6726b3ff858f?q=80&w=1200&auto=format&fit=crop', alt: 'Sfeerbeeld voor Dokkie', width: 1200, height: 800 },
     },
     {
         title: 'Code Exchange',
@@ -211,8 +206,6 @@ export const projects: Project[] = [
         technologies: ['HTML', 'CSS', 'TypeScript', 'OOP'],
         link: 'https://gitlab.fdmci.hva.nl/propedeuse-hbo-ict/onderwijs/student-projecten/2023-2024/out-e-cs-se/blok-2/sooxeequulee88.git',
         category: 'Frontend',
-        featured: true,
-        thumbnail: { src: 'https://images.unsplash.com/photo-1515879218367-8466d910aaa4?q=80&w=1200&auto=format&fit=crop', alt: 'Sfeerbeeld voor Code Exchange', width: 1200, height: 800 },
     },
     {
         title: 'The Game',
@@ -220,7 +213,6 @@ export const projects: Project[] = [
         technologies: ['TypeScript', 'Lit', 'Game Engine', 'OOP'],
         link: 'https://gitlab.fdmci.hva.nl/propedeuse-hbo-ict/onderwijs/student-projecten/2023-2024/out-e-cs-se/blok-3/riizooxoovoo10.git',
         category: 'Game',
-        thumbnail: { src: 'https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1200&auto=format&fit=crop', alt: 'Sfeerbeeld voor The Game', width: 1200, height: 800 },
     },
     {
         title: 'Webshop',
@@ -228,8 +220,6 @@ export const projects: Project[] = [
         technologies: ['Node.js', 'Express', 'MySQL', 'TypeScript', 'Lit'],
         link: 'https://gitlab.fdmci.hva.nl/propedeuse-hbo-ict/onderwijs/student-projecten/2023-2024/out-e-cs-se/blok-4/haayaazoosii78.git',
         category: 'Fullstack',
-        featured: true,
-        thumbnail: { src: 'https://images.unsplash.com/photo-1557821552-17105176677c?q=80&w=1200&auto=format&fit=crop', alt: 'Sfeerbeeld voor Webshop', width: 1200, height: 800 },
     },
     {
         title: 'Elections',
@@ -237,7 +227,6 @@ export const projects: Project[] = [
         technologies: ['Java', 'Spring Boot', 'Vue', 'TailwindCSS'],
         link: 'https://gitlab.fdmci.hva.nl/semester-3-hbo-ict/onderwijs/student-projecten/2024-2025/out-s-se-gd/semester-1/luuhiijaafee13.git',
         category: 'Fullstack',
-        thumbnail: { src: 'https://images.unsplash.com/photo-1495020689067-958852a7765e?q=80&w=1200&auto=format&fit=crop', alt: 'Sfeerbeeld voor Elections', width: 1200, height: 800 },
     },
 ]
 

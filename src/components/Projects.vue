@@ -45,16 +45,6 @@
           </div>
 
           <div class="flex flex-1 flex-col p-6">
-            <div v-if="project.status || project.featured" class="mb-4 flex flex-wrap gap-2">
-              <span v-if="project.status" class="inline-flex items-center gap-2 rounded-full bg-clay/15 px-3 py-1 text-xs text-clay">
-                <span class="h-1.5 w-1.5 animate-pulse rounded-full bg-clay" aria-hidden="true" />
-                {{ project.status }}
-              </span>
-              <span v-if="project.featured" class="rounded-full bg-cream px-3 py-1 text-xs font-medium text-ink">
-                Featured
-              </span>
-            </div>
-
             <h3 class="text-xl font-medium tracking-tight">
               {{ project.title }}
             </h3>
