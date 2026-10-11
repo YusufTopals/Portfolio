@@ -114,6 +114,15 @@
         animation: float 22s ease-in-out infinite reverse;
     }
 
+    /* Oneindige horizontale band (lijst staat 2x in de DOM) */
+    .animate-marquee {
+        animation: marquee 45s linear infinite;
+    }
+
+    @keyframes marquee {
+        to { transform: translateX(-50%); }
+    }
+
     @keyframes float {
         0%, 100% { transform: translate(0, 0) scale(1); }
         50% { transform: translate(4%, -6%) scale(1.08); }
@@ -151,7 +160,8 @@
     }
 
     .animate-float,
-    .animate-float-slow {
+    .animate-float-slow,
+    .animate-marquee {
         animation: none;
     }
 }
