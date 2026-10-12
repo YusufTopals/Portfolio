@@ -30,6 +30,10 @@ const routes: RouteRecordRaw[] = [
         path: '/projects/ai-stylist-mirror', name: 'AIStylistProject', component: () => import('@/components/AIStylistProject.vue'),
         meta: { title: 'AI Stylist Mirror', description: 'Dark Tech semesterproject over AI-styling, smaakmanipulatie en de vraag waar persoonlijk advies overgaat in sturen.' },
     },
+    {
+        path: '/projects/kapper-template', name: 'KapperTemplateProject', component: () => import('@/components/KapperTemplateProject.vue'),
+        meta: { title: 'Kapper Template', description: 'Herbruikbare website-template voor barbershops met diensten, galerij, online afspraak plannen en contact. Gebouwd met React en TanStack Start.' },
+    },
     // Devlog-pagina's zetten hun eigen SEO-metadata (zie ProjectDetail.vue)
     { path: '/projects/:slug', name: 'ProjectDetail', component: () => import('@/components/ProjectDetail.vue'), props: true },
     {

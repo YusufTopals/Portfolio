@@ -65,7 +65,7 @@
                 {{ project.detail ? 'Lees de devlog' : 'Bekijk project' }}
               </PillButton>
               <PillButton v-else-if="project.link" :href="project.link" variant="ghost">
-                Bekijk op GitLab
+                {{ project.link.includes('github.com') ? 'Bekijk op GitHub' : 'Bekijk op GitLab' }}
               </PillButton>
             </div>
           </div>

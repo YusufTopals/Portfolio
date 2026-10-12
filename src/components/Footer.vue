@@ -36,7 +36,7 @@
 const year = new Date().getFullYear()
 
 const socialLinks = [
-  { name: 'GitHub', url: 'https://github.com/YusufTopal61' },
+  { name: 'GitHub', url: 'https://github.com/YusufTopals' },
   { name: 'LinkedIn', url: 'https://www.linkedin.com/in/-yusuf-topal/' },
   { name: 'GitLab', url: 'https://gitlab.com' },
 ]

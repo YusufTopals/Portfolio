@@ -194,6 +194,20 @@ export const projects: Project[] = [
         thumbnail: { src: '/ai-stylist/ai-stylist-home.jpg', alt: 'Algemeen startscherm van AI Stylist Mirror', width: 700, height: 1155 },
     },
     {
+        slug: 'kapper-template',
+        title: 'Kapper Template',
+        description: 'Een herbruikbare website-template voor barbershops: hero met snelle afspraakzoeker, diensten met prijzen, galerij, online afspraak plannen in drie stappen, reviews en contact met openingstijden.',
+        technologies: ['React', 'TanStack Start', 'TypeScript', 'Tailwind CSS', 'Motion'],
+        link: 'https://github.com/YusufTopals/Kapper-Template',
+        category: 'Website',
+        thumbnail: {
+            src: '/projects/kapper-template/hero.jpg',
+            alt: 'Homepagina van de Kapper Template met de kop "Scherp geknipt. Rustig afgewerkt." en een afspraakzoeker',
+            width: 1440,
+            height: 940,
+        },
+    },
+    {
         title: 'Dokkie',
         description: 'Een betaalapp waarin ik TypeScript, DOM-structuur en object-georienteerd programmeren heb toegepast.',
         technologies: ['HTML', 'CSS', 'TypeScript'],
