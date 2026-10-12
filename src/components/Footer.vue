@@ -1,12 +1,11 @@
 <template>
   <footer class="px-2 pb-2 sm:px-3 sm:pb-3">
     <div class="panel relative overflow-hidden px-6 py-10 md:px-10">
-      <div class="noise-overlay pointer-events-none absolute inset-0 opacity-30 mix-blend-overlay" />
 
       <div class="relative flex flex-col gap-8 md:flex-row md:items-end md:justify-between">
         <div>
           <p class="display-heading text-5xl md:text-7xl">
-            Yusuf Topal<span class="align-top text-[0.4em]">*</span>
+            Yusuf Topal
           </p>
           <p class="mt-3 text-cream/60">Software Engineering student uit Amsterdam-Noord</p>
         </div>

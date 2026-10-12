@@ -77,12 +77,12 @@ const darkTechImages = {
     prototype1: darkTechImg(
         'sprint1-fysiek-prototype-1.jpg',
         'Kartonnen schaalmodel van de winkelruimte met ingelijste spiegel aan de wand',
-        1500, 2000,
+        1000, 1333,
     ),
     prototype2: darkTechImg(
         'sprint1-fysiek-prototype-2.jpg',
         'Kartonnen schaalmodel van de winkelruimte met zitbank voor de spiegel',
-        1500, 2000,
+        1000, 1333,
     ),
 }
 
@@ -191,7 +191,7 @@ export const projects: Project[] = [
         description: 'Mijn Dark Tech semesterproject over AI-styling, smaakmanipulatie en de vraag waar persoonlijk advies overgaat in sturen.',
         technologies: ['React Native', 'Expo', 'Supabase', 'AI', 'Dashboard'],
         category: 'Mobile AI App',
-        thumbnail: { src: '/ai-stylist/ai-stylist-home.png', alt: 'Algemeen startscherm van AI Stylist Mirror', width: 812, height: 1340 },
+        thumbnail: { src: '/ai-stylist/ai-stylist-home.jpg', alt: 'Algemeen startscherm van AI Stylist Mirror', width: 700, height: 1155 },
     },
     {
         title: 'Dokkie',

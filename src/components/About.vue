@@ -8,7 +8,6 @@
 
       <div class="mb-16 grid items-start gap-6 md:grid-cols-5 md:gap-12">
         <div v-reveal class="panel relative overflow-hidden p-8 md:col-span-2">
-          <div class="noise-overlay pointer-events-none absolute inset-0 opacity-30 mix-blend-overlay" />
           <h2 class="relative mb-6 text-2xl font-medium tracking-tight">Kort profiel</h2>
           <dl class="relative space-y-4">
             <div v-for="info in personalInfo" :key="info.label" class="border-b border-cream/10 pb-3 last:border-0">

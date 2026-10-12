@@ -17,7 +17,7 @@
             <div>
               <p class="eyebrow mb-3">Dark Tech · Smaakmanipulatie</p>
               <h1 class="display-heading text-5xl sm:text-6xl md:text-7xl">
-                <WordsPullUp text="AI Stylist Mirror" show-asterisk />
+                <WordsPullUp text="AI Stylist Mirror" />
               </h1>
               <div class="mt-6 space-y-4 text-base leading-8 text-cream/70">
                 <p>
@@ -39,7 +39,7 @@
 
           <figure class="overflow-hidden rounded-2xl border border-cream/10 bg-panel-2">
             <img
-              src="/ai-stylist/ai-stylist-home.png"
+              src="/ai-stylist/ai-stylist-home.jpg"
               alt="Algemeen startscherm van AI Stylist Mirror"
               class="h-full min-h-[420px] w-full object-cover object-top"
             />
@@ -221,31 +221,31 @@ const builtParts = [
 
 const contributionImages = [
   {
-    src: '/ai-stylist/register.png',
+    src: '/ai-stylist/register.jpg',
     label: 'Registreren',
     note: 'Nieuwe gebruiker met scherpe styling en bewuste voorwaarden.',
     alt: 'Registratiescherm van AI Stylist Mirror',
   },
   {
-    src: '/ai-stylist/login.png',
+    src: '/ai-stylist/login.jpg',
     label: 'Inloggen',
     note: 'Terugkerende gebruiker in dezelfde mobiele flow.',
     alt: 'Inlogscherm van AI Stylist Mirror',
   },
   {
-    src: '/ai-stylist/dashboard-overview.png',
+    src: '/ai-stylist/dashboard-overview.jpg',
     label: 'User dashboard',
     note: 'Persoonlijke inzichten zoals exposure en likes.',
     alt: 'Dashboardoverzicht met persoonlijke inzichten',
   },
   {
-    src: '/ai-stylist/admin-observation.png',
+    src: '/ai-stylist/admin-observation.jpg',
     label: 'Admin view',
     note: 'Gebruikersobservatie met manipulatie- en exposuredata.',
     alt: 'Admin-overzicht met gebruikersobservaties',
   },
   {
-    src: '/ai-stylist/dashboard-detail.png',
+    src: '/ai-stylist/dashboard-detail.jpg',
     label: 'Detaildashboard',
     note: 'Een gebruiker verder analyseren op voorkeuren en gedrag.',
     alt: 'Detaildashboard voor een gebruiker',

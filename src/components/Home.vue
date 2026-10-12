@@ -3,15 +3,11 @@
     <!-- Hero -->
     <section class="h-svh w-full p-2 sm:p-3">
       <div class="relative h-full w-full overflow-hidden rounded-2xl bg-panel md:rounded-[2rem]">
-        <!-- Achtergrond: zachte, bewegende kleurvlakken -->
-        <div class="pointer-events-none absolute inset-0" aria-hidden="true">
-          <div class="animate-float absolute -left-[20%] -top-[30%] h-[90%] w-[80%] rounded-full bg-sage/25 blur-[120px]" />
-          <div class="animate-float-slow absolute -bottom-[30%] right-[-10%] h-[90%] w-[70%] rounded-full bg-clay/25 blur-[140px]" />
-          <div class="animate-float absolute left-[30%] top-[20%] h-[50%] w-[40%] rounded-full bg-cream/10 blur-[100px]" />
-        </div>
-
-        <!-- Noise overlay -->
-        <div class="noise-overlay pointer-events-none absolute inset-0 opacity-70 mix-blend-overlay" />
+        <!-- Achtergrond: statische blauwe gloed -->
+        <div
+            class="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_20%_10%,#1e4a8f_0%,transparent_55%),radial-gradient(ellipse_at_85%_90%,#173a70_0%,transparent_50%)]"
+            aria-hidden="true"
+        />
 
         <!-- Gradient overlay -->
         <div class="pointer-events-none absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/60" />
@@ -20,19 +16,19 @@
         <div class="absolute bottom-0 left-0 right-0 px-4 pb-2 sm:px-6 md:px-10">
           <div class="grid grid-cols-12 items-end gap-4">
             <div class="col-span-12 lg:col-span-8">
-              <h1 class="display-heading text-[26vw] leading-[0.85] tracking-[-0.07em] sm:text-[24vw] md:text-[22vw] lg:text-[19vw]">
+              <h1 class="display-heading text-[26vw] leading-[0.85] tracking-[-0.05em] sm:text-[24vw] md:text-[22vw] lg:text-[19vw]">
                 <span class="sr-only">Yusuf Topal – Software Engineering Student</span>
-                <WordsPullUp text="Yusuf" show-asterisk aria-hidden="true" />
+                <WordsPullUp text="Yusuf" aria-hidden="true" />
               </h1>
             </div>
 
             <div class="col-span-12 flex flex-col gap-5 pb-6 lg:col-span-4 lg:pb-10">
-              <p v-reveal="300" class="eyebrow">Software Engineering Student · Amsterdam-Noord</p>
-              <p v-reveal="500" class="text-sm leading-snug text-cream/70 sm:text-base md:text-lg">
+              <p v-reveal="100" class="eyebrow">Software Engineering Student · Amsterdam-Noord</p>
+              <p v-reveal="150" class="text-sm leading-snug text-cream/70 sm:text-base md:text-lg">
                 Ik ben 20 jaar oud en studeer Software Engineering aan de HvA. Op deze portfolio
                 laat ik projecten zien waar ik tijdens mijn opleiding en eigen ontwikkeling aan heb gewerkt.
               </p>
-              <div v-reveal="700" class="flex flex-wrap gap-3">
+              <div v-reveal="200" class="flex flex-wrap gap-3">
                 <PillButton to="/projects">Bekijk mijn projecten</PillButton>
                 <PillButton to="/contact" variant="ghost">Neem contact op</PillButton>
               </div>
@@ -55,7 +51,7 @@
               class="flex items-center whitespace-nowrap text-3xl font-medium tracking-[-0.04em] text-cream/80 md:text-5xl"
           >
             {{ tech }}
-            <span class="mx-6 text-[0.5em] text-cream/30 md:mx-10">*</span>
+            <span class="mx-6 h-6 w-px bg-cream/15 md:mx-10" aria-hidden="true" />
           </span>
         </div>
       </div>
@@ -96,7 +92,7 @@
           <div>
             <p v-reveal class="eyebrow mb-4">Uitgelicht werk</p>
             <h2 class="display-heading text-4xl sm:text-5xl md:text-7xl">
-              <WordsPullUp text="Recente projecten" show-asterisk />
+              <WordsPullUp text="Recente projecten" />
             </h2>
           </div>
           <div v-reveal>
@@ -145,7 +141,7 @@
       <div class="mx-auto max-w-6xl">
         <p v-reveal class="eyebrow mb-4">Wat ik doe</p>
         <h2 class="display-heading mb-14 text-4xl sm:text-5xl md:text-7xl">
-          <WordsPullUp text="Focusgebieden" show-asterisk />
+          <WordsPullUp text="Focusgebieden" />
         </h2>
 
         <div class="grid gap-px overflow-hidden rounded-2xl border border-cream/10 bg-cream/10 sm:grid-cols-2 lg:grid-cols-4 md:rounded-[2rem]">
@@ -170,15 +166,14 @@
     <section class="px-2 pb-2 sm:px-3 sm:pb-3">
       <div class="panel relative overflow-hidden px-6 py-20 md:px-10 md:py-28">
         <div class="pointer-events-none absolute inset-0" aria-hidden="true">
-          <div class="animate-float-slow absolute -right-[20%] -top-[40%] h-[120%] w-[60%] rounded-full bg-sage/15 blur-[120px]" />
+          <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_90%_0%,#1e4a8f_0%,transparent_60%)]" />
         </div>
-        <div class="noise-overlay pointer-events-none absolute inset-0 opacity-40 mix-blend-overlay" />
 
         <div class="relative mx-auto flex max-w-6xl flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <p v-reveal class="eyebrow mb-4">Contact</p>
             <h2 class="display-heading text-5xl sm:text-6xl md:text-8xl">
-              <WordsPullUp text="Laten we kennismaken" show-asterisk />
+              <WordsPullUp text="Laten we kennismaken" />
             </h2>
           </div>
           <div v-reveal="200" class="flex max-w-sm flex-col gap-6">

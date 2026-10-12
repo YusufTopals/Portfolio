@@ -91,11 +91,10 @@
                 class="scroll-mt-28"
             >
               <h2 class="display-heading mb-8 text-5xl md:text-7xl">
-                <WordsPullUp :text="`Sprint ${sprint.number}`" show-asterisk />
+                <WordsPullUp :text="`Sprint ${sprint.number}`" />
               </h2>
 
               <div v-if="sprint.goal" v-reveal class="panel relative mb-16 overflow-hidden p-6 md:p-8">
-                <div class="noise-overlay pointer-events-none absolute inset-0 opacity-30 mix-blend-overlay" />
                 <h3 class="eyebrow relative mb-3">Doel van deze sprint</h3>
                 <p class="relative text-lg leading-relaxed text-cream/90 md:text-xl">{{ sprint.goal }}</p>
               </div>

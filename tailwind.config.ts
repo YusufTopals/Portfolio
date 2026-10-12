@@ -21,19 +21,21 @@ export default {
 		extend: {
 			fontFamily: {
 				'inter': ['Inter', 'sans-serif'],
-				sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+				// Apple-systeemlettertype (SF Pro op Mac/iPhone), nette fallbacks elders
+				sans: ['-apple-system', 'BlinkMacSystemFont', '"SF Pro Display"', '"SF Pro Text"', '"Helvetica Neue"', 'Helvetica', 'Arial', 'sans-serif'],
 			},
 			transitionTimingFunction: {
 				'out-expo': 'cubic-bezier(0.16, 1, 0.3, 1)',
 			},
 			colors: {
-				// Portfolio design tokens (Prisma-stijl)
-				ink: '#0b0b0a',        // pagina-achtergrond
-				panel: '#151513',      // kaarten / panelen
-				'panel-2': '#1d1d1a',  // hover / inputs
-				cream: '#e1e0cc',      // primaire tekst + knoppen
-				sage: '#8fb3a8',       // positief accent
-				clay: '#d0866f',       // aandachtspunt accent
+				// Portfolio design tokens: donkerblauw en wit
+				ink: '#0a1629',        // pagina-achtergrond (donkerblauw)
+				panel: '#0f2038',      // kaarten / panelen
+				'panel-2': '#152a48',  // hover / inputs
+				cream: '#ffffff',      // tekst + knoppen (wit)
+				sky: '#8fb8f0',        // lichtblauw accent (labels, positief)
+				sage: '#8fb8f0',       // positief (lichtblauw)
+				clay: '#cbd5e1',       // aandachtspunt (lichtgrijs)
 
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
