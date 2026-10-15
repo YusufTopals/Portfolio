@@ -1,7 +1,7 @@
 <template>
   <!-- Zwarte "tab" bovenaan in het midden -->
   <nav class="fixed left-1/2 top-0 z-50 -translate-x-1/2" aria-label="Hoofdnavigatie">
-    <div class="flex items-center gap-4 rounded-b-2xl bg-[#060e1c] px-4 py-2.5 shadow-lg shadow-black/40 sm:gap-6 md:gap-10 md:rounded-b-3xl md:px-8 md:py-3 lg:gap-12">
+    <div class="flex items-center gap-4 rounded-b-2xl bg-black px-4 py-2.5 shadow-lg shadow-black/40 sm:gap-6 md:gap-10 md:rounded-b-3xl md:px-8 md:py-3 lg:gap-12">
       <router-link
           v-for="item in navItems"
           :key="item.id"

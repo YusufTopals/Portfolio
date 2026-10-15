@@ -28,14 +28,14 @@ export default {
 				'out-expo': 'cubic-bezier(0.16, 1, 0.3, 1)',
 			},
 			colors: {
-				// Portfolio design tokens: donkerblauw en wit
-				ink: '#0a1629',        // pagina-achtergrond (donkerblauw)
-				panel: '#0f2038',      // kaarten / panelen
-				'panel-2': '#152a48',  // hover / inputs
+				// Portfolio design tokens: zwart en wit
+				ink: '#000000',        // pagina-achtergrond (zwart)
+				panel: '#111111',      // kaarten / panelen
+				'panel-2': '#1a1a1a',  // hover / inputs
 				cream: '#ffffff',      // tekst + knoppen (wit)
-				sky: '#8fb8f0',        // lichtblauw accent (labels, positief)
-				sage: '#8fb8f0',       // positief (lichtblauw)
-				clay: '#cbd5e1',       // aandachtspunt (lichtgrijs)
+				sky: '#a3a3a3',        // labels (grijs)
+				sage: '#ffffff',       // positief (wit)
+				clay: '#8a8a8a',       // aandachtspunt (grijs)
 
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',

@@ -5,7 +5,7 @@
       <div class="relative h-full w-full overflow-hidden rounded-2xl bg-panel md:rounded-[2rem]">
         <!-- Achtergrond: statische blauwe gloed -->
         <div
-            class="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_20%_10%,#1e4a8f_0%,transparent_55%),radial-gradient(ellipse_at_85%_90%,#173a70_0%,transparent_50%)]"
+            class="pointer-events-none absolute inset-0 bg-[radial-gradient(ellipse_at_20%_10%,#2e2e2e_0%,transparent_55%),radial-gradient(ellipse_at_85%_90%,#222222_0%,transparent_50%)]"
             aria-hidden="true"
         />
 
@@ -166,7 +166,7 @@
     <section class="px-2 pb-2 sm:px-3 sm:pb-3">
       <div class="panel relative overflow-hidden px-6 py-20 md:px-10 md:py-28">
         <div class="pointer-events-none absolute inset-0" aria-hidden="true">
-          <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_90%_0%,#1e4a8f_0%,transparent_60%)]" />
+          <div class="absolute inset-0 bg-[radial-gradient(ellipse_at_90%_0%,#2e2e2e_0%,transparent_60%)]" />
         </div>
 
         <div class="relative mx-auto flex max-w-6xl flex-col gap-10 lg:flex-row lg:items-end lg:justify-between">
