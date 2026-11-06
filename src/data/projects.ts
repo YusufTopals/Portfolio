@@ -7,13 +7,30 @@ export interface ProjectImage {
 
 /** Bouwstenen waaruit een sprint-onderdeel bestaat. */
 export type SprintBlock =
-    | { type: 'text'; paragraphs: string[] }
+    /** Lopende tekst; optioneel met een vetgedrukte aanloop ("Welkomstscherm.") voor de eerste alinea */
+    | { type: 'text'; paragraphs: string[]; lead?: string }
     /** Breed overzicht op volle contentbreedte, klikbaar (lightbox) */
     | { type: 'image-wide'; image: ProjectImage }
     /** Twee foto's: naast elkaar op desktop, onder elkaar op mobiel */
     | { type: 'image-pair'; images: [ProjectImage, ProjectImage] }
     /** Twee blokken naast elkaar: wat werkte / verbeterpunten */
     | { type: 'feedback'; positive: FeedbackList; attention: FeedbackList }
+    /** Thema's met aantal (bijv. testers); balkbreedte = aantal t.o.v. het hoogste in de lijst */
+    | { type: 'bars'; title: string; unit: string; items: BarItem[] }
+    /** Kleine stat-blokjes naast elkaar, bijv. "14/16" */
+    | { type: 'stats'; title?: string; items: StatItem[] }
+    /** Opsomming, bijv. conclusies */
+    | { type: 'list'; items: string[] }
+
+export interface BarItem {
+    label: string
+    count: number
+}
+
+export interface StatItem {
+    value: string
+    label: string
+}
 
 export interface FeedbackList {
     title: string
@@ -79,6 +96,31 @@ const darkTechImages = {
         'Kartonnen schaalmodel van de winkelruimte met ingelijste spiegel aan de wand',
         1000, 1333,
     ),
+    sprint2Welkom: darkTechImg(
+        'sprint2-welkom.jpg',
+        'Welkomstscherm met live-tijdlijn van de Stijlspiegel',
+        1600, 781,
+    ),
+    sprint2Stijlscan: darkTechImg(
+        'sprint2-stijlscan.jpg',
+        'Stijlscan met score en drie aandachtspunten',
+        1600, 1087,
+    ),
+    sprint2Feed: darkTechImg(
+        'sprint2-feed.jpg',
+        'Feed met vrienden, trends en aanbevelingen',
+        1600, 1198,
+    ),
+    sprint2Profiel: darkTechImg(
+        'sprint2-profiel.jpg',
+        'Profielpagina met gegevens gemeten door de Stijlspiegel',
+        1600, 1241,
+    ),
+    sprint2Dashboard: darkTechImg(
+        'sprint2-dashboard.jpg',
+        'Dashboard met beïnvloedingsscore en gebruikte tactieken',
+        1600, 1243,
+    ),
     prototype2: darkTechImg(
         'sprint1-fysiek-prototype-2.jpg',
         'Kartonnen schaalmodel van de winkelruimte met zitbank voor de spiegel',
@@ -97,7 +139,7 @@ export const projects: Project[] = [
         thumbnail: darkTechImages.eersteDesign,
         detail: {
             heading: 'Dark Tech – Semester 1: Smaakmanipulatie',
-            seoDescription: 'Devlog van het schoolproject Smaakmanipulatie (Dark Tech, semester 1): een installatie en app die laten zien hoe makkelijk je smaak te sturen is.',
+            seoDescription: 'Devlog van Smaakmanipulatie (Dark Tech, semester 1): een spiegel-installatie en werkende app die laten zien hoe makkelijk je smaak te sturen is, getest met 21 bezoekers op Society.',
             intro: [
                 'Dit is de devlog van mijn bijdrage aan het schoolproject Smaakmanipulatie, onderdeel van Dark Tech in semester 1. Het project bestaat uit een fysieke installatie en een app, en loopt in vier sprints. Per sprint laat ik zien wat ik heb gemaakt, getest en geleerd.',
                 'Het idee: we laten mensen ervaren hoe hun smaak in kleding gemanipuleerd kan worden – via herhaling en sociale bevestiging. Iets wat je eerst lelijk vindt, ga je na honderd keer zien toch mooi vinden. Aan het eind krijgt de bezoeker inzicht in hoe hij gemanipuleerd is.',
@@ -177,9 +219,153 @@ export const projects: Project[] = [
                         },
                     ],
                 },
-                // Sprint 2–4: zet status op 'done' en vul goal + sections (zelfde vorm als Sprint 1).
+                {
+                    number: 2,
+                    status: 'done',
+                    goal: 'Het design uit sprint 1 omzetten naar een werkende app (front-end en back-end) en het prototype testen met echte bezoekers op Society.',
+                    sections: [
+                        {
+                            id: 'sprint-2-app',
+                            title: '1. De app gerealiseerd',
+                            blocks: [
+                                {
+                                    type: 'text',
+                                    paragraphs: [
+                                        'Ik heb de app gebouwd, zowel de front-end als de back-end. De werknaam is nu Smaakmanipulate. De flow uit sprint 1 werkt nu echt: de Stijlspiegel herkent je, maakt een lichaamsscan en past je feed daarop aan.',
+                                    ],
+                                },
+                                {
+                                    type: 'text',
+                                    lead: 'Welkomstscherm.',
+                                    paragraphs: [
+                                        'Na herkenning door de Stijlspiegel log je automatisch in. Een live-tijdlijn laat stap voor stap zien wat de spiegel deed: herkend, lichaamsscan, feed aangepast, activiteit van vrienden toegevoegd.',
+                                    ],
+                                },
+                                { type: 'image-wide', image: darkTechImages.sprint2Welkom },
+                                {
+                                    type: 'text',
+                                    lead: 'Stijlscan.',
+                                    paragraphs: [
+                                        'De foto uit de spiegel krijgt een stijlscore (62/100), afgezet tegen het gemiddelde van je vrienden (78). Drie aandachtspunten wijzen aan wat er "mis" is, zoals schoenen die niet waterdicht zijn omdat er morgen regen wordt verwacht.',
+                                    ],
+                                },
+                                { type: 'image-wide', image: darkTechImages.sprint2Stijlscan },
+                                {
+                                    type: 'text',
+                                    lead: 'Feed.',
+                                    paragraphs: [
+                                        'Vrienden bovenaan, trends uit je stad en aanbevelingen met "-20% via de spiegel": sociale druk en exclusiviteit als sturingsmiddel.',
+                                    ],
+                                },
+                                { type: 'image-wide', image: darkTechImages.sprint2Feed },
+                                {
+                                    type: 'text',
+                                    lead: 'Profiel.',
+                                    paragraphs: [
+                                        'Laat zien wat de spiegel van je weet: persoonlijke gegevens, maar ook lengte, kledingmaat en postuur, "gemeten zonder dat je iets hoefde te doen".',
+                                    ],
+                                },
+                                { type: 'image-wide', image: darkTechImages.sprint2Profiel },
+                                {
+                                    type: 'text',
+                                    lead: 'Dashboard.',
+                                    paragraphs: [
+                                        'Nieuw in deze sprint en een direct antwoord op twee verbeterpunten uit sprint 1: er werd geen bewustzijn gecreëerd en er waren geen statistieken. Het dashboard toont een live beïnvloedingsscore, momenten van beïnvloeding, gedeelde datapunten en welke tactieken er op je zijn gebruikt (onzekerheid uit je scan, score onder vrienden, sociale druk, exclusieve spiegelprijs).',
+                                    ],
+                                },
+                                { type: 'image-wide', image: darkTechImages.sprint2Dashboard },
+                            ],
+                        },
+                        {
+                            id: 'sprint-2-usertest',
+                            title: '2. Usertest op Society',
+                            blocks: [
+                                {
+                                    type: 'text',
+                                    paragraphs: [
+                                        'Op Society hebben 21 bezoekers het prototype getest: de spiegel met ingebouwd scherm en camera, waarop je accessoires kiest. Daarna vulden ze een formulier in met drie open vragen en twee keuzevragen. Hieronder staan de antwoorden gegroepeerd per thema.',
+                                    ],
+                                },
+                                {
+                                    type: 'bars',
+                                    title: 'Wat goed werkte',
+                                    unit: 'aantal testers',
+                                    items: [
+                                        { label: 'De spiegel met ingebouwd scherm ziet er goed uit', count: 9 },
+                                        { label: 'Technisch werkte het meteen, de camera herkende je', count: 4 },
+                                        { label: 'Makkelijk en duidelijk', count: 4 },
+                                        { label: 'Creatief, innovatief concept', count: 3 },
+                                        { label: 'Jezelf en het product tegelijk zien', count: 2 },
+                                    ],
+                                },
+                                {
+                                    type: 'bars',
+                                    title: 'Wat minder goed werkte',
+                                    unit: 'aantal testers',
+                                    items: [
+                                        { label: 'De dark kant / manipulatie was niet duidelijk genoeg', count: 6 },
+                                        { label: 'Weinig keuze, beperkte inhoud op het scherm', count: 5 },
+                                        { label: 'Weinig interactie of reactie na een keuze', count: 3 },
+                                        { label: 'Aanbevelingen pasten niet bij de persoon (bijv. oorbellen voor een man)', count: 3 },
+                                        { label: 'Tempo: te traag of juist te snel', count: 2 },
+                                        { label: 'Instructies niet altijd duidelijk', count: 1 },
+                                    ],
+                                },
+                                {
+                                    type: 'text',
+                                    paragraphs: [
+                                        'Opvallend: één tester raakte geïrriteerd ("ik bepaal het zelf wel"). Dat is precies de weerstand tegen beïnvloeding waar het project over gaat.',
+                                    ],
+                                },
+                                {
+                                    type: 'bars',
+                                    title: 'Suggesties van testers',
+                                    unit: 'aantal testers',
+                                    items: [
+                                        { label: 'Het product op jezelf zien (AR / try-on)', count: 6 },
+                                        { label: 'Meer interactie, ook na een keuze', count: 5 },
+                                        { label: 'Het verhaal scherper: wat is er dark, waar moet je over nadenken?', count: 4 },
+                                        { label: 'Andere bediening: knoppen of handgebaren in plaats van een toetsenbord', count: 2 },
+                                        { label: 'De spiegel analyseert jou en zegt wat beter kan, in plaats van zelf kiezen', count: 2 },
+                                        { label: 'Fysiek: aan de muur hangen, transparant display voor een beter beeld', count: 2 },
+                                    ],
+                                },
+                                {
+                                    type: 'text',
+                                    paragraphs: [
+                                        'Een tester vroeg ook of je mensen wel moet stimuleren om nog meer te kopen (duurzaamheid).',
+                                    ],
+                                },
+                                {
+                                    type: 'stats',
+                                    title: 'Keuzevragen',
+                                    items: [
+                                        { value: '14/16', label: 'testers willen de spiegel verticaal (2 horizontaal)' },
+                                        { value: '12/16', label: 'zouden de bedieningsknoppen onder de spiegel plaatsen (2 links, 2 rechts)' },
+                                    ],
+                                },
+                            ],
+                        },
+                        {
+                            id: 'sprint-2-conclusies',
+                            title: '3. Conclusies voor sprint 3',
+                            blocks: [
+                                {
+                                    type: 'list',
+                                    items: [
+                                        'Maak het dark-verhaal zichtbaar in de installatie zelf. Het dashboard in de app laat de manipulatie wel zien, maar testers van de spiegel zagen dat niet.',
+                                        'Verbind spiegel en app. Twee testers vroegen om een analyse van hun uiterlijk, en dat is precies wat de stijlscan in de app doet. Die koppeling moet tijdens de ervaring duidelijk worden.',
+                                        'Laat producten op de gebruiker zien en geef meer keuze plus een reactie na elke keuze.',
+                                        'Stem aanbevelingen af op wie er voor de spiegel staat.',
+                                        'Fysiek: verticale opstelling, knoppen onder de spiegel in plaats van een toetsenbord.',
+                                    ],
+                                },
+                            ],
+                        },
+                    ],
+                },
+                // Sprint 3–4: zet status op 'done' en vul goal + sections (zelfde vorm als Sprint 1 en 2).
                 // Afbeeldingen: zet ze in public/projects/dark-tech/ en voeg ze toe aan darkTechImages hierboven.
-                { number: 2, status: 'soon' },
                 { number: 3, status: 'soon' },
                 { number: 4, status: 'soon' },
             ],

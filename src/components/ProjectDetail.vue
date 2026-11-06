@@ -113,7 +113,10 @@
                     <template v-for="(block, i) in section.blocks" :key="i">
                       <!-- Tekst -->
                       <div v-if="block.type === 'text'" v-reveal class="max-w-3xl space-y-4 text-lg leading-relaxed text-cream/70">
-                        <p v-for="paragraph in block.paragraphs" :key="paragraph.substring(0, 40)">{{ paragraph }}</p>
+                        <p v-for="(paragraph, j) in block.paragraphs" :key="paragraph.substring(0, 40)">
+                          <strong v-if="block.lead && j === 0" class="font-medium text-cream">{{ block.lead }}</strong>
+                          {{ paragraph }}
+                        </p>
                       </div>
 
                       <!-- Breed overzicht, klikbaar -->
@@ -201,6 +204,44 @@
                           </ul>
                         </div>
                       </div>
+
+                      <!-- Thema's met aantal en balk -->
+                      <div v-else-if="block.type === 'bars'" v-reveal class="panel p-6 md:p-8">
+                        <div class="mb-5 flex items-baseline justify-between gap-4">
+                          <h4 class="text-lg font-medium">{{ block.title }}</h4>
+                          <span class="eyebrow shrink-0">{{ block.unit }}</span>
+                        </div>
+                        <ul class="space-y-4">
+                          <li v-for="item in block.items" :key="item.label">
+                            <div class="flex items-start justify-between gap-4 text-cream/80">
+                              <span>{{ item.label }}</span>
+                              <span class="shrink-0 font-medium tabular-nums text-cream">{{ item.count }}</span>
+                            </div>
+                            <div class="mt-2 h-1.5 w-full rounded-full bg-cream/10" aria-hidden="true">
+                              <div class="h-full rounded-full bg-cream/70" :style="{ width: `${(item.count / maxCount(block.items)) * 100}%` }" />
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+
+                      <!-- Kleine stat-blokjes -->
+                      <div v-else-if="block.type === 'stats'" v-reveal>
+                        <h4 v-if="block.title" class="eyebrow mb-3">{{ block.title }}</h4>
+                        <div class="grid gap-4 sm:grid-cols-2">
+                          <div v-for="stat in block.items" :key="stat.value + stat.label" class="panel p-6 md:p-8">
+                            <p class="display-heading text-5xl md:text-6xl">{{ stat.value }}</p>
+                            <p class="mt-3 text-cream/70">{{ stat.label }}</p>
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- Opsomming -->
+                      <ol v-else-if="block.type === 'list'" v-reveal class="max-w-3xl space-y-4">
+                        <li v-for="(item, j) in block.items" :key="item.substring(0, 40)" class="flex gap-4 text-lg leading-relaxed text-cream/70">
+                          <span class="shrink-0 tabular-nums text-cream/40">{{ String(j + 1).padStart(2, '0') }}</span>
+                          <span>{{ item }}</span>
+                        </li>
+                      </ol>
                     </template>
                   </div>
                 </article>
@@ -247,6 +288,9 @@ const project = computed(() => findProject(props.slug))
 const detail = computed(() => project.value?.detail)
 
 const lightboxImage = ref<ProjectImage | null>(null)
+
+// Balkbreedte: aantal t.o.v. het hoogste aantal in dezelfde lijst
+const maxCount = (items: { count: number }[]) => Math.max(...items.map((item) => item.count))
 
 watch(project, (current) => {
   if (current?.detail) {
