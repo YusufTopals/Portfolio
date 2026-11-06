@@ -231,9 +231,17 @@ export const projects: Project[] = [
                                 {
                                     type: 'text',
                                     paragraphs: [
-                                        'Ik heb de app gebouwd, zowel de front-end als de back-end. De werknaam is nu Smaakmanipulate. De flow uit sprint 1 werkt nu echt: de Stijlspiegel herkent je, maakt een lichaamsscan en past je feed daarop aan.',
+                                        'Ik heb mijn Figma-design uit sprint 1 gerealiseerd als werkende app, zowel de front-end als de back-end. De werknaam is nu Smaakmanipulate. De flow uit sprint 1 werkt nu echt: de Stijlspiegel herkent je, maakt een lichaamsscan en past je feed daarop aan.',
                                     ],
                                 },
+                                {
+                                    type: 'text',
+                                    lead: 'Figma-design.',
+                                    paragraphs: [
+                                        'Dit is het design uit Figma waar ik vanuit ben gegaan. Hieronder per scherm hoe het in de werkende app is geworden.',
+                                    ],
+                                },
+                                { type: 'image-wide', image: darkTechImages.uitgebreidDesign },
                                 {
                                     type: 'text',
                                     lead: 'Welkomstscherm.',
@@ -342,22 +350,6 @@ export const projects: Project[] = [
                                     items: [
                                         { value: '14/16', label: 'testers willen de spiegel verticaal (2 horizontaal)' },
                                         { value: '12/16', label: 'zouden de bedieningsknoppen onder de spiegel plaatsen (2 links, 2 rechts)' },
-                                    ],
-                                },
-                            ],
-                        },
-                        {
-                            id: 'sprint-2-conclusies',
-                            title: '3. Conclusies voor sprint 3',
-                            blocks: [
-                                {
-                                    type: 'list',
-                                    items: [
-                                        'Maak het dark-verhaal zichtbaar in de installatie zelf. Het dashboard in de app laat de manipulatie wel zien, maar testers van de spiegel zagen dat niet.',
-                                        'Verbind spiegel en app. Twee testers vroegen om een analyse van hun uiterlijk, en dat is precies wat de stijlscan in de app doet. Die koppeling moet tijdens de ervaring duidelijk worden.',
-                                        'Laat producten op de gebruiker zien en geef meer keuze plus een reactie na elke keuze.',
-                                        'Stem aanbevelingen af op wie er voor de spiegel staat.',
-                                        'Fysiek: verticale opstelling, knoppen onder de spiegel in plaats van een toetsenbord.',
                                     ],
                                 },
                             ],
