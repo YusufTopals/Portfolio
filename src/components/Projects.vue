@@ -49,6 +49,7 @@
               {{ project.title }}
             </h3>
             <p v-if="project.subtitle" class="mt-1 text-sm text-cream/50">{{ project.subtitle }}</p>
+            <p v-if="project.status" class="mt-2 text-xs text-cream/40">{{ project.status }}</p>
 
             <p class="mb-5 mt-3 leading-relaxed text-cream/60">
               {{ project.description }}

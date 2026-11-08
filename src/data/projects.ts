@@ -19,8 +19,50 @@ export type SprintBlock =
     | { type: 'bars'; title: string; unit: string; items: BarItem[] }
     /** Kleine stat-blokjes naast elkaar, bijv. "14/16" */
     | { type: 'stats'; title?: string; items: StatItem[] }
-    /** Opsomming, bijv. conclusies */
-    | { type: 'list'; items: string[] }
+    /** 2 of 3 afbeeldingen naast elkaar (desktop), gestapeld op mobiel; staand formaat */
+    | { type: 'image-row'; images: ProjectImage[] }
+    /** Genummerde opsomming; een item kan een vetgedrukte aanloop hebben */
+    | { type: 'list'; title?: string; items: (string | ListItem)[] }
+    /** Procesblok bovenaan een sectie: Wat / Waarom / Hoe / Resultaat */
+    | { type: 'process'; what: string; why: string; how: string; result: string }
+    /** Feedback-loop: verbeterpunt uit vorige sprint → wat ik deed → wat de test liet zien */
+    | { type: 'loop'; title: string; columns: [string, string, string]; rows: LoopRow[] }
+    /** Korte, anonieme citaten */
+    | { type: 'quotes'; title?: string; items: string[] }
+    /** Inzicht → actie voor de volgende sprint */
+    | { type: 'insights'; title: string; columns: [string, string]; rows: InsightRow[] }
+
+export interface ListItem {
+    lead: string
+    text: string
+}
+
+export interface LoopRow {
+    from: string
+    did: string
+    /** Leeg = nog niet getest */
+    result?: string
+}
+
+export interface InsightRow {
+    insight: string
+    action: string
+}
+
+/** Compacte kaart bovenaan een sprint */
+export interface SprintOverview {
+    goal: string
+    role: string
+    methods: string
+    result: string
+}
+
+/** Fase in de procestijdlijn; target = id van de bijbehorende sectie */
+export interface TimelinePhase {
+    label: string
+    text: string
+    target: string
+}
 
 export interface BarItem {
     label: string
@@ -48,7 +90,14 @@ export interface Sprint {
     number: number
     /** 'done' = gepubliceerd, 'soon' = getoond als "binnenkort" in de navigatie */
     status: 'done' | 'soon'
+    /** Titel naast "Sprint N", bijv. "Van design naar werkend prototype" */
+    title?: string
+    /** Eenvoudig doel-blok (Sprint 1) */
     goal?: string
+    /** Uitgebreid overzicht: doel, rol, methodes, resultaat (vervangt goal) */
+    overview?: SprintOverview
+    /** Procestijdlijn met fases die naar secties linken */
+    timeline?: TimelinePhase[]
     sections?: SprintSection[]
 }
 
@@ -62,6 +111,8 @@ export interface Project {
     /** Als gezet: project heeft een eigen detailpagina op /projects/:slug */
     slug?: string
     subtitle?: string
+    /** Korte voortgangsregel op de projectkaart, bijv. "In ontwikkeling – Sprint 2 van 4" */
+    status?: string
     thumbnail?: ProjectImage
     detail?: ProjectDetail
 }
@@ -121,6 +172,21 @@ const darkTechImages = {
         'Dashboard met beïnvloedingsscore en gebruikte tactieken',
         1600, 1243,
     ),
+    storyUi: darkTechImg(
+        'sprint2-userstory-ui.jpg',
+        'User story: simpele, interactieve en uniforme UI voor de spiegel',
+        1184, 1390,
+    ),
+    storyFrontend: darkTechImg(
+        'sprint2-userstory-frontend.jpg',
+        'User story: frontend opzetten in Vue',
+        1208, 1364,
+    ),
+    storyVragenlijst: darkTechImg(
+        'sprint2-userstory-vragenlijst.jpg',
+        'User story: vragenlijst voor Society 5.0',
+        1210, 1360,
+    ),
     prototype2: darkTechImg(
         'sprint1-fysiek-prototype-2.jpg',
         'Kartonnen schaalmodel van de winkelruimte met zitbank voor de spiegel',
@@ -133,13 +199,14 @@ export const projects: Project[] = [
         slug: 'dark-tech-semester-1',
         title: 'Dark Tech – Semester 1',
         subtitle: 'Smaakmanipulatie',
+        status: 'In ontwikkeling – Sprint 2 van 4',
         description: 'Een installatie en app die laten zien hoe makkelijk je smaak te sturen is – via herhaling, sociale bevestiging en een spiegel die meekijkt.',
         technologies: ['UX/UI Design', 'Prototyping', 'User Testing', 'Dark Patterns'],
         category: 'Design',
         thumbnail: darkTechImages.eersteDesign,
         detail: {
             heading: 'Dark Tech – Semester 1: Smaakmanipulatie',
-            seoDescription: 'Devlog van Smaakmanipulatie (Dark Tech, semester 1): een spiegel-installatie en werkende app die laten zien hoe makkelijk je smaak te sturen is, getest met 21 bezoekers op Society.',
+            seoDescription: 'Devlog van Smaakmanipulatie (Dark Tech, semester 1): van user stories in GitLab naar een werkende app en spiegel-installatie, getest met 21 bezoekers op Society 5.0.',
             intro: [
                 'Dit is de devlog van mijn bijdrage aan het schoolproject Smaakmanipulatie, onderdeel van Dark Tech in semester 1. Het project bestaat uit een fysieke installatie en een app, en loopt in vier sprints. Per sprint laat ik zien wat ik heb gemaakt, getest en geleerd.',
                 'Het idee: we laten mensen ervaren hoe hun smaak in kleding gemanipuleerd kan worden – via herhaling en sociale bevestiging. Iets wat je eerst lelijk vindt, ga je na honderd keer zien toch mooi vinden. Aan het eind krijgt de bezoeker inzicht in hoe hij gemanipuleerd is.',
@@ -222,23 +289,68 @@ export const projects: Project[] = [
                 {
                     number: 2,
                     status: 'done',
-                    goal: 'Het design uit sprint 1 omzetten naar een werkende app (front-end en back-end) en het prototype testen met echte bezoekers op Society.',
+                    title: 'Van design naar werkend prototype',
+                    overview: {
+                        goal: 'Het werk opdelen in user stories, het design uit sprint 1 omzetten naar een werkende app (front-end en back-end), en het prototype testen met echte bezoekers op Society 5.0 met een vragenlijst die ik zelf heb gemaakt.',
+                        role: 'User stories uitwerken, front-end en back-end van de app bouwen, vragenlijst voor de usertest maken, feedback analyseren.',
+                        methods: 'User stories (GitLab), prototyping, usertest op locatie, vragenlijst, thematische analyse van open antwoorden.',
+                        result: 'Een werkende app met 5 kernschermen, getest door 21 bezoekers, met concrete acties voor sprint 3.',
+                    },
+                    timeline: [
+                        { label: 'Plannen', text: 'User stories opstellen', target: 'sprint-2-plannen' },
+                        { label: 'Bouwen', text: 'De app realiseren', target: 'sprint-2-bouwen' },
+                        { label: 'Testvoorbereiding', text: 'Vragenlijst maken', target: 'sprint-2-vragenlijst' },
+                        { label: 'Testen', text: 'Usertest op Society 5.0', target: 'sprint-2-testen' },
+                        { label: 'Analyseren', text: 'Feedback ordenen en conclusies trekken', target: 'sprint-2-analyseren' },
+                    ],
                     sections: [
                         {
-                            id: 'sprint-2-app',
-                            title: '1. De app gerealiseerd',
+                            id: 'sprint-2-plannen',
+                            title: '1. Plannen: user stories',
                             blocks: [
                                 {
-                                    type: 'text',
-                                    paragraphs: [
-                                        'Ik heb mijn Figma-design uit sprint 1 gerealiseerd als werkende app, zowel de front-end als de back-end. De werknaam is nu Smaakmanipulate. De flow uit sprint 1 werkt nu echt: de Stijlspiegel herkent je, maakt een lichaamsscan en past je feed daarop aan.',
-                                    ],
+                                    type: 'process',
+                                    what: 'Het werk voor deze sprint vastleggen in user stories.',
+                                    why: 'Met vijf mensen aan één product moet voor iedereen duidelijk zijn wat er af moet zijn en wanneer iets echt klaar is.',
+                                    how: 'User stories in GitLab (project extreme-profiling), elk met een vaste opbouw.',
+                                    result: 'Een backlog waar de hele groep mee aan de slag kon.',
                                 },
                                 {
                                     type: 'text',
-                                    lead: 'Figma-design.',
                                     paragraphs: [
-                                        'Dit is het design uit Figma waar ik vanuit ben gegaan. Hieronder per scherm hoe het in de werkende app is geworden.',
+                                        'We zijn de sprint begonnen met het opstellen van user stories in GitLab. Elke story heeft een vaste opbouw: user story, beschrijving, requirements, acceptatiecriteria en een Definition of Done. Die laatste is voor elke story hetzelfde: geen storingen, het product werkt zoals omschreven, het werk is in standaard Nederlands of Engels geschreven, en een medestudent heeft het gereviewd.',
+                                        'Ik werkte onder andere aan deze stories:',
+                                    ],
+                                },
+                                {
+                                    type: 'list',
+                                    items: [
+                                        { lead: 'Nep-ervaring & UI:', text: '"Als gebruiker wil ik een simpele, interactieve en uniforme UI, zodat ik zonder moeite alle functies van de spiegel kan ervaren." De UI moet eruitzien alsof de functies van de spiegel werken, met ruimte om echte functionaliteit later te integreren. Eerste onderdeel af: een idle-scherm met animatie.' },
+                                        { lead: 'Frontend opzetten:', text: 'het Vue-framework (TypeScript) opzetten met voorbeeldbestanden, zodat de rest van de groep meteen aan de front-end kon werken.' },
+                                        { lead: 'Vragenlijst:', text: 'een vragenlijst voor Society 5.0, zodat testers feedback kunnen geven waarmee we een betere versie maken.' },
+                                    ],
+                                },
+                                {
+                                    type: 'image-row',
+                                    images: [darkTechImages.storyUi, darkTechImages.storyFrontend, darkTechImages.storyVragenlijst],
+                                },
+                            ],
+                        },
+                        {
+                            id: 'sprint-2-bouwen',
+                            title: '2. Bouwen: de app gerealiseerd',
+                            blocks: [
+                                {
+                                    type: 'process',
+                                    what: 'Het design uit sprint 1 omzetten naar een werkende app.',
+                                    why: 'Op Society 5.0 moesten bezoekers de ervaring echt kunnen doorlopen.',
+                                    how: 'Front-end in Vue met TypeScript, plus een back-end. Ik heb de schermen uit het sprint 1-design één voor één gebouwd en de feedback uit de guerrilla test meegenomen.',
+                                    result: '5 werkende kernschermen onder de werknaam Smaakmanipulate.',
+                                },
+                                {
+                                    type: 'text',
+                                    paragraphs: [
+                                        'Ik heb de app gebouwd, zowel de front-end als de back-end. De flow uit sprint 1 werkt nu echt: de Stijlspiegel herkent je, maakt een lichaamsscan en past je feed daarop aan.',
                                     ],
                                 },
                                 { type: 'image-wide', image: darkTechImages.uitgebreidDesign },
@@ -278,21 +390,90 @@ export const projects: Project[] = [
                                     type: 'text',
                                     lead: 'Dashboard.',
                                     paragraphs: [
-                                        'Nieuw in deze sprint en een direct antwoord op twee verbeterpunten uit sprint 1: er werd geen bewustzijn gecreëerd en er waren geen statistieken. Het dashboard toont een live beïnvloedingsscore, momenten van beïnvloeding, gedeelde datapunten en welke tactieken er op je zijn gebruikt (onzekerheid uit je scan, score onder vrienden, sociale druk, exclusieve spiegelprijs).',
+                                        'Nieuw in deze sprint. Het toont een live beïnvloedingsscore, momenten van beïnvloeding, gedeelde datapunten en welke tactieken er op je zijn gebruikt (onzekerheid uit je scan, score onder vrienden, sociale druk, exclusieve spiegelprijs).',
                                     ],
                                 },
                                 { type: 'image-wide', image: darkTechImages.sprint2Dashboard },
+                                {
+                                    type: 'loop',
+                                    title: 'Van sprint 1 naar sprint 2',
+                                    columns: ['Verbeterpunt uit sprint 1', 'Wat ik deed in sprint 2', 'Wat de test liet zien'],
+                                    rows: [
+                                        { from: 'Nergens in de app wordt bewustzijn gecreëerd', did: 'Dashboard dat laat zien welke tactieken op je zijn gebruikt', result: 'De dark kant kwam bij de spiegel nog niet over (6 testers)' },
+                                        { from: 'Statistieken zijn nergens terug te zien', did: 'Dashboard met beïnvloedingsscore, momenten en datapunten' },
+                                        { from: 'Fysiek prototype onduidelijk zonder toelichting', did: 'Echte spiegel met ingebouwd scherm en camera', result: 'Spiegel werd het meest gewaardeerd (9 testers)' },
+                                    ],
+                                },
                             ],
                         },
                         {
-                            id: 'sprint-2-usertest',
-                            title: '2. Usertest op Society',
+                            id: 'sprint-2-vragenlijst',
+                            title: '3. Testvoorbereiding: de vragenlijst',
                             blocks: [
+                                {
+                                    type: 'process',
+                                    what: 'Een vragenlijst voor de usertest op Society 5.0.',
+                                    why: 'Open feedback van echte bezoekers verzamelen, en daarnaast keuzes over het fysieke ontwerp onderbouwen met data.',
+                                    how: 'Eisen uit de user story: de vragen gaan over het project, minimaal drie vragen, open vragen. Aangevuld met twee keuzevragen over het ontwerp van de spiegel.',
+                                    result: '3 open vragen en 2 keuzevragen.',
+                                },
+                                {
+                                    type: 'text',
+                                    paragraphs: ['Voor de test op Society 5.0 heb ik de vragenlijst gemaakt:'],
+                                },
+                                {
+                                    type: 'list',
+                                    items: [
+                                        'Wat vond je goed aan de ervaring?',
+                                        'Wat vond je minder goed aan de ervaring?',
+                                        'Hoe zou jij het anders doen?',
+                                        'Welke oriëntatie zou je fijner vinden om hem thuis te hebben? (verticaal / horizontaal)',
+                                        'Waar zou je de knoppen om te bewegen plaatsen als ze op de spiegel zitten? (onder / links / rechts)',
+                                    ],
+                                },
                                 {
                                     type: 'text',
                                     paragraphs: [
-                                        'Op Society hebben 21 bezoekers het prototype getest: de spiegel met ingebouwd scherm en camera, waarop je accessoires kiest. Daarna vulden ze een formulier in met drie open vragen en twee keuzevragen. Hieronder staan de antwoorden gegroepeerd per thema.',
+                                        'De open vragen geven ruimte voor wat wij zelf niet hadden bedacht. De twee keuzevragen gaan direct over het fysieke ontwerp, zodat we die keuzes op data kunnen baseren in plaats van op onze eigen voorkeur.',
                                     ],
+                                },
+                            ],
+                        },
+                        {
+                            id: 'sprint-2-testen',
+                            title: '4. Testen: usertest op Society 5.0',
+                            blocks: [
+                                {
+                                    type: 'process',
+                                    what: 'Het prototype laten testen door bezoekers van Society 5.0.',
+                                    why: 'Testen met mensen die het project niet kennen, net als bij de guerrilla test in sprint 1, maar nu met een werkend prototype en een grotere groep.',
+                                    how: 'Bezoekers doorliepen de ervaring met de spiegel (ingebouwd scherm en camera, accessoires kiezen) en vulden daarna de vragenlijst in.',
+                                    result: '21 ingevulde vragenlijsten.',
+                                },
+                                {
+                                    type: 'quotes',
+                                    title: 'Wat testers zeiden',
+                                    items: [
+                                        'Ik was duidelijk in beeld. De spiegel gaf mij een persoonlijk advies.',
+                                        'Het verhaal wat jullie met het prototype willen vertellen is mij nog niet helemaal duidelijk.',
+                                        'Er lijkt niet te worden gekeken naar wat ik aan heb en gejudged erop.',
+                                        'Wekt mijn irritatie op. \'Ik bepaal het zelf wel.\'',
+                                        'Would like to see the products on me.',
+                                        'Moet je echt stimuleren dat iemand nog meer koopt?',
+                                    ],
+                                },
+                            ],
+                        },
+                        {
+                            id: 'sprint-2-analyseren',
+                            title: '5. Analyseren: van feedback naar inzichten',
+                            blocks: [
+                                {
+                                    type: 'process',
+                                    what: 'De 21 antwoorden ordenen tot bruikbare inzichten.',
+                                    why: 'Losse antwoorden zijn lastig om op te sturen; patronen laten zien wat het belangrijkst is.',
+                                    how: 'Elk open antwoord gelezen, gegroepeerd per thema en per thema geteld hoeveel testers het noemden. De keuzevragen geteld.',
+                                    result: 'Een top-3 aan problemen en concrete acties voor sprint 3.',
                                 },
                                 {
                                     type: 'bars',
@@ -320,12 +501,6 @@ export const projects: Project[] = [
                                     ],
                                 },
                                 {
-                                    type: 'text',
-                                    paragraphs: [
-                                        'Opvallend: één tester raakte geïrriteerd ("ik bepaal het zelf wel"). Dat is precies de weerstand tegen beïnvloeding waar het project over gaat.',
-                                    ],
-                                },
-                                {
                                     type: 'bars',
                                     title: 'Suggesties van testers',
                                     unit: 'aantal testers',
@@ -341,22 +516,48 @@ export const projects: Project[] = [
                                 {
                                     type: 'text',
                                     paragraphs: [
-                                        'Een tester vroeg ook of je mensen wel moet stimuleren om nog meer te kopen (duurzaamheid).',
+                                        'Opvallend: één tester raakte geïrriteerd ("ik bepaal het zelf wel"). Dat is precies de weerstand tegen beïnvloeding waar het project over gaat. Een andere tester vroeg of je mensen wel moet stimuleren om nog meer te kopen.',
                                     ],
                                 },
                                 {
                                     type: 'stats',
                                     title: 'Keuzevragen',
                                     items: [
-                                        { value: '14/16', label: 'testers willen de spiegel verticaal (2 horizontaal)' },
-                                        { value: '12/16', label: 'zouden de bedieningsknoppen onder de spiegel plaatsen (2 links, 2 rechts)' },
+                                        { value: '14/16', label: 'wil de spiegel verticaal' },
+                                        { value: '12/16', label: 'wil de knoppen onder de spiegel' },
+                                    ],
+                                },
+                                {
+                                    type: 'insights',
+                                    title: 'Inzicht → actie voor sprint 3',
+                                    columns: ['Inzicht', 'Actie in sprint 3'],
+                                    rows: [
+                                        { insight: 'Het dashboard laat de manipulatie zien, maar testers van de spiegel zagen dat niet', action: 'Het dark-verhaal zichtbaar maken in de installatie zelf' },
+                                        { insight: 'Twee testers vroegen om een analyse van hun uiterlijk, en dat is precies wat de stijlscan in de app doet', action: 'Spiegel en app tijdens de ervaring zichtbaar aan elkaar koppelen' },
+                                        { insight: 'Testers wilden producten op zichzelf zien en een reactie na hun keuze', action: 'Producten op de gebruiker tonen, meer keuze en feedback na elke keuze' },
+                                        { insight: 'Aanbevelingen pasten niet altijd bij de persoon', action: 'Aanbevelingen afstemmen op wie er voor de spiegel staat' },
+                                        { insight: '14/16 verticaal, 12/16 knoppen onder', action: 'Verticale opstelling met knoppen onder de spiegel in plaats van een toetsenbord' },
+                                    ],
+                                },
+                            ],
+                        },
+                        {
+                            id: 'sprint-2-geleerd',
+                            title: 'Wat ik leerde deze sprint',
+                            blocks: [
+                                {
+                                    type: 'list',
+                                    items: [
+                                        'Een werkend en mooi prototype is nog geen overgebracht verhaal: de spiegel kreeg de meeste complimenten, maar het grootste kritiekpunt was dat de dark kant niet overkwam.',
+                                        'Door user stories met vaste acceptatiecriteria en een Definition of Done was helder wat "af" betekende, ook voor het werk van groepsgenoten.',
+                                        'Open vragen gaven inzichten die we zelf niet hadden bedacht (zoals AR en duurzaamheid); de keuzevragen gaven harde onderbouwing voor ontwerpkeuzes.',
                                     ],
                                 },
                             ],
                         },
                     ],
                 },
-                // Sprint 3–4: zet status op 'done' en vul goal + sections (zelfde vorm als Sprint 1 en 2).
+                // Sprint 3–4: zet status op 'done' en vul title, overview, timeline en sections (zelfde vorm als Sprint 2).
                 // Afbeeldingen: zet ze in public/projects/dark-tech/ en voeg ze toe aan darkTechImages hierboven.
                 { number: 3, status: 'soon' },
                 { number: 4, status: 'soon' },

@@ -90,11 +90,17 @@
                 data-spy
                 class="scroll-mt-28"
             >
-              <h2 class="display-heading mb-8 text-5xl md:text-7xl">
+              <h2 class="display-heading text-5xl md:text-7xl" :class="sprint.title ? 'mb-4' : 'mb-8'">
                 <WordsPullUp :text="`Sprint ${sprint.number}`" />
               </h2>
+              <p v-if="sprint.title" v-reveal class="mb-8 text-xl text-cream/60 md:text-2xl">{{ sprint.title }}</p>
 
-              <div v-if="sprint.goal" v-reveal class="panel relative mb-16 overflow-hidden p-6 md:p-8">
+              <div v-if="sprint.overview || sprint.timeline" class="mb-16 space-y-10">
+                <SprintOverview v-if="sprint.overview" :overview="sprint.overview" />
+                <ProcessTimeline v-if="sprint.timeline" :phases="sprint.timeline" />
+              </div>
+
+              <div v-else-if="sprint.goal" v-reveal class="panel relative mb-16 overflow-hidden p-6 md:p-8">
                 <h3 class="eyebrow relative mb-3">Doel van deze sprint</h3>
                 <p class="relative text-lg leading-relaxed text-cream/90 md:text-xl">{{ sprint.goal }}</p>
               </div>
@@ -236,12 +242,120 @@
                       </div>
 
                       <!-- Opsomming -->
-                      <ol v-else-if="block.type === 'list'" v-reveal class="max-w-3xl space-y-4">
-                        <li v-for="(item, j) in block.items" :key="item.substring(0, 40)" class="flex gap-4 text-lg leading-relaxed text-cream/70">
-                          <span class="shrink-0 tabular-nums text-cream/40">{{ String(j + 1).padStart(2, '0') }}</span>
-                          <span>{{ item }}</span>
-                        </li>
-                      </ol>
+                      <div v-else-if="block.type === 'list'" v-reveal class="max-w-3xl">
+                        <h4 v-if="block.title" class="eyebrow mb-4">{{ block.title }}</h4>
+                        <ol class="space-y-4">
+                          <li v-for="(item, j) in block.items" :key="j" class="flex gap-4 text-lg leading-relaxed text-cream/70">
+                            <span class="shrink-0 tabular-nums text-cream/40">{{ String(j + 1).padStart(2, '0') }}</span>
+                            <span v-if="typeof item === 'string'">{{ item }}</span>
+                            <span v-else><strong class="font-medium text-cream">{{ item.lead }}</strong> {{ item.text }}</span>
+                          </li>
+                        </ol>
+                      </div>
+
+                      <!-- Staande afbeeldingen naast elkaar (desktop) / gestapeld (mobiel) -->
+                      <div
+                          v-else-if="block.type === 'image-row'"
+                          class="grid gap-4"
+                          :class="block.images.length === 3 ? 'sm:grid-cols-3' : 'sm:grid-cols-2'"
+                      >
+                        <button
+                            v-for="(image, j) in block.images"
+                            :key="image.src"
+                            v-reveal="j * 120"
+                            type="button"
+                            class="group block overflow-hidden rounded-2xl border border-cream/10 bg-white md:rounded-[1.5rem]"
+                            :aria-label="`Vergroot afbeelding: ${image.alt}`"
+                            @click="lightboxImage = image"
+                        >
+                          <img
+                              :src="image.src"
+                              :alt="image.alt"
+                              :width="image.width"
+                              :height="image.height"
+                              loading="lazy"
+                              decoding="async"
+                              class="aspect-[6/7] h-full w-full object-cover object-top transition-transform duration-700 ease-out-expo group-hover:scale-[1.03]"
+                          />
+                        </button>
+                      </div>
+
+                      <!-- Wat / Waarom / Hoe / Resultaat -->
+                      <dl v-else-if="block.type === 'process'" v-reveal class="panel grid gap-6 p-6 sm:grid-cols-2 md:p-8 xl:grid-cols-4">
+                        <div v-for="part in processParts(block)" :key="part.label">
+                          <dt class="eyebrow mb-2">{{ part.label }}</dt>
+                          <dd class="leading-relaxed text-cream/80">{{ part.value }}</dd>
+                        </div>
+                      </dl>
+
+                      <!-- Feedback-loop: vorige sprint → wat ik deed → testresultaat -->
+                      <div v-else-if="block.type === 'loop'" v-reveal>
+                        <h4 class="mb-4 text-lg font-medium">{{ block.title }}</h4>
+                        <div class="mb-3 hidden grid-cols-[1fr_auto_1fr_auto_1fr] gap-4 px-6 md:grid" aria-hidden="true">
+                          <span class="eyebrow">{{ block.columns[0] }}</span><span class="w-4" />
+                          <span class="eyebrow">{{ block.columns[1] }}</span><span class="w-4" />
+                          <span class="eyebrow">{{ block.columns[2] }}</span>
+                        </div>
+                        <ul class="space-y-3">
+                          <li
+                              v-for="row in block.rows"
+                              :key="row.from"
+                              class="panel grid gap-4 p-6 md:grid-cols-[1fr_auto_1fr_auto_1fr] md:items-start"
+                          >
+                            <div>
+                              <p class="eyebrow mb-1 md:sr-only">{{ block.columns[0] }}</p>
+                              <p class="text-cream/70">{{ row.from }}</p>
+                            </div>
+                            <ArrowIcon />
+                            <div>
+                              <p class="eyebrow mb-1 md:sr-only">{{ block.columns[1] }}</p>
+                              <p class="text-cream">{{ row.did }}</p>
+                            </div>
+                            <ArrowIcon />
+                            <div>
+                              <p class="eyebrow mb-1 md:sr-only">{{ block.columns[2] }}</p>
+                              <p :class="row.result ? 'text-cream/80' : 'text-cream/35'">{{ row.result ?? 'Nog niet getest' }}</p>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
+
+                      <!-- Quote-kaarten -->
+                      <div v-else-if="block.type === 'quotes'" v-reveal>
+                        <h4 v-if="block.title" class="eyebrow mb-4">{{ block.title }}</h4>
+                        <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+                          <li v-for="quote in block.items" :key="quote" class="panel flex flex-col justify-between gap-6 p-6">
+                            <blockquote class="text-lg leading-relaxed text-cream/85">“{{ quote }}”</blockquote>
+                            <p class="text-sm text-cream/40">Tester</p>
+                          </li>
+                        </ul>
+                      </div>
+
+                      <!-- Inzicht → actie -->
+                      <div v-else-if="block.type === 'insights'" v-reveal>
+                        <h4 class="mb-4 text-lg font-medium">{{ block.title }}</h4>
+                        <div class="mb-3 hidden grid-cols-[1fr_auto_1fr] gap-4 px-6 md:grid" aria-hidden="true">
+                          <span class="eyebrow">{{ block.columns[0] }}</span><span class="w-4" />
+                          <span class="eyebrow">{{ block.columns[1] }}</span>
+                        </div>
+                        <ul class="space-y-3">
+                          <li
+                              v-for="row in block.rows"
+                              :key="row.insight"
+                              class="panel grid gap-4 p-6 md:grid-cols-[1fr_auto_1fr] md:items-start"
+                          >
+                            <div>
+                              <p class="eyebrow mb-1 md:sr-only">{{ block.columns[0] }}</p>
+                              <p class="text-cream/70">{{ row.insight }}</p>
+                            </div>
+                            <ArrowIcon />
+                            <div>
+                              <p class="eyebrow mb-1 md:sr-only">{{ block.columns[1] }}</p>
+                              <p class="font-medium text-cream">{{ row.action }}</p>
+                            </div>
+                          </li>
+                        </ul>
+                      </div>
                     </template>
                   </div>
                 </article>
@@ -278,8 +392,11 @@ import WordsPullUp from '@/components/ui/WordsPullUp.vue'
 import PageHeader from '@/components/ui/PageHeader.vue'
 import PillButton from '@/components/ui/PillButton.vue'
 import Lightbox from '@/components/ui/Lightbox.vue'
+import SprintOverview from '@/components/devlog/SprintOverview.vue'
+import ProcessTimeline from '@/components/devlog/ProcessTimeline.vue'
+import ArrowIcon from '@/components/devlog/ArrowIcon.vue'
 import { findProject } from '@/data/projects'
-import type { ProjectImage } from '@/data/projects'
+import type { ProjectImage, SprintBlock } from '@/data/projects'
 import { setSeoMeta } from '@/composables/useSeoMeta'
 
 const props = defineProps<{ slug: string }>()
@@ -291,6 +408,13 @@ const lightboxImage = ref<ProjectImage | null>(null)
 
 // Balkbreedte: aantal t.o.v. het hoogste aantal in dezelfde lijst
 const maxCount = (items: { count: number }[]) => Math.max(...items.map((item) => item.count))
+
+const processParts = (block: Extract<SprintBlock, { type: 'process' }>) => [
+  { label: 'Wat', value: block.what },
+  { label: 'Waarom', value: block.why },
+  { label: 'Hoe', value: block.how },
+  { label: 'Resultaat', value: block.result },
+]
 
 watch(project, (current) => {
   if (current?.detail) {
