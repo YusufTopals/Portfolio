@@ -542,6 +542,28 @@ export const projects: Project[] = [
                             ],
                         },
                         {
+                            id: 'sprint-2-medestudenten',
+                            title: 'Feedback van medestudenten',
+                            blocks: [
+                                {
+                                    type: 'feedback',
+                                    positive: {
+                                        title: 'Wat goed was',
+                                        items: [
+                                            'De spiegel is mooi',
+                                            'De portfoliosite is duidelijk',
+                                        ],
+                                    },
+                                    attention: {
+                                        title: 'Verbeterpunt',
+                                        items: [
+                                            'Meer proces tonen, dus mijn portfolio uitbreiden',
+                                        ],
+                                    },
+                                },
+                            ],
+                        },
+                        {
                             id: 'sprint-2-geleerd',
                             title: 'Wat ik leerde deze sprint',
                             blocks: [
