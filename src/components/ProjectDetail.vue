@@ -311,21 +311,16 @@
                       <!-- Feedback-loop: vorige sprint → wat ik deed → testresultaat -->
                       <div v-else-if="block.type === 'loop'" v-reveal>
                         <h4 class="mb-4 text-lg font-medium">{{ block.title }}</h4>
-                        <div
-                            class="mb-3 hidden gap-4 px-6 md:grid"
-                            :class="block.columns.length === 3 ? 'grid-cols-[1fr_auto_1fr_auto_1fr]' : 'grid-cols-[1fr_auto_1fr]'"
-                            aria-hidden="true"
-                        >
+                        <div class="mb-3 hidden grid-cols-[1fr_auto_1fr_auto_1fr] gap-4 px-6 md:grid" aria-hidden="true">
                           <span class="eyebrow">{{ block.columns[0] }}</span><span class="w-4" />
-                          <span class="eyebrow">{{ block.columns[1] }}</span>
-                          <template v-if="block.columns.length === 3"><span class="w-4" /><span class="eyebrow">{{ block.columns[2] }}</span></template>
+                          <span class="eyebrow">{{ block.columns[1] }}</span><span class="w-4" />
+                          <span class="eyebrow">{{ block.columns[2] }}</span>
                         </div>
                         <ul class="space-y-3">
                           <li
                               v-for="row in block.rows"
                               :key="row.from"
-                              class="panel grid gap-4 p-6 md:items-start"
-                              :class="block.columns.length === 3 ? 'md:grid-cols-[1fr_auto_1fr_auto_1fr]' : 'md:grid-cols-[1fr_auto_1fr]'"
+                              class="panel grid gap-4 p-6 md:grid-cols-[1fr_auto_1fr_auto_1fr] md:items-start"
                           >
                             <div>
                               <p class="eyebrow mb-1 md:sr-only">{{ block.columns[0] }}</p>
@@ -336,13 +331,11 @@
                               <p class="eyebrow mb-1 md:sr-only">{{ block.columns[1] }}</p>
                               <p class="text-cream">{{ row.did }}</p>
                             </div>
-                            <template v-if="block.columns.length === 3">
-                              <ArrowIcon />
-                              <div>
-                                <p class="eyebrow mb-1 md:sr-only">{{ block.columns[2] }}</p>
-                                <p :class="row.result ? 'text-cream/80' : 'text-cream/35'">{{ row.result ?? 'Nog niet getest' }}</p>
-                              </div>
-                            </template>
+                            <ArrowIcon />
+                            <div>
+                              <p class="eyebrow mb-1 md:sr-only">{{ block.columns[2] }}</p>
+                              <p :class="row.result ? 'text-cream/80' : 'text-cream/35'">{{ row.result ?? 'Nog niet getest' }}</p>
+                            </div>
                           </li>
                         </ul>
                       </div>
@@ -360,7 +353,7 @@
 
                       <!-- Inzicht → actie -->
                       <div v-else-if="block.type === 'insights'" v-reveal>
-                        <h4 v-if="block.title" class="mb-4 text-lg font-medium">{{ block.title }}</h4>
+                        <h4 class="mb-4 text-lg font-medium">{{ block.title }}</h4>
                         <div class="mb-3 hidden grid-cols-[1fr_auto_1fr] gap-4 px-6 md:grid" aria-hidden="true">
                           <span class="eyebrow">{{ block.columns[0] }}</span><span class="w-4" />
                           <span class="eyebrow">{{ block.columns[1] }}</span>
@@ -383,56 +376,6 @@
                           </li>
                         </ul>
                       </div>
-                      <!-- Design → Eindproduct: even hoog naast elkaar, gestapeld op mobiel -->
-                      <div v-else-if="block.type === 'compare'" class="flex flex-col gap-4 md:flex-row md:items-center">
-                        <figure
-                            v-for="(item, j) in [{ label: 'Design', image: block.design }, { label: 'Eindproduct', image: block.result }]"
-                            :key="item.image.src"
-                            v-reveal="j * 120"
-                            class="min-w-0 md:[flex:var(--ratio)_1_0%]"
-                            :class="j === 0 ? 'order-1' : 'order-3'"
-                            :style="{ '--ratio': (item.image.width ?? 1) / (item.image.height ?? 1) }"
-                        >
-                          <figcaption class="eyebrow mb-2">{{ item.label }}</figcaption>
-                          <button
-                              type="button"
-                              class="group block w-full overflow-hidden rounded-2xl border border-cream/10 bg-ink md:rounded-[1.5rem]"
-                              :aria-label="`Vergroot afbeelding: ${item.image.alt}`"
-                              @click="lightboxImage = item.image"
-                          >
-                            <img
-                                :src="item.image.src"
-                                :alt="item.image.alt"
-                                :width="item.image.width"
-                                :height="item.image.height"
-                                loading="lazy"
-                                decoding="async"
-                                class="mx-auto h-auto max-h-[70vh] w-auto max-w-full transition-transform duration-700 ease-out-expo group-hover:scale-[1.02] md:max-h-none md:w-full"
-                            />
-                          </button>
-                        </figure>
-                        <div class="order-2 flex justify-center md:mt-6" aria-hidden="true"><ArrowIcon /></div>
-                      </div>
-
-                      <!-- Genummerde stappen: 4 per rij op desktop, verticaal op mobiel -->
-                      <div v-else-if="block.type === 'steps'" v-reveal>
-                        <h4 v-if="block.title" class="eyebrow mb-5">{{ block.title }}</h4>
-                        <ol class="grid gap-0 md:grid-cols-4 md:gap-x-4 md:gap-y-8">
-                          <li
-                              v-for="(item, j) in block.items"
-                              :key="j"
-                              class="relative border-l border-cream/15 pb-6 pl-8 last:pb-0 md:border-l-0 md:border-t md:pb-0 md:pl-0 md:pr-3 md:pt-8"
-                          >
-                            <span
-                                class="absolute -left-3 top-0 flex h-6 w-6 items-center justify-center rounded-full border border-cream/25 bg-ink text-[11px] font-medium tabular-nums text-cream md:-top-3 md:left-0"
-                                aria-hidden="true"
-                            >{{ j + 1 }}</span>
-                            <p v-if="typeof item === 'string'" class="font-medium text-cream">{{ item }}</p>
-                            <p v-else class="leading-snug text-cream/60"><span class="block font-medium text-cream">{{ item.lead.replace(/[:,]$/, '') }}</span>{{ item.text }}</p>
-                          </li>
-                        </ol>
-                      </div>
-
                       <!-- Open feedbackvraag aan de lezer -->
                       <div v-else-if="block.type === 'question'" v-reveal class="panel p-6 md:p-8">
                         <p class="eyebrow mb-3">Jouw idee?</p>
@@ -540,7 +483,6 @@ const sprintImages = (sprint: Sprint): ProjectImage[] => {
   const images = (sprint.sections ?? []).flatMap((section) => section.blocks.flatMap((block) => {
     if (block.type === 'image-wide') return [block.image]
     if (block.type === 'image-pair' || block.type === 'image-row') return block.images
-    if (block.type === 'compare') return [block.design, block.result]
     return []
   }))
   return images.filter((image, i) => images.findIndex((other) => other.src === image.src) === i)
