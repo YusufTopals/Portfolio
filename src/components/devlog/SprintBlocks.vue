@@ -242,10 +242,25 @@
       <!-- Tussenkopje binnen een stap, bijv. een scherm van de app -->
       <h4 v-else-if="block.type === 'heading'" v-reveal class="pt-4 text-xl font-medium tracking-tight text-cream">{{ block.text }}</h4>
 
-      <!-- User story: klein label met de tekst als quote -->
-      <figure v-else-if="block.type === 'story'" v-reveal class="max-w-3xl border-l border-cream/20 pl-5">
+      <!-- User story: screenshot uit GitLab met klein label -->
+      <figure v-else-if="block.type === 'story'" v-reveal class="max-w-xl">
         <figcaption class="eyebrow mb-2">User story</figcaption>
-        <blockquote class="text-lg leading-relaxed text-cream/85">“{{ block.text }}”</blockquote>
+        <button
+            type="button"
+            class="group block w-full overflow-hidden rounded-2xl border border-cream/10 bg-white md:rounded-[1.5rem]"
+            :aria-label="`Vergroot afbeelding: ${block.image.alt}`"
+            @click="emit('open', block.image)"
+        >
+          <img
+              :src="block.image.src"
+              :alt="block.image.alt"
+              :width="block.image.width"
+              :height="block.image.height"
+              loading="lazy"
+              decoding="async"
+              class="h-auto w-full transition-transform duration-700 ease-out-expo group-hover:scale-[1.02]"
+          />
+        </button>
       </figure>
 
       <!-- Design naast eindproduct (gestapeld op mobiel), niet bijgesneden -->

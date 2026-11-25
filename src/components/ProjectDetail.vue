@@ -297,6 +297,7 @@ const blockImages = (block: SprintBlock): ProjectImage[] => {
   if (block.type === 'image-wide') return [block.image]
   if (block.type === 'image-pair' || block.type === 'image-row') return block.images
   if (block.type === 'compare') return [block.design, block.result]
+  if (block.type === 'story') return [block.image]
   return []
 }
 const sprintImages = (sprint: Sprint): ProjectImage[] => {

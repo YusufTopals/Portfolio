@@ -11,8 +11,8 @@ export type SprintBlock =
     | { type: 'text'; paragraphs: string[]; lead?: string }
     /** Klein tussenkopje binnen een stap, bijv. een scherm van de app */
     | { type: 'heading'; text: string }
-    /** User story: klein label "User story" met de tekst als quote */
-    | { type: 'story'; text: string }
+    /** User story als screenshot (uit GitLab), met klein label "User story" */
+    | { type: 'story'; image: ProjectImage }
     /** Breed overzicht op volle contentbreedte, klikbaar (lightbox) */
     | { type: 'image-wide'; image: ProjectImage }
     /** Twee foto's: naast elkaar op desktop, onder elkaar op mobiel */
@@ -253,6 +253,21 @@ const darkTechImages = {
         'sprint3-eind-checkout.jpg',
         'Eindproduct van het laatste scherm: checkout met totaal € 0,00',
         1818, 1342,
+    ),
+    storyScorescherm: darkTechImg(
+        'story-scorescherm.jpg',
+        'User story in GitLab: scherm na het afronden van de scan',
+        1198, 1302,
+    ),
+    storyOverzichtsscherm: darkTechImg(
+        'story-overzichtsscherm.jpg',
+        'User story in GitLab: overzichtsscherm',
+        1202, 1312,
+    ),
+    storyErvaring: darkTechImg(
+        'story-ervaring.jpg',
+        'User story in GitLab: ervaring samenstellen',
+        1190, 1306,
     ),
     prototype2: darkTechImg(
         'sprint1-fysiek-prototype-2.jpg',
@@ -704,10 +719,7 @@ export const projects: Project[] = [
                             title: 'Scorescherm na de scan',
                             blocks: [
                                 { type: 'compare', design: darkTechImages.sprint3DesignScore, result: darkTechImages.sprint3EindScore },
-                                {
-                                    type: 'story',
-                                    text: 'Als gebruiker wil ik na mijn scan een scherm die mij een score geeft, zodat ik weet op wat ik advies ga ontvangen en wat mijn outfit op dat moment scoort.',
-                                },
+                                { type: 'story', image: darkTechImages.storyScorescherm },
                                 {
                                     type: 'text',
                                     paragraphs: ['Na de scan zie je een score voor je outfit, korte punten over wat goed is en wat beter kan, en een knop om verder te gaan naar de aanbevelingen.'],
@@ -719,10 +731,7 @@ export const projects: Project[] = [
                             title: 'Overzicht en checkout aan het eind',
                             blocks: [
                                 { type: 'compare', design: darkTechImages.sprint3DesignOverzicht, result: darkTechImages.sprint3EindCheckout },
-                                {
-                                    type: 'story',
-                                    text: 'Als gebruiker wil ik aan het einde van mijn ervaring een overzichtsscherm, zodat ik een overzicht te zien krijg van hetgeen wat ik aanbevolen heb gekregen.',
-                                },
+                                { type: 'story', image: darkTechImages.storyOverzichtsscherm },
                                 {
                                     type: 'text',
                                     paragraphs: ['Tijdens de ervaring kun je aanbevelingen accepteren of afwijzen. Aan het eind zie je je score, een kleine foto van je scan en alle aanbevelingen die je hebt gekozen. Het laatste scherm is een checkout: "That\'s it for today!", totaal € 0,00, verwachte levertijd 4 minuten.'],
@@ -733,10 +742,7 @@ export const projects: Project[] = [
                             id: 'sprint-3-ervaring',
                             title: 'De hele ervaring aan elkaar koppelen',
                             blocks: [
-                                {
-                                    type: 'story',
-                                    text: 'Als gebruiker wil ik een volledige ervaring meemaken, zodat ik het bericht van de provocatype kan begrijpen.',
-                                },
+                                { type: 'story', image: darkTechImages.storyErvaring },
                                 {
                                     type: 'text',
                                     paragraphs: ['Hier hoefde ik niks nieuws te maken, maar moest ik zorgen dat alles samenwerkt. De flow:'],
