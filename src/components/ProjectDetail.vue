@@ -19,7 +19,26 @@
         <h1 class="display-heading max-w-5xl text-4xl sm:text-5xl md:text-7xl">
           <WordsPullUp :text="detail.heading" />
         </h1>
-        <div v-reveal="200" class="mt-6 flex flex-wrap gap-2">
+        <template v-if="detail.summary">
+          <p v-reveal="150" class="mt-6 max-w-3xl text-xl leading-relaxed text-cream md:text-2xl">{{ detail.summary.tagline }}</p>
+          <div v-reveal="200" class="mt-6 flex flex-wrap items-center gap-2">
+            <span v-for="tag in detail.summary.tags" :key="tag" class="tag">{{ tag }}</span>
+          </div>
+          <div v-if="detail.summary.codeLink" v-reveal="250" class="mt-8">
+            <PillButton :href="detail.summary.codeLink">Bekijk de code</PillButton>
+          </div>
+          <video
+              v-if="detail.summary.video"
+              v-reveal="300"
+              :src="detail.summary.video.src"
+              :poster="detail.summary.video.poster"
+              class="mt-10 w-full rounded-2xl border border-cream/10 bg-ink md:rounded-[2rem]"
+              controls
+              playsinline
+              preload="metadata"
+          />
+        </template>
+        <div v-else v-reveal="200" class="mt-6 flex flex-wrap gap-2">
           <span v-for="tech in project.technologies" :key="tech" class="tag">{{ tech }}</span>
         </div>
         <div v-reveal="300" class="mt-8 max-w-3xl space-y-4 text-lg leading-relaxed text-cream/70">
@@ -98,6 +117,7 @@
               <div v-if="sprint.overview || sprint.timeline" class="mb-16 space-y-10">
                 <SprintOverview v-if="sprint.overview" :overview="sprint.overview" />
                 <ProcessTimeline v-if="sprint.timeline" :phases="sprint.timeline" />
+                <IterationBlock v-if="sprint.iterations?.length" :iterations="sprint.iterations" />
               </div>
 
               <div v-else-if="sprint.goal" v-reveal class="panel relative mb-16 overflow-hidden p-6 md:p-8">
@@ -356,9 +376,57 @@
                           </li>
                         </ul>
                       </div>
+                      <!-- Open feedbackvraag aan de lezer -->
+                      <div v-else-if="block.type === 'question'" v-reveal class="panel p-6 md:p-8">
+                        <p class="eyebrow mb-3">Jouw idee?</p>
+                        <p class="mb-6 text-xl leading-relaxed text-cream md:text-2xl">{{ block.question }}</p>
+                        <PillButton to="/contact">Laat het me weten</PillButton>
+                      </div>
                     </template>
+
+                    <!-- Bekijk de code -->
+                    <ul v-if="section.codeLinks?.length" v-reveal class="flex flex-wrap gap-2">
+                      <li v-for="link in section.codeLinks" :key="link.href">
+                        <a
+                            :href="link.href"
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="inline-flex items-center gap-2 rounded-full border border-cream/15 px-4 py-2 text-sm text-cream/80 transition-colors hover:border-cream/40 hover:text-cream"
+                        >
+                          <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" d="M8 9l-4 3 4 3M16 9l4 3-4 3M13.5 6l-3 12" />
+                          </svg>
+                          Bekijk de code: {{ link.label }}
+                        </a>
+                      </li>
+                    </ul>
                   </div>
                 </article>
+              </div>
+
+              <!-- Fotogalerij: alle beelden van deze sprint -->
+              <div v-if="sprint.gallery !== false && sprintImages(sprint).length > 1" v-reveal class="mt-16 md:mt-20">
+                <h3 class="eyebrow mb-4">Alle beelden van sprint {{ sprint.number }}</h3>
+                <ul class="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+                  <li v-for="image in sprintImages(sprint)" :key="image.src">
+                    <button
+                        type="button"
+                        class="group block w-full overflow-hidden rounded-xl border border-cream/10 bg-ink md:rounded-2xl"
+                        :aria-label="`Vergroot afbeelding: ${image.alt}`"
+                        @click="lightboxImage = image"
+                    >
+                      <img
+                          :src="image.src"
+                          :alt="image.alt"
+                          :width="image.width"
+                          :height="image.height"
+                          loading="lazy"
+                          decoding="async"
+                          class="aspect-[4/3] w-full object-cover object-top transition-transform duration-700 ease-out-expo group-hover:scale-105"
+                      />
+                    </button>
+                  </li>
+                </ul>
               </div>
             </section>
 
@@ -395,8 +463,9 @@ import Lightbox from '@/components/ui/Lightbox.vue'
 import SprintOverview from '@/components/devlog/SprintOverview.vue'
 import ProcessTimeline from '@/components/devlog/ProcessTimeline.vue'
 import ArrowIcon from '@/components/devlog/ArrowIcon.vue'
+import IterationBlock from '@/components/devlog/IterationBlock.vue'
 import { findProject } from '@/data/projects'
-import type { ProjectImage, SprintBlock } from '@/data/projects'
+import type { ProjectImage, Sprint, SprintBlock } from '@/data/projects'
 import { setSeoMeta } from '@/composables/useSeoMeta'
 
 const props = defineProps<{ slug: string }>()
@@ -408,6 +477,16 @@ const lightboxImage = ref<ProjectImage | null>(null)
 
 // Balkbreedte: aantal t.o.v. het hoogste aantal in dezelfde lijst
 const maxCount = (items: { count: number }[]) => Math.max(...items.map((item) => item.count))
+
+// Alle beelden uit de secties van een sprint, zonder dubbele
+const sprintImages = (sprint: Sprint): ProjectImage[] => {
+  const images = (sprint.sections ?? []).flatMap((section) => section.blocks.flatMap((block) => {
+    if (block.type === 'image-wide') return [block.image]
+    if (block.type === 'image-pair' || block.type === 'image-row') return block.images
+    return []
+  }))
+  return images.filter((image, i) => images.findIndex((other) => other.src === image.src) === i)
+}
 
 const processParts = (block: Extract<SprintBlock, { type: 'process' }>) => [
   { label: 'Wat', value: block.what },

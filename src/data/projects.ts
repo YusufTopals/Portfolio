@@ -31,6 +31,8 @@ export type SprintBlock =
     | { type: 'quotes'; title?: string; items: string[] }
     /** Inzicht → actie voor de volgende sprint */
     | { type: 'insights'; title: string; columns: [string, string]; rows: InsightRow[] }
+    /** Open feedbackvraag aan de lezer, met knop naar de contactpagina */
+    | { type: 'question'; question: string }
 
 export interface ListItem {
     lead: string
@@ -53,6 +55,8 @@ export interface InsightRow {
 export interface SprintOverview {
     goal: string
     role: string
+    /** "Wat we gebruikten": hardware en software (lege lijsten worden niet getoond) */
+    tools?: { hardware: string[]; software: string[] }
     methods: string
     result: string
 }
@@ -84,6 +88,19 @@ export interface SprintSection {
     id: string
     title: string
     blocks: SprintBlock[]
+    /** Links naar bestanden in de repo, getoond als "Bekijk de code" onderaan de sectie */
+    codeLinks?: CodeLink[]
+}
+
+export interface CodeLink {
+    label: string
+    href: string
+}
+
+/** Eén meetpunt door de sprints heen ("voor → na"); voeg per sprint een stap toe */
+export interface Iteration {
+    label: string
+    steps: { sprint: number; text: string }[]
 }
 
 export interface Sprint {
@@ -98,7 +115,11 @@ export interface Sprint {
     overview?: SprintOverview
     /** Procestijdlijn met fases die naar secties linken */
     timeline?: TimelinePhase[]
+    /** Iteraties met cijfers: voor → na */
+    iterations?: Iteration[]
     sections?: SprintSection[]
+    /** Fotogalerij onderaan de sprint; standaard aan (alle beelden uit de secties) */
+    gallery?: boolean
 }
 
 export interface Project {
@@ -120,8 +141,21 @@ export interface Project {
 export interface ProjectDetail {
     heading: string
     seoDescription: string
+    /** Samenvatting direct onder de titel */
+    summary?: ProjectSummary
     intro: string[]
     sprints: Sprint[]
+}
+
+export interface ProjectSummary {
+    /** Eén zin die het project samenvat */
+    tagline: string
+    /** Kleine labels; vervangen de technologieën onder de titel */
+    tags: string[]
+    /** Link naar de code (knop "Bekijk de code"); leeg = geen knop */
+    codeLink?: string
+    /** Demovideo; leeg = niet getoond */
+    video?: { src: string; poster?: string }
 }
 
 const darkTechImg = (file: string, alt: string, width: number, height: number): ProjectImage => ({
@@ -206,6 +240,11 @@ export const projects: Project[] = [
         thumbnail: darkTechImages.eersteDesign,
         detail: {
             heading: 'Dark Tech – Semester 1: Smaakmanipulatie',
+            summary: {
+                tagline: 'Een spiegel die je ongemerkt scant en je smaak in kleding probeert te sturen, en je aan het eind laat zien hoe.',
+                tags: ['Vue', 'TypeScript', 'Camera', 'Spiegel', 'Usertesting', 'Dark Tech'],
+                // AANVULLEN: codeLink: 'https://…' (GitLab-repo) en video: { src: '/projects/dark-tech/demo.mp4' }
+            },
             seoDescription: 'Devlog van Smaakmanipulatie (Dark Tech, semester 1): van user stories in GitLab naar een werkende app en spiegel-installatie, getest met 21 bezoekers op Society 5.0.',
             intro: [
                 'Dit is de devlog van mijn bijdrage aan het schoolproject Smaakmanipulatie, onderdeel van Dark Tech in semester 1. Het project bestaat uit een fysieke installatie en een app, en loopt in vier sprints. Per sprint laat ik zien wat ik heb gemaakt, getest en geleerd.',
@@ -293,6 +332,11 @@ export const projects: Project[] = [
                     overview: {
                         goal: 'Het werk opdelen in user stories, het design uit sprint 1 omzetten naar een werkende app (front-end en back-end), en het prototype testen met echte bezoekers op Society 5.0 met een vragenlijst die ik zelf heb gemaakt.',
                         role: 'User stories uitwerken, front-end en back-end van de app bouwen, vragenlijst voor de usertest maken, feedback analyseren.',
+                        tools: {
+                            // AANVULLEN: computer / Raspberry Pi en overige onderdelen
+                            hardware: ['Spiegel met ingebouwd scherm', 'Camera', 'Toetsenbord voor de bediening'],
+                            software: ['Vue met TypeScript (front-end)', 'Back-end van de app', 'GitLab (user stories)'],
+                        },
                         methods: 'User stories (GitLab), prototyping, usertest op locatie, vragenlijst, thematische analyse van open antwoorden.',
                         result: 'Een werkende app met 5 kernschermen, getest door 21 bezoekers, met concrete acties voor sprint 3.',
                     },
@@ -302,6 +346,15 @@ export const projects: Project[] = [
                         { label: 'Testvoorbereiding', text: 'Vragenlijst maken', target: 'sprint-2-vragenlijst' },
                         { label: 'Testen', text: 'Usertest op Society 5.0', target: 'sprint-2-testen' },
                         { label: 'Analyseren', text: 'Feedback ordenen en conclusies trekken', target: 'sprint-2-analyseren' },
+                    ],
+                    iterations: [
+                        {
+                            label: 'Bewustzijn over manipulatie',
+                            steps: [
+                                { sprint: 1, text: 'Ontbrak volledig' },
+                                { sprint: 2, text: 'Dashboard gebouwd, maar bij de spiegel zeiden nog 6 van de 21 testers dat de dark kant niet overkwam' },
+                            ],
+                        },
                     ],
                     sections: [
                         {
@@ -574,6 +627,23 @@ export const projects: Project[] = [
                                         'Door user stories met vaste acceptatiecriteria en een Definition of Done was helder wat "af" betekende, ook voor het werk van groepsgenoten.',
                                         'Open vragen gaven inzichten die we zelf niet hadden bedacht (zoals AR en duurzaamheid); de keuzevragen gaven harde onderbouwing voor ontwerpkeuzes.',
                                     ],
+                                },
+                            ],
+                        },
+                        {
+                            id: 'sprint-2-tegenaan',
+                            title: 'Waar ik nog tegenaan loop',
+                            blocks: [
+                                {
+                                    type: 'text',
+                                    paragraphs: [
+                                        'De dark kant komt bij de spiegel nog niet over. In de app laat het dashboard de manipulatie wel zien, maar 6 van de 21 testers merkten er bij de spiegel niets van. Hier loop ik vast: maak ik het te duidelijk, dan werkt de manipulatie niet meer. Maak ik het te subtiel, dan merkt niemand het.',
+                                        'De aanbevelingen pasten ook niet altijd bij wie er voor de spiegel stond, zoals oorbellen voor een man. Dat werkte gewoon nog niet.',
+                                    ],
+                                },
+                                {
+                                    type: 'question',
+                                    question: 'Heb jij een idee hoe je manipulatie kunt laten voelen zonder dat het meteen duidelijk is?',
                                 },
                             ],
                         },
