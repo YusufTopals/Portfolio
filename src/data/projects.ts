@@ -269,6 +269,16 @@ const darkTechImages = {
         'User story in GitLab: ervaring samenstellen',
         1190, 1306,
     ),
+    sprint3FeedbackScore: darkTechImg(
+        'sprint3-feedback-scorescherm.jpg',
+        'Chat met een groepsgenoot: haar en mijn ontwerp van het scorescherm naast elkaar, met haar feedback',
+        1898, 1272,
+    ),
+    sprint3FeedbackOverzicht: darkTechImg(
+        'sprint3-feedback-overzicht.jpg',
+        'Chat met een groepsgenoot: feedback op het overzichtsscherm en haar aangepaste checkout met witte achtergronden',
+        1876, 1198,
+    ),
     prototype2: darkTechImg(
         'sprint1-fysiek-prototype-2.jpg',
         'Kartonnen schaalmodel van de winkelruimte met zitbank voor de spiegel',
@@ -712,7 +722,7 @@ export const projects: Project[] = [
                     number: 3,
                     status: 'done',
                     title: 'Alle onderdelen samenvoegen tot één ervaring',
-                    intro: 'In sprint 3 werkte ik aan drie user stories: het scorescherm na de scan, het overzichtsscherm aan het eind, en het samenvoegen van alle onderdelen tot één ervaring van begin tot eind. Er waren veel losse onderdelen, en die moesten nu één geheel worden.',
+                    intro: 'In sprint 3 werkte ik aan drie user stories: het scorescherm na de scan, het overzichtsscherm aan het eind, en het samenvoegen van alle onderdelen tot één ervaring van begin tot eind. Er waren veel losse onderdelen, en die moesten nu één geheel worden. Elk design deelde ik eerst met de groep of met iemand uit de groep. Samen wisselden we gedachtes en ideeën uit. Daardoor heb ik schermen aangepast, omdat sommige keuzes achteraf minder logisch waren.',
                     sections: [
                         {
                             id: 'sprint-3-scorescherm',
@@ -723,6 +733,16 @@ export const projects: Project[] = [
                                 {
                                     type: 'text',
                                     paragraphs: ['Na de scan zie je een score voor je outfit, korte punten over wat goed is en wat beter kan, en een knop om verder te gaan naar de aanbevelingen.'],
+                                },
+                                { type: 'heading', text: 'Feedback uit de groep' },
+                                { type: 'image-wide', image: darkTechImages.sprint3FeedbackScore },
+                                {
+                                    type: 'text',
+                                    paragraphs: [
+                                        'Een groepsgenoot had in de les ook het resultaatscherm herontworpen. Ik heb haar mijn design gestuurd, zodat we ze naast elkaar konden leggen.',
+                                        'Zij vond mijn versie vooral mooi in de stijl van de spiegel en niet te overweldigend. Wel is het scherm klein, dus het gezichtje kon groter.',
+                                        'Ze vroeg zich ook af hoe we aan een afbeelding van de complete outfit komen. Een LLM kan iets verkeerds genereren, waardoor dat misschien niet stabiel werkt.',
+                                    ],
                                 },
                             ],
                         },
@@ -735,6 +755,16 @@ export const projects: Project[] = [
                                 {
                                     type: 'text',
                                     paragraphs: ['Tijdens de ervaring kun je aanbevelingen accepteren of afwijzen. Aan het eind zie je je score, een kleine foto van je scan en alle aanbevelingen die je hebt gekozen. Het laatste scherm is een checkout: "That\'s it for today!", totaal € 0,00, verwachte levertijd 4 minuten.'],
+                                },
+                                { type: 'heading', text: 'Feedback uit de groep' },
+                                { type: 'image-wide', image: darkTechImages.sprint3FeedbackOverzicht },
+                                {
+                                    type: 'text',
+                                    paragraphs: [
+                                        'Ook het overzichtsscherm heb ik eerst gedeeld. Mijn groepsgenoot vond het er netjes uitzien, maar ze vroeg zich af of het herhalen van de outfit score niet overbodig is. Ook kon de afbeelding van de gebruiker verkeerd zijn, en zat er nog geen prijs bij.',
+                                        'Ze had mijn ontwerp aangepast tot een checkout met prijzen en witte achtergronden, omdat donkergrijs misschien niet zichtbaar is.',
+                                        'Ik legde uit dat de afbeelding de foto van de eerste scan is, en geen foto van de gebruiker met de items erop. Daarna spraken we af om de goede aspecten van beide ontwerpen te combineren. De witte achtergrond vond ik een goed idee.',
+                                    ],
                                 },
                             ],
                         },
