@@ -1,6 +1,6 @@
 <template>
   <div class="min-h-screen px-4 pb-20 pt-28 sm:px-6 md:px-10 md:pt-36">
-    <div v-if="project && detail" class="mx-auto max-w-6xl">
+    <div v-if="project && detail" class="mx-auto max-w-5xl">
       <router-link
           to="/projects"
           class="mb-10 inline-flex items-center gap-2 text-sm text-cream/60 transition-colors hover:text-cream"
@@ -11,8 +11,8 @@
         Alle projecten
       </router-link>
 
-      <!-- Header -->
-      <header class="mb-12 md:mb-16">
+      <!-- 1. Projectsamenvatting -->
+      <header class="mb-20 md:mb-28">
         <div v-reveal class="mb-6 flex flex-wrap items-center gap-2">
           <span class="eyebrow mr-2">Devlog</span>
         </div>
@@ -24,423 +24,231 @@
           <div v-reveal="200" class="mt-6 flex flex-wrap items-center gap-2">
             <span v-for="tag in detail.summary.tags" :key="tag" class="tag">{{ tag }}</span>
           </div>
-          <div v-if="detail.summary.codeLink" v-reveal="250" class="mt-8">
-            <PillButton :href="detail.summary.codeLink">Bekijk de code</PillButton>
-          </div>
-          <video
-              v-if="detail.summary.video"
-              v-reveal="300"
-              :src="detail.summary.video.src"
-              :poster="detail.summary.video.poster"
-              class="mt-10 w-full rounded-2xl border border-cream/10 bg-ink md:rounded-[2rem]"
-              controls
-              playsinline
-              preload="metadata"
-          />
         </template>
         <div v-else v-reveal="200" class="mt-6 flex flex-wrap gap-2">
           <span v-for="tech in project.technologies" :key="tech" class="tag">{{ tech }}</span>
         </div>
-        <div v-reveal="300" class="mt-8 max-w-3xl space-y-4 text-lg leading-relaxed text-cream/70">
-          <p v-for="paragraph in detail.intro" :key="paragraph.substring(0, 40)">{{ paragraph }}</p>
-        </div>
+
+        <!-- Infokaart -->
+        <dl v-if="detail.info?.length" v-reveal="250" class="panel mt-10 grid grid-cols-2 gap-6 p-6 md:grid-cols-4 md:p-8">
+          <div v-for="item in detail.info" :key="item.label">
+            <dt class="eyebrow mb-1.5">{{ item.label }}</dt>
+            <dd class="leading-snug text-cream">{{ item.value }}</dd>
+          </div>
+        </dl>
+
+        <!-- Beste beelden -->
+        <ul v-if="detail.highlights?.length" v-reveal="300" class="mt-4 grid grid-cols-3 gap-3 md:grid-cols-6">
+          <li v-for="image in detail.highlights" :key="image.src">
+            <button
+                type="button"
+                class="group block w-full overflow-hidden rounded-xl border border-cream/10 bg-ink md:rounded-2xl"
+                :aria-label="`Vergroot afbeelding: ${image.alt}`"
+                @click="lightboxImage = image"
+            >
+              <img
+                  :src="image.src"
+                  :alt="image.alt"
+                  :width="image.width"
+                  :height="image.height"
+                  loading="lazy"
+                  decoding="async"
+                  class="aspect-square w-full object-cover object-top transition-transform duration-700 ease-out-expo group-hover:scale-105"
+              />
+            </button>
+          </li>
+        </ul>
+
+        <video
+            v-if="detail.summary?.video"
+            v-reveal
+            :src="detail.summary.video.src"
+            :poster="detail.summary.video.poster"
+            class="mt-10 w-full rounded-2xl border border-cream/10 bg-ink md:rounded-[2rem]"
+            controls
+            playsinline
+            preload="metadata"
+        />
       </header>
 
-      <!-- Sprint-navigatie (mobiel / tablet) -->
-      <nav class="-mx-4 mb-12 overflow-x-auto px-4 lg:hidden" aria-label="Sprints">
-        <ol class="flex gap-2">
-          <li v-for="sprint in detail.sprints" :key="sprint.number" class="shrink-0">
-            <router-link
-                v-if="sprint.status === 'done'"
-                :to="{ hash: `#sprint-${sprint.number}` }"
-                class="block rounded-full bg-cream px-4 py-2 text-sm font-medium text-ink"
-            >
-              Sprint {{ sprint.number }}
-            </router-link>
-            <span v-else class="block rounded-full border border-dashed border-cream/15 px-4 py-2 text-sm text-cream/40">
-              Sprint {{ sprint.number }} · binnenkort
-            </span>
-          </li>
-        </ol>
-      </nav>
+      <div class="space-y-20 md:space-y-28">
+        <!-- 2. Over het project -->
+        <section id="over-het-project" class="scroll-mt-28">
+          <h2 v-reveal class="mb-6 text-3xl font-medium tracking-tight md:text-4xl">Over het project</h2>
+          <div v-reveal class="max-w-3xl space-y-4 text-lg leading-relaxed text-cream/70">
+            <p v-for="paragraph in detail.intro" :key="paragraph.substring(0, 40)">{{ paragraph }}</p>
+          </div>
+        </section>
 
-      <div class="grid gap-12 lg:grid-cols-[220px_minmax(0,1fr)] lg:gap-16">
-        <!-- Inhoudsopgave (desktop) -->
-        <aside class="hidden lg:block">
-          <nav class="sticky top-28" aria-label="Inhoudsopgave">
-            <p class="eyebrow mb-4">Inhoud</p>
-            <ol class="space-y-5 border-l border-cream/10">
-              <li v-for="sprint in detail.sprints" :key="sprint.number">
-                <template v-if="sprint.status === 'done'">
-                  <router-link
-                      :to="{ hash: `#sprint-${sprint.number}` }"
-                      class="-ml-px block border-l pl-4 text-sm font-medium transition-colors"
-                      :class="activeId === `sprint-${sprint.number}` ? 'border-cream text-cream' : 'border-transparent text-cream/80 hover:text-cream'"
-                  >
-                    Sprint {{ sprint.number }}
-                  </router-link>
-                  <ol class="mt-2 space-y-2">
-                    <li v-for="section in sprint.sections" :key="section.id">
-                      <router-link
-                          :to="{ hash: `#${section.id}` }"
-                          class="-ml-px block border-l pl-6 text-sm leading-snug transition-colors"
-                          :class="activeId === section.id ? 'border-cream text-cream' : 'border-transparent text-cream/50 hover:text-cream'"
-                      >
-                        {{ section.title }}
-                      </router-link>
-                    </li>
-                  </ol>
-                </template>
-                <span v-else class="flex items-center gap-2 pl-4 text-sm text-cream/35">
+        <!-- 3. Mijn rol -->
+        <section v-if="detail.role" id="mijn-rol" class="scroll-mt-28">
+          <h2 v-reveal class="mb-6 text-3xl font-medium tracking-tight md:text-4xl">Mijn rol</h2>
+          <p v-reveal class="max-w-3xl text-lg leading-relaxed text-cream/70">{{ detail.role }}</p>
+        </section>
+
+        <!-- 4. Wat we gebruikten -->
+        <section v-if="toolGroups.length" id="wat-we-gebruikten" class="scroll-mt-28">
+          <h2 v-reveal class="mb-6 text-3xl font-medium tracking-tight md:text-4xl">Wat we gebruikten</h2>
+          <div v-reveal class="panel grid gap-6 p-6 sm:grid-cols-2 md:p-8">
+            <div v-for="group in toolGroups" :key="group.label">
+              <p class="eyebrow mb-3">{{ group.label }}</p>
+              <ul class="flex flex-wrap gap-2">
+                <li v-for="tool in group.items" :key="tool" class="tag">{{ tool }}</li>
+              </ul>
+            </div>
+          </div>
+        </section>
+
+        <!-- 5. Hoe het project zich ontwikkelde -->
+        <section id="ontwikkeling" class="scroll-mt-28">
+          <h2 v-reveal class="mb-6 text-3xl font-medium tracking-tight md:text-4xl">Hoe het project zich ontwikkelde</h2>
+          <ol class="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
+            <li v-for="(sprint, i) in detail.sprints" :key="sprint.number" v-reveal="i * 80">
+              <router-link
+                  v-if="sprint.status === 'done'"
+                  :to="{ hash: `#sprint-${sprint.number}` }"
+                  class="panel group flex h-full overflow-hidden transition-colors hover:border-cream/25 sm:flex-col"
+              >
+                <img
+                    v-if="cardFor(sprint.number)?.image"
+                    :src="cardFor(sprint.number)?.image?.src"
+                    :alt="cardFor(sprint.number)?.image?.alt"
+                    :width="cardFor(sprint.number)?.image?.width"
+                    :height="cardFor(sprint.number)?.image?.height"
+                    loading="lazy"
+                    decoding="async"
+                    class="w-28 shrink-0 border-r border-cream/10 object-cover object-top sm:aspect-[4/3] sm:w-full sm:border-b sm:border-r-0"
+                />
+                <div class="flex flex-1 flex-col p-5">
+                  <p class="eyebrow mb-2">Sprint {{ sprint.number }}</p>
+                  <p class="flex-1 leading-snug text-cream">{{ cardFor(sprint.number)?.text ?? sprint.title }}</p>
+                  <span class="mt-4 text-sm text-cream/50 transition-colors group-hover:text-cream">Naar sprint {{ sprint.number }} →</span>
+                </div>
+              </router-link>
+              <div v-else class="flex h-full flex-col justify-between gap-2 rounded-2xl border border-dashed border-cream/15 p-5">
+                <p class="eyebrow">Sprint {{ sprint.number }}</p>
+                <p class="text-cream/40">Binnenkort</p>
+              </div>
+            </li>
+          </ol>
+          <div v-if="detail.iterations?.length" class="mt-10">
+            <IterationBlock :iterations="detail.iterations" />
+          </div>
+        </section>
+
+        <!-- 6. De sprints, met sticky sprint-navigatie -->
+        <div>
+          <nav
+              class="sticky top-0 z-40 -mx-4 mb-12 bg-ink/90 px-4 pb-3 pt-12 backdrop-blur sm:-mx-6 sm:px-6 md:-mx-10 md:px-10 md:pt-16"
+              aria-label="Sprints"
+          >
+            <ol class="flex gap-2 overflow-x-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden">
+              <li v-for="sprint in detail.sprints" :key="sprint.number" class="shrink-0">
+                <router-link
+                    v-if="sprint.status === 'done'"
+                    :to="{ hash: `#sprint-${sprint.number}` }"
+                    class="block rounded-full px-4 py-2 text-sm font-medium transition-colors"
+                    :class="activeSprint === sprint.number ? 'bg-cream text-ink' : 'border border-cream/15 text-cream/70 hover:text-cream'"
+                    :aria-current="activeSprint === sprint.number ? 'true' : undefined"
+                >
                   Sprint {{ sprint.number }}
-                  <span class="rounded-full border border-cream/10 px-2 py-0.5 text-[10px] uppercase tracking-wider">binnenkort</span>
+                </router-link>
+                <span v-else class="block rounded-full border border-dashed border-cream/15 px-4 py-2 text-sm text-cream/40">
+                  Sprint {{ sprint.number }} · binnenkort
                 </span>
               </li>
             </ol>
           </nav>
-        </aside>
 
-        <!-- Sprints -->
-        <div class="min-w-0 space-y-20 md:space-y-28">
-          <template v-for="sprint in detail.sprints" :key="sprint.number">
-            <section
-                v-if="sprint.status === 'done'"
-                :id="`sprint-${sprint.number}`"
-                data-spy
-                class="scroll-mt-28"
-            >
-              <h2 class="display-heading text-5xl md:text-7xl" :class="sprint.title ? 'mb-4' : 'mb-8'">
-                <WordsPullUp :text="`Sprint ${sprint.number}`" />
-              </h2>
-              <p v-if="sprint.title" v-reveal class="mb-8 text-xl text-cream/60 md:text-2xl">{{ sprint.title }}</p>
+          <div class="space-y-24 md:space-y-32">
+            <template v-for="sprint in detail.sprints" :key="sprint.number">
+              <section
+                  v-if="sprint.status === 'done'"
+                  :id="`sprint-${sprint.number}`"
+                  data-spy
+                  :data-sprint="sprint.number"
+                  class="scroll-mt-28"
+              >
+                <!-- a. Titel + inleiding -->
+                <h2 class="display-heading mb-4 text-5xl md:text-7xl">
+                  <WordsPullUp :text="`Sprint ${sprint.number}`" />
+                </h2>
+                <p v-if="sprint.title" v-reveal class="mb-6 text-xl text-cream md:text-2xl">{{ sprint.title }}</p>
+                <p v-if="sprint.intro" v-reveal class="max-w-3xl text-lg leading-relaxed text-cream/70">{{ sprint.intro }}</p>
 
-              <div v-if="sprint.overview || sprint.timeline" class="mb-16 space-y-10">
-                <SprintOverview v-if="sprint.overview" :overview="sprint.overview" />
-                <ProcessTimeline v-if="sprint.timeline" :phases="sprint.timeline" />
-                <IterationBlock v-if="sprint.iterations?.length" :iterations="sprint.iterations" />
-              </div>
+                <!-- b. Genummerde stappen -->
+                <div class="mt-14 space-y-16 md:mt-16 md:space-y-20">
+                  <article
+                      v-for="(section, i) in sprint.sections"
+                      :id="section.id"
+                      :key="section.id"
+                      class="scroll-mt-28"
+                  >
+                    <p v-reveal class="eyebrow mb-2">Stap {{ sprint.number }}.{{ i + 1 }}</p>
+                    <h3 v-reveal class="mb-6 text-2xl font-medium tracking-tight md:text-3xl">{{ section.title }}</h3>
+                    <SprintBlocks :blocks="section.blocks" @open="lightboxImage = $event" />
+                  </article>
+                </div>
 
-              <div v-else-if="sprint.goal" v-reveal class="panel relative mb-16 overflow-hidden p-6 md:p-8">
-                <h3 class="eyebrow relative mb-3">Doel van deze sprint</h3>
-                <p class="relative text-lg leading-relaxed text-cream/90 md:text-xl">{{ sprint.goal }}</p>
-              </div>
-
-              <div class="space-y-16 md:space-y-20">
-                <article
-                    v-for="section in sprint.sections"
-                    :id="section.id"
-                    :key="section.id"
-                    data-spy
-                    class="scroll-mt-28"
+                <!-- c. Terugblik -->
+                <div
+                    v-if="sprint.review?.length"
+                    :id="`sprint-${sprint.number}-terugblik`"
+                    class="mt-16 scroll-mt-28 border-t border-cream/10 pt-12 md:mt-20 md:pt-16"
                 >
-                  <h3 v-reveal class="mb-5 text-2xl font-medium tracking-tight md:text-3xl">{{ section.title }}</h3>
-
-                  <div class="space-y-6">
-                    <template v-for="(block, i) in section.blocks" :key="i">
-                      <!-- Tekst -->
-                      <div v-if="block.type === 'text'" v-reveal class="max-w-3xl space-y-4 text-lg leading-relaxed text-cream/70">
-                        <p v-for="(paragraph, j) in block.paragraphs" :key="paragraph.substring(0, 40)">
-                          <strong v-if="block.lead && j === 0" class="font-medium text-cream">{{ block.lead }}</strong>
-                          {{ paragraph }}
-                        </p>
-                      </div>
-
-                      <!-- Breed overzicht, klikbaar -->
-                      <figure v-else-if="block.type === 'image-wide'" v-reveal>
-                        <button
-                            type="button"
-                            class="group relative block w-full overflow-hidden rounded-2xl border border-cream/10 bg-ink md:rounded-[2rem]"
-                            :aria-label="`Vergroot afbeelding: ${block.image.alt}`"
-                            @click="lightboxImage = block.image"
-                        >
-                          <img
-                              :src="block.image.src"
-                              :alt="block.image.alt"
-                              :width="block.image.width"
-                              :height="block.image.height"
-                              loading="lazy"
-                              decoding="async"
-                              class="h-auto w-full transition-transform duration-700 ease-out-expo group-hover:scale-[1.02]"
-                          />
-                          <span class="absolute bottom-3 right-3 flex items-center gap-2 rounded-full bg-ink/85 px-3 py-1.5 text-xs text-cream backdrop-blur transition-opacity md:opacity-0 md:group-hover:opacity-100 md:group-focus-visible:opacity-100">
-                            <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
-                              <path stroke-linecap="round" stroke-linejoin="round" d="M4 9V4h5M20 9V4h-5M4 15v5h5M20 15v5h-5" />
-                            </svg>
-                            Vergroten
-                          </span>
-                        </button>
-                      </figure>
-
-                      <!-- Twee foto's naast elkaar (desktop) / onder elkaar (mobiel) -->
-                      <div v-else-if="block.type === 'image-pair'" class="grid gap-4 sm:grid-cols-2">
-                        <button
-                            v-for="(image, j) in block.images"
-                            :key="image.src"
-                            v-reveal="j * 120"
-                            type="button"
-                            class="group block overflow-hidden rounded-2xl border border-cream/10 md:rounded-[2rem]"
-                            :aria-label="`Vergroot afbeelding: ${image.alt}`"
-                            @click="lightboxImage = image"
-                        >
-                          <img
-                              :src="image.src"
-                              :alt="image.alt"
-                              :width="image.width"
-                              :height="image.height"
-                              loading="lazy"
-                              decoding="async"
-                              class="aspect-[3/4] h-full w-full object-cover transition-transform duration-700 ease-out-expo group-hover:scale-[1.03]"
-                          />
-                        </button>
-                      </div>
-
-                      <!-- Feedback: wat werkte / verbeterpunten -->
-                      <div v-else-if="block.type === 'feedback'" class="grid gap-4 md:grid-cols-2">
-                        <div v-reveal class="panel border-sage/25 p-6 md:p-8">
-                          <h4 class="mb-5 flex items-center gap-3 text-lg font-medium">
-                            <span class="flex h-8 w-8 items-center justify-center rounded-full bg-sage/15 text-sage" aria-hidden="true">
-                              <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7" />
-                              </svg>
-                            </span>
-                            {{ block.positive.title }}
-                          </h4>
-                          <ul class="space-y-3">
-                            <li v-for="item in block.positive.items" :key="item" class="flex gap-3 text-cream/75">
-                              <span class="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-sage" aria-hidden="true" />
-                              {{ item }}
-                            </li>
-                          </ul>
-                        </div>
-
-                        <div v-reveal="120" class="panel border-clay/25 p-6 md:p-8">
-                          <h4 class="mb-5 flex items-center gap-3 text-lg font-medium">
-                            <span class="flex h-8 w-8 items-center justify-center rounded-full bg-clay/15 text-clay" aria-hidden="true">
-                              <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24">
-                                <path stroke-linecap="round" stroke-linejoin="round" d="M12 8v5m0 3.5v.01" />
-                              </svg>
-                            </span>
-                            {{ block.attention.title }}
-                          </h4>
-                          <ul class="space-y-3">
-                            <li v-for="item in block.attention.items" :key="item" class="flex gap-3 text-cream/75">
-                              <span class="mt-2.5 h-1.5 w-1.5 shrink-0 rounded-full bg-clay" aria-hidden="true" />
-                              {{ item }}
-                            </li>
-                          </ul>
-                        </div>
-                      </div>
-
-                      <!-- Thema's met aantal en balk -->
-                      <div v-else-if="block.type === 'bars'" v-reveal class="panel p-6 md:p-8">
-                        <div class="mb-5 flex items-baseline justify-between gap-4">
-                          <h4 class="text-lg font-medium">{{ block.title }}</h4>
-                          <span class="eyebrow shrink-0">{{ block.unit }}</span>
-                        </div>
-                        <ul class="space-y-4">
-                          <li v-for="item in block.items" :key="item.label">
-                            <div class="flex items-start justify-between gap-4 text-cream/80">
-                              <span>{{ item.label }}</span>
-                              <span class="shrink-0 font-medium tabular-nums text-cream">{{ item.count }}</span>
-                            </div>
-                            <div class="mt-2 h-1.5 w-full rounded-full bg-cream/10" aria-hidden="true">
-                              <div class="h-full rounded-full bg-cream/70" :style="{ width: `${(item.count / maxCount(block.items)) * 100}%` }" />
-                            </div>
-                          </li>
-                        </ul>
-                      </div>
-
-                      <!-- Kleine stat-blokjes -->
-                      <div v-else-if="block.type === 'stats'" v-reveal>
-                        <h4 v-if="block.title" class="eyebrow mb-3">{{ block.title }}</h4>
-                        <div class="grid gap-4 sm:grid-cols-2">
-                          <div v-for="stat in block.items" :key="stat.value + stat.label" class="panel p-6 md:p-8">
-                            <p class="display-heading text-5xl md:text-6xl">{{ stat.value }}</p>
-                            <p class="mt-3 text-cream/70">{{ stat.label }}</p>
-                          </div>
-                        </div>
-                      </div>
-
-                      <!-- Opsomming -->
-                      <div v-else-if="block.type === 'list'" v-reveal class="max-w-3xl">
-                        <h4 v-if="block.title" class="eyebrow mb-4">{{ block.title }}</h4>
-                        <ol class="space-y-4">
-                          <li v-for="(item, j) in block.items" :key="j" class="flex gap-4 text-lg leading-relaxed text-cream/70">
-                            <span class="shrink-0 tabular-nums text-cream/40">{{ String(j + 1).padStart(2, '0') }}</span>
-                            <span v-if="typeof item === 'string'">{{ item }}</span>
-                            <span v-else><strong class="font-medium text-cream">{{ item.lead }}</strong> {{ item.text }}</span>
-                          </li>
-                        </ol>
-                      </div>
-
-                      <!-- Staande afbeeldingen naast elkaar (desktop) / gestapeld (mobiel) -->
-                      <div
-                          v-else-if="block.type === 'image-row'"
-                          class="grid gap-4"
-                          :class="block.images.length === 3 ? 'sm:grid-cols-3' : 'sm:grid-cols-2'"
-                      >
-                        <button
-                            v-for="(image, j) in block.images"
-                            :key="image.src"
-                            v-reveal="j * 120"
-                            type="button"
-                            class="group block overflow-hidden rounded-2xl border border-cream/10 bg-white md:rounded-[1.5rem]"
-                            :aria-label="`Vergroot afbeelding: ${image.alt}`"
-                            @click="lightboxImage = image"
-                        >
-                          <img
-                              :src="image.src"
-                              :alt="image.alt"
-                              :width="image.width"
-                              :height="image.height"
-                              loading="lazy"
-                              decoding="async"
-                              class="aspect-[6/7] h-full w-full object-cover object-top transition-transform duration-700 ease-out-expo group-hover:scale-[1.03]"
-                          />
-                        </button>
-                      </div>
-
-                      <!-- Wat / Waarom / Hoe / Resultaat -->
-                      <dl v-else-if="block.type === 'process'" v-reveal class="panel grid gap-6 p-6 sm:grid-cols-2 md:p-8 xl:grid-cols-4">
-                        <div v-for="part in processParts(block)" :key="part.label">
-                          <dt class="eyebrow mb-2">{{ part.label }}</dt>
-                          <dd class="leading-relaxed text-cream/80">{{ part.value }}</dd>
-                        </div>
-                      </dl>
-
-                      <!-- Feedback-loop: vorige sprint → wat ik deed → testresultaat -->
-                      <div v-else-if="block.type === 'loop'" v-reveal>
-                        <h4 class="mb-4 text-lg font-medium">{{ block.title }}</h4>
-                        <div class="mb-3 hidden grid-cols-[1fr_auto_1fr_auto_1fr] gap-4 px-6 md:grid" aria-hidden="true">
-                          <span class="eyebrow">{{ block.columns[0] }}</span><span class="w-4" />
-                          <span class="eyebrow">{{ block.columns[1] }}</span><span class="w-4" />
-                          <span class="eyebrow">{{ block.columns[2] }}</span>
-                        </div>
-                        <ul class="space-y-3">
-                          <li
-                              v-for="row in block.rows"
-                              :key="row.from"
-                              class="panel grid gap-4 p-6 md:grid-cols-[1fr_auto_1fr_auto_1fr] md:items-start"
-                          >
-                            <div>
-                              <p class="eyebrow mb-1 md:sr-only">{{ block.columns[0] }}</p>
-                              <p class="text-cream/70">{{ row.from }}</p>
-                            </div>
-                            <ArrowIcon />
-                            <div>
-                              <p class="eyebrow mb-1 md:sr-only">{{ block.columns[1] }}</p>
-                              <p class="text-cream">{{ row.did }}</p>
-                            </div>
-                            <ArrowIcon />
-                            <div>
-                              <p class="eyebrow mb-1 md:sr-only">{{ block.columns[2] }}</p>
-                              <p :class="row.result ? 'text-cream/80' : 'text-cream/35'">{{ row.result ?? 'Nog niet getest' }}</p>
-                            </div>
-                          </li>
-                        </ul>
-                      </div>
-
-                      <!-- Quote-kaarten -->
-                      <div v-else-if="block.type === 'quotes'" v-reveal>
-                        <h4 v-if="block.title" class="eyebrow mb-4">{{ block.title }}</h4>
-                        <ul class="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-                          <li v-for="quote in block.items" :key="quote" class="panel flex flex-col justify-between gap-6 p-6">
-                            <blockquote class="text-lg leading-relaxed text-cream/85">“{{ quote }}”</blockquote>
-                            <p class="text-sm text-cream/40">Tester</p>
-                          </li>
-                        </ul>
-                      </div>
-
-                      <!-- Inzicht → actie -->
-                      <div v-else-if="block.type === 'insights'" v-reveal>
-                        <h4 class="mb-4 text-lg font-medium">{{ block.title }}</h4>
-                        <div class="mb-3 hidden grid-cols-[1fr_auto_1fr] gap-4 px-6 md:grid" aria-hidden="true">
-                          <span class="eyebrow">{{ block.columns[0] }}</span><span class="w-4" />
-                          <span class="eyebrow">{{ block.columns[1] }}</span>
-                        </div>
-                        <ul class="space-y-3">
-                          <li
-                              v-for="row in block.rows"
-                              :key="row.insight"
-                              class="panel grid gap-4 p-6 md:grid-cols-[1fr_auto_1fr] md:items-start"
-                          >
-                            <div>
-                              <p class="eyebrow mb-1 md:sr-only">{{ block.columns[0] }}</p>
-                              <p class="text-cream/70">{{ row.insight }}</p>
-                            </div>
-                            <ArrowIcon />
-                            <div>
-                              <p class="eyebrow mb-1 md:sr-only">{{ block.columns[1] }}</p>
-                              <p class="font-medium text-cream">{{ row.action }}</p>
-                            </div>
-                          </li>
-                        </ul>
-                      </div>
-                      <!-- Open feedbackvraag aan de lezer -->
-                      <div v-else-if="block.type === 'question'" v-reveal class="panel p-6 md:p-8">
-                        <p class="eyebrow mb-3">Jouw idee?</p>
-                        <p class="mb-6 text-xl leading-relaxed text-cream md:text-2xl">{{ block.question }}</p>
-                        <PillButton to="/contact">Laat het me weten</PillButton>
-                      </div>
-                    </template>
-
-                    <!-- Bekijk de code -->
-                    <ul v-if="section.codeLinks?.length" v-reveal class="flex flex-wrap gap-2">
-                      <li v-for="link in section.codeLinks" :key="link.href">
-                        <a
-                            :href="link.href"
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            class="inline-flex items-center gap-2 rounded-full border border-cream/15 px-4 py-2 text-sm text-cream/80 transition-colors hover:border-cream/40 hover:text-cream"
-                        >
-                          <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M8 9l-4 3 4 3M16 9l4 3-4 3M13.5 6l-3 12" />
-                          </svg>
-                          Bekijk de code: {{ link.label }}
-                        </a>
-                      </li>
-                    </ul>
+                  <h3 v-reveal class="mb-8 text-2xl font-medium tracking-tight md:text-3xl">Terugblik op sprint {{ sprint.number }}</h3>
+                  <div class="space-y-12">
+                    <div v-for="(part, i) in sprint.review" :key="part.title ?? i">
+                      <h4 v-if="part.title" v-reveal class="mb-5 text-xl font-medium tracking-tight">{{ part.title }}</h4>
+                      <SprintBlocks :blocks="part.blocks" @open="lightboxImage = $event" />
+                    </div>
                   </div>
-                </article>
-              </div>
+                </div>
 
-              <!-- Fotogalerij: alle beelden van deze sprint -->
-              <div v-if="sprint.gallery !== false && sprintImages(sprint).length > 1" v-reveal class="mt-16 md:mt-20">
-                <h3 class="eyebrow mb-4">Alle beelden van sprint {{ sprint.number }}</h3>
-                <ul class="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
-                  <li v-for="image in sprintImages(sprint)" :key="image.src">
-                    <button
-                        type="button"
-                        class="group block w-full overflow-hidden rounded-xl border border-cream/10 bg-ink md:rounded-2xl"
-                        :aria-label="`Vergroot afbeelding: ${image.alt}`"
-                        @click="lightboxImage = image"
-                    >
-                      <img
-                          :src="image.src"
-                          :alt="image.alt"
-                          :width="image.width"
-                          :height="image.height"
-                          loading="lazy"
-                          decoding="async"
-                          class="aspect-[4/3] w-full object-cover object-top transition-transform duration-700 ease-out-expo group-hover:scale-105"
-                      />
-                    </button>
-                  </li>
-                </ul>
-              </div>
-            </section>
+                <!-- d. Fotogalerij: alle beelden van deze sprint -->
+                <div v-if="sprint.gallery !== false && sprintImages(sprint).length > 1" v-reveal class="mt-16 md:mt-20">
+                  <h3 class="eyebrow mb-4">Alle beelden van sprint {{ sprint.number }}</h3>
+                  <ul class="grid grid-cols-2 gap-3 sm:grid-cols-3 lg:grid-cols-4">
+                    <li v-for="image in sprintImages(sprint)" :key="image.src">
+                      <button
+                          type="button"
+                          class="group block w-full overflow-hidden rounded-xl border border-cream/10 bg-ink md:rounded-2xl"
+                          :aria-label="`Vergroot afbeelding: ${image.alt}`"
+                          @click="lightboxImage = image"
+                      >
+                        <img
+                            :src="image.src"
+                            :alt="image.alt"
+                            :width="image.width"
+                            :height="image.height"
+                            loading="lazy"
+                            decoding="async"
+                            class="aspect-[4/3] w-full object-cover object-top transition-transform duration-700 ease-out-expo group-hover:scale-105"
+                        />
+                      </button>
+                    </li>
+                  </ul>
+                </div>
+              </section>
 
-            <!-- Nog niet gepubliceerde sprint -->
-            <section
-                v-else
-                v-reveal
-                class="flex flex-col gap-2 rounded-2xl border border-dashed border-cream/15 p-6 sm:flex-row sm:items-center sm:justify-between md:rounded-[2rem] md:p-8"
-            >
-              <h2 class="text-2xl font-medium tracking-tight text-cream/50">Sprint {{ sprint.number }}</h2>
-              <span class="eyebrow">Binnenkort</span>
-            </section>
-          </template>
+              <!-- Nog niet gepubliceerde sprint -->
+              <section
+                  v-else
+                  v-reveal
+                  class="flex flex-col gap-2 rounded-2xl border border-dashed border-cream/15 p-6 sm:flex-row sm:items-center sm:justify-between md:rounded-[2rem] md:p-8"
+              >
+                <h2 class="text-2xl font-medium tracking-tight text-cream/50">Sprint {{ sprint.number }}</h2>
+                <span class="eyebrow">Binnenkort</span>
+              </section>
+            </template>
+          </div>
         </div>
+
+        <!-- 7. Eindresultaat · Wat ik heb geleerd · Wat ik volgende keer anders zou doen -->
+        <section v-for="item in detail.closing" :id="item.id" :key="item.id" class="scroll-mt-28">
+          <h2 v-reveal class="mb-6 text-3xl font-medium tracking-tight md:text-4xl">{{ item.title }}</h2>
+          <p v-reveal class="max-w-3xl text-lg leading-relaxed text-cream/50">{{ item.text }}</p>
+        </section>
       </div>
     </div>
 
@@ -460,10 +268,8 @@ import WordsPullUp from '@/components/ui/WordsPullUp.vue'
 import PageHeader from '@/components/ui/PageHeader.vue'
 import PillButton from '@/components/ui/PillButton.vue'
 import Lightbox from '@/components/ui/Lightbox.vue'
-import SprintOverview from '@/components/devlog/SprintOverview.vue'
-import ProcessTimeline from '@/components/devlog/ProcessTimeline.vue'
-import ArrowIcon from '@/components/devlog/ArrowIcon.vue'
 import IterationBlock from '@/components/devlog/IterationBlock.vue'
+import SprintBlocks from '@/components/devlog/SprintBlocks.vue'
 import { findProject } from '@/data/projects'
 import type { ProjectImage, Sprint, SprintBlock } from '@/data/projects'
 import { setSeoMeta } from '@/composables/useSeoMeta'
@@ -475,25 +281,29 @@ const detail = computed(() => project.value?.detail)
 
 const lightboxImage = ref<ProjectImage | null>(null)
 
-// Balkbreedte: aantal t.o.v. het hoogste aantal in dezelfde lijst
-const maxCount = (items: { count: number }[]) => Math.max(...items.map((item) => item.count))
+const toolGroups = computed(() => {
+  const tools = detail.value?.tools
+  if (!tools) return []
+  return [
+    { label: 'Hardware', items: tools.hardware },
+    { label: 'Software', items: tools.software },
+  ].filter((group) => group.items.length)
+})
 
-// Alle beelden uit de secties van een sprint, zonder dubbele
+const cardFor = (number: number) => detail.value?.cards?.find((card) => card.sprint === number)
+
+// Alle beelden uit de stappen en de terugblik van een sprint, zonder dubbele
+const blockImages = (block: SprintBlock): ProjectImage[] => {
+  if (block.type === 'image-wide') return [block.image]
+  if (block.type === 'image-pair' || block.type === 'image-row') return block.images
+  if (block.type === 'compare') return [block.design, block.result]
+  return []
+}
 const sprintImages = (sprint: Sprint): ProjectImage[] => {
-  const images = (sprint.sections ?? []).flatMap((section) => section.blocks.flatMap((block) => {
-    if (block.type === 'image-wide') return [block.image]
-    if (block.type === 'image-pair' || block.type === 'image-row') return block.images
-    return []
-  }))
+  const blocks = [...(sprint.sections ?? []), ...(sprint.review ?? [])].flatMap((part) => part.blocks)
+  const images = blocks.flatMap(blockImages)
   return images.filter((image, i) => images.findIndex((other) => other.src === image.src) === i)
 }
-
-const processParts = (block: Extract<SprintBlock, { type: 'process' }>) => [
-  { label: 'Wat', value: block.what },
-  { label: 'Waarom', value: block.why },
-  { label: 'Hoe', value: block.how },
-  { label: 'Resultaat', value: block.result },
-]
 
 watch(project, (current) => {
   if (current?.detail) {
@@ -507,8 +317,8 @@ watch(project, (current) => {
   }
 }, { immediate: true })
 
-// Scroll-spy: markeer de sprint/sectie die in beeld is in de inhoudsopgave
-const activeId = ref('')
+// Scroll-spy: markeer de sprint die in beeld is in de sticky navigatie
+const activeSprint = ref(0)
 let spy: IntersectionObserver | null = null
 
 onMounted(async () => {
@@ -518,9 +328,9 @@ onMounted(async () => {
 
   spy = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
-      if (entry.isIntersecting) activeId.value = entry.target.id
+      if (entry.isIntersecting) activeSprint.value = Number((entry.target as HTMLElement).dataset.sprint)
     })
-  }, { rootMargin: '-20% 0px -70% 0px' })
+  }, { rootMargin: '-30% 0px -60% 0px' })
   targets.forEach((target) => spy?.observe(target))
 })
 

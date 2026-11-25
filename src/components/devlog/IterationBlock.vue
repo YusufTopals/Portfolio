@@ -1,6 +1,5 @@
 <template>
   <div v-reveal>
-    <h3 class="eyebrow mb-4">Iteraties: voor → na</h3>
     <ul class="space-y-3">
       <li v-for="iteration in iterations" :key="iteration.label" class="panel p-6">
         <p class="mb-4 font-medium text-cream">{{ iteration.label }}</p>

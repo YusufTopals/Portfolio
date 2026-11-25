@@ -5,15 +5,21 @@ export interface ProjectImage {
     height?: number
 }
 
-/** Bouwstenen waaruit een sprint-onderdeel bestaat. */
+/** Bouwstenen waaruit een stap (of een deel van de terugblik) bestaat. */
 export type SprintBlock =
-    /** Lopende tekst; optioneel met een vetgedrukte aanloop ("Welkomstscherm.") voor de eerste alinea */
+    /** Lopende tekst; optioneel met een vetgedrukte aanloop voor de eerste alinea */
     | { type: 'text'; paragraphs: string[]; lead?: string }
+    /** Klein tussenkopje binnen een stap, bijv. een scherm van de app */
+    | { type: 'heading'; text: string }
+    /** User story: klein label "User story" met de tekst als quote */
+    | { type: 'story'; text: string }
     /** Breed overzicht op volle contentbreedte, klikbaar (lightbox) */
     | { type: 'image-wide'; image: ProjectImage }
     /** Twee foto's: naast elkaar op desktop, onder elkaar op mobiel */
     | { type: 'image-pair'; images: [ProjectImage, ProjectImage] }
-    /** Twee blokken naast elkaar: wat werkte / verbeterpunten */
+    /** Design naast eindproduct (gestapeld op mobiel), niet bijgesneden */
+    | { type: 'compare'; design: ProjectImage; result: ProjectImage }
+    /** Twee blokken naast elkaar, bijv. wat werkte / wat niet werkte */
     | { type: 'feedback'; positive: FeedbackList; attention: FeedbackList }
     /** Thema's met aantal (bijv. testers); balkbreedte = aantal t.o.v. het hoogste in de lijst */
     | { type: 'bars'; title: string; unit: string; items: BarItem[] }
@@ -23,14 +29,14 @@ export type SprintBlock =
     | { type: 'image-row'; images: ProjectImage[] }
     /** Genummerde opsomming; een item kan een vetgedrukte aanloop hebben */
     | { type: 'list'; title?: string; items: (string | ListItem)[] }
-    /** Procesblok bovenaan een sectie: Wat / Waarom / Hoe / Resultaat */
-    | { type: 'process'; what: string; why: string; how: string; result: string }
+    /** Genummerde tijdlijn, bijv. de flow van de ervaring */
+    | { type: 'timeline'; items: string[] }
     /** Feedback-loop: verbeterpunt uit vorige sprint → wat ik deed → wat de test liet zien */
-    | { type: 'loop'; title: string; columns: [string, string, string]; rows: LoopRow[] }
+    | { type: 'loop'; title?: string; columns: [string, string, string]; rows: LoopRow[] }
     /** Korte, anonieme citaten */
     | { type: 'quotes'; title?: string; items: string[] }
-    /** Inzicht → actie voor de volgende sprint */
-    | { type: 'insights'; title: string; columns: [string, string]; rows: InsightRow[] }
+    /** Twee kolommen met pijl ertussen, bijv. probleem → oplossing */
+    | { type: 'insights'; title?: string; columns: [string, string]; rows: InsightRow[] }
     /** Open feedbackvraag aan de lezer, met knop naar de contactpagina */
     | { type: 'question'; question: string }
 
@@ -51,21 +57,11 @@ export interface InsightRow {
     action: string
 }
 
-/** Compacte kaart bovenaan een sprint */
-export interface SprintOverview {
-    goal: string
-    role: string
-    /** "Wat we gebruikten": hardware en software (lege lijsten worden niet getoond) */
-    tools?: { hardware: string[]; software: string[] }
-    methods: string
-    result: string
-}
-
-/** Fase in de procestijdlijn; target = id van de bijbehorende sectie */
+/** Punt in een genummerde tijdlijn; met target wordt het een link naar die sectie */
 export interface TimelinePhase {
     label: string
-    text: string
-    target: string
+    text?: string
+    target?: string
 }
 
 export interface BarItem {
@@ -83,18 +79,18 @@ export interface FeedbackList {
     items: string[]
 }
 
+/** Eén genummerde stap in een sprint ("Stap 2.1"); eerst beelden, dan tekst */
 export interface SprintSection {
     /** Gebruikt als anker, bijv. 'sprint-1-eerste-design' */
     id: string
     title: string
     blocks: SprintBlock[]
-    /** Links naar bestanden in de repo, getoond als "Bekijk de code" onderaan de sectie */
-    codeLinks?: CodeLink[]
 }
 
-export interface CodeLink {
-    label: string
-    href: string
+/** Onderdeel van de terugblik, bijv. "Wat ik leerde"; zonder titel = alleen de blokken */
+export interface ReviewPart {
+    title?: string
+    blocks: SprintBlock[]
 }
 
 /** Eén meetpunt door de sprints heen ("voor → na"); voeg per sprint een stap toe */
@@ -105,21 +101,25 @@ export interface Iteration {
 
 export interface Sprint {
     number: number
-    /** 'done' = gepubliceerd, 'soon' = getoond als "binnenkort" in de navigatie */
+    /** 'done' = gepubliceerd, 'soon' = getoond als "binnenkort" */
     status: 'done' | 'soon'
-    /** Titel naast "Sprint N", bijv. "Van design naar werkend prototype" */
+    /** Concrete titel onder "Sprint N" */
     title?: string
-    /** Eenvoudig doel-blok (Sprint 1) */
-    goal?: string
-    /** Uitgebreid overzicht: doel, rol, methodes, resultaat (vervangt goal) */
-    overview?: SprintOverview
-    /** Procestijdlijn met fases die naar secties linken */
-    timeline?: TimelinePhase[]
-    /** Iteraties met cijfers: voor → na */
-    iterations?: Iteration[]
+    /** Korte inleidende alinea */
+    intro?: string
+    /** Genummerde stappen */
     sections?: SprintSection[]
-    /** Fotogalerij onderaan de sprint; standaard aan (alle beelden uit de secties) */
+    /** Terugblik; alleen onderdelen met content */
+    review?: ReviewPart[]
+    /** Fotogalerij onderaan de sprint; standaard aan (alle beelden uit de stappen) */
     gallery?: boolean
+}
+
+/** Kaartje in "Hoe het project zich ontwikkelde" */
+export interface SprintCard {
+    sprint: number
+    text: string
+    image?: ProjectImage
 }
 
 export interface Project {
@@ -143,8 +143,23 @@ export interface ProjectDetail {
     seoDescription: string
     /** Samenvatting direct onder de titel */
     summary?: ProjectSummary
+    /** Kleine infokaart: rol, team, studio, status */
+    info?: { label: string; value: string }[]
+    /** Rij met de beste beelden van het project (lightbox) */
+    highlights?: ProjectImage[]
+    /** Over het project: persoonlijke inleiding */
     intro: string[]
+    /** Mijn rol */
+    role?: string
+    /** Wat we gebruikten (lege lijsten worden niet getoond) */
+    tools?: { hardware: string[]; software: string[] }
+    /** Hoe het project zich ontwikkelde: één kaartje per sprint */
+    cards?: SprintCard[]
+    /** Iteraties met cijfers: voor → na */
+    iterations?: Iteration[]
     sprints: Sprint[]
+    /** Afsluitende secties onderaan (eindresultaat, geleerd, anders doen) */
+    closing?: { id: string; title: string; text: string }[]
 }
 
 export interface ProjectSummary {
@@ -152,8 +167,6 @@ export interface ProjectSummary {
     tagline: string
     /** Kleine labels; vervangen de technologieën onder de titel */
     tags: string[]
-    /** Link naar de code (knop "Bekijk de code"); leeg = geen knop */
-    codeLink?: string
     /** Demovideo; leeg = niet getoond */
     video?: { src: string; poster?: string }
 }
@@ -263,44 +276,109 @@ export const projects: Project[] = [
             summary: {
                 tagline: 'Een spiegel die je ongemerkt scant en je smaak in kleding probeert te sturen, en je aan het eind laat zien hoe.',
                 tags: ['Vue', 'TypeScript', 'Camera', 'Spiegel', 'Usertesting', 'Dark Tech'],
-                // AANVULLEN: codeLink: 'https://…' (GitLab-repo) en video: { src: '/projects/dark-tech/demo.mp4' }
+                // AANVULLEN: video: { src: '/projects/dark-tech/demo.mp4' }
             },
+            info: [
+                { label: 'Rol', value: 'Creative Technologist' },
+                { label: 'Team', value: 'Groepsproject' },
+                { label: 'Studio', value: 'Dark Tech, semester 1, HvA' },
+                { label: 'Status', value: 'Sprint 3 van 4' },
+            ],
+            highlights: [
+                darkTechImages.prototype1,
+                darkTechImages.sprint2Welkom,
+                darkTechImages.sprint2Stijlscan,
+                darkTechImages.sprint2Dashboard,
+                darkTechImages.sprint3EindScore,
+                darkTechImages.sprint3EindCheckout,
+            ],
             seoDescription: 'Devlog van Smaakmanipulatie (Dark Tech, semester 1): van user stories in GitLab naar een werkende app en spiegel-installatie, getest met 21 bezoekers op Society 5.0.',
             intro: [
                 'Dit is de devlog van mijn bijdrage aan het schoolproject Smaakmanipulatie, onderdeel van Dark Tech in semester 1. Het project bestaat uit een fysieke installatie en een app, en loopt in vier sprints. Per sprint laat ik zien wat ik heb gemaakt, getest en geleerd.',
                 'Het idee: we laten mensen ervaren hoe hun smaak in kleding gemanipuleerd kan worden – via herhaling en sociale bevestiging. Iets wat je eerst lelijk vindt, ga je na honderd keer zien toch mooi vinden. Aan het eind krijgt de bezoeker inzicht in hoe hij gemanipuleerd is.',
             ],
+            role: 'UI-design van de app maken, user stories uitwerken, front-end en back-end van de app bouwen, de vragenlijst voor de usertest maken en de feedback analyseren.',
+            tools: {
+                // AANVULLEN: computer / Raspberry Pi en overige onderdelen
+                hardware: ['Spiegel met ingebouwd scherm', 'Camera', 'Toetsenbord voor de bediening'],
+                software: ['Vue met TypeScript (front-end)', 'Back-end met pyboot', 'GitLab (user stories)'],
+            },
+            cards: [
+                { sprint: 1, text: 'Eerste design en een kartonnen prototype van de spiegel', image: darkTechImages.prototype1 },
+                { sprint: 2, text: 'Een echte spiegel met scherm en camera, en een werkende app', image: darkTechImages.sprint2Dashboard },
+                { sprint: 3, text: 'Alle onderdelen samengevoegd tot één ervaring', image: darkTechImages.sprint3EindScore },
+            ],
+            iterations: [
+                {
+                    label: 'Bewustzijn over manipulatie',
+                    steps: [
+                        { sprint: 1, text: 'Ontbrak volledig' },
+                        { sprint: 2, text: 'Dashboard gebouwd, maar bij de spiegel zeiden nog 6 van de 21 testers dat de dark kant niet overkwam' },
+                    ],
+                },
+            ],
             sprints: [
                 {
                     number: 1,
                     status: 'done',
-                    goal: 'Een eerste werkend concept van de app neerzetten, dit laten testen door buitenstaanders (guerrilla test), en op basis daarvan het design verbeteren en uitbreiden.',
+                    title: 'Eerste design, guerrilla test en kartonnen prototype',
+                    intro: 'In sprint 1 heb ik het eerste design van de app gemaakt en getest met een guerrilla test. Met de feedback heb ik het design verbeterd en uitgebreid, en we hebben een kartonnen prototype gemaakt van de spiegel in de winkel.',
                     sections: [
                         {
                             id: 'sprint-1-eerste-design',
-                            title: '1. Eerste design',
+                            title: 'Het eerste design',
                             blocks: [
+                                { type: 'image-wide', image: darkTechImages.eersteDesign },
                                 {
                                     type: 'text',
                                     paragraphs: [
                                         'Ik heb een eerste UI-design gemaakt voor de app die hoort bij de "Stijlspiegel" (de spiegel-installatie in de winkel). De flow: een bezoeker wordt automatisch ingelogd via de spiegel, krijgt een stijlscan met een score en aandachtspunten, en komt in een feed terecht met gepersonaliseerde kledingaanbevelingen – inclusief een voortgangsscherm met statistieken.',
                                     ],
                                 },
-                                { type: 'image-wide', image: darkTechImages.eersteDesign },
                             ],
                         },
                         {
                             id: 'sprint-1-guerrilla-test',
-                            title: '2. Guerrilla test',
+                            title: 'Guerrilla test',
                             blocks: [
                                 {
                                     type: 'text',
-                                    paragraphs: ['Met dit eerste design heb ik een guerrilla test afgenomen. De belangrijkste resultaten:'],
+                                    paragraphs: ['Met dit eerste design heb ik een guerrilla test afgenomen. Wat goed werkte en wat niet, staat in de terugblik onderaan deze sprint.'],
                                 },
+                            ],
+                        },
+                        {
+                            id: 'sprint-1-feedback-verwerkt',
+                            title: 'Design aanpassen en uitbreiden',
+                            blocks: [
+                                { type: 'image-wide', image: darkTechImages.uitgebreidDesign },
+                                {
+                                    type: 'text',
+                                    paragraphs: ['Op basis van de feedback heb ik het design aangepast en uitgebreid naar meer schermen.'],
+                                },
+                            ],
+                        },
+                        {
+                            id: 'sprint-1-fysiek-prototype',
+                            title: 'Kartonnen prototype van de spiegel',
+                            blocks: [
+                                { type: 'image-pair', images: [darkTechImages.prototype1, darkTechImages.prototype2] },
+                                {
+                                    type: 'text',
+                                    paragraphs: [
+                                        'Het fysieke prototype en de app vullen elkaar aan. Het prototype stelt een winkel voor met een spiegel die bezoekers subtiel fotografeert; die foto\'s vormen de input voor de stijlscan in de app – vandaar dat je in de app automatisch wordt ingelogd via de "Stijlspiegel" en meteen een score en aandachtspunten te zien krijgt. Ik heb dit concept tastbaar gemaakt met een kartonnen schaalmodel van de winkelruimte: een ingelijste "spiegel" aan de wand en een zitbank. Dit sluit ook aan op het verbeterpunt uit de guerrilla test dat het fysieke prototype zonder toelichting onduidelijk was – testers begrepen niet meteen dat de spiegel hen fotografeert.',
+                                    ],
+                                },
+                            ],
+                        },
+                    ],
+                    review: [
+                        {
+                            blocks: [
                                 {
                                     type: 'feedback',
                                     positive: {
-                                        title: 'Wat goed werkte',
+                                        title: 'Wat werkte',
                                         items: [
                                             'Welkomstpagina ziet er goed uit',
                                             'Scorescherm is overzichtelijk, met duidelijke aandachtspunten',
@@ -309,7 +387,7 @@ export const projects: Project[] = [
                                         ],
                                     },
                                     attention: {
-                                        title: 'Verbeterpunten',
+                                        title: 'Wat niet werkte',
                                         items: [
                                             'Het fysieke prototype was onduidelijk zonder toelichting; testers moesten gokken',
                                             'Nergens in de app wordt daadwerkelijk bewustzijn gecreëerd rond het onderwerp (manipulatie van smaak)',
@@ -320,27 +398,16 @@ export const projects: Project[] = [
                             ],
                         },
                         {
-                            id: 'sprint-1-feedback-verwerkt',
-                            title: '3. Feedback verwerkt + uitgebreid naar meer schermen',
+                            title: 'Dit neem ik mee naar sprint 2',
                             blocks: [
                                 {
-                                    type: 'text',
-                                    paragraphs: ['Op basis van deze feedback heb ik het design aangepast en uitgebreid naar meer schermen.'],
-                                },
-                                { type: 'image-wide', image: darkTechImages.uitgebreidDesign },
-                            ],
-                        },
-                        {
-                            id: 'sprint-1-fysiek-prototype',
-                            title: '4. Fysiek prototype',
-                            blocks: [
-                                {
-                                    type: 'text',
-                                    paragraphs: [
-                                        'Het fysieke prototype en de app vullen elkaar aan. Het prototype stelt een winkel voor met een spiegel die bezoekers subtiel fotografeert; die foto\'s vormen de input voor de stijlscan in de app – vandaar dat je in de app automatisch wordt ingelogd via de "Stijlspiegel" en meteen een score en aandachtspunten te zien krijgt. Ik heb dit concept tastbaar gemaakt met een kartonnen schaalmodel van de winkelruimte: een ingelijste "spiegel" aan de wand en een zitbank. Dit sluit ook aan op het verbeterpunt uit de guerrilla test dat het fysieke prototype zonder toelichting onduidelijk was – testers begrepen niet meteen dat de spiegel hen fotografeert.',
+                                    type: 'list',
+                                    items: [
+                                        'Bewustzijn over manipulatie in de app laten zien',
+                                        'Statistieken toevoegen',
+                                        'Het fysieke deel duidelijker maken',
                                     ],
                                 },
-                                { type: 'image-pair', images: [darkTechImages.prototype1, darkTechImages.prototype2] },
                             ],
                         },
                     ],
@@ -348,50 +415,22 @@ export const projects: Project[] = [
                 {
                     number: 2,
                     status: 'done',
-                    title: 'Van design naar werkend prototype',
-                    overview: {
-                        goal: 'Het werk opdelen in user stories, het design uit sprint 1 omzetten naar een werkende app (front-end en back-end), en het prototype testen met echte bezoekers op Society 5.0 met een vragenlijst die ik zelf heb gemaakt.',
-                        role: 'User stories uitwerken, front-end en back-end van de app bouwen, vragenlijst voor de usertest maken, feedback analyseren.',
-                        tools: {
-                            // AANVULLEN: computer / Raspberry Pi en overige onderdelen
-                            hardware: ['Spiegel met ingebouwd scherm', 'Camera', 'Toetsenbord voor de bediening'],
-                            software: ['Vue met TypeScript (front-end)', 'Back-end van de app', 'GitLab (user stories)'],
-                        },
-                        methods: 'User stories (GitLab), prototyping, usertest op locatie, vragenlijst, thematische analyse van open antwoorden.',
-                        result: 'Een werkende app met 5 kernschermen, getest door 21 bezoekers, met concrete acties voor sprint 3.',
-                    },
-                    timeline: [
-                        { label: 'Plannen', text: 'User stories opstellen', target: 'sprint-2-plannen' },
-                        { label: 'Bouwen', text: 'De app realiseren', target: 'sprint-2-bouwen' },
-                        { label: 'Testvoorbereiding', text: 'Vragenlijst maken', target: 'sprint-2-vragenlijst' },
-                        { label: 'Testen', text: 'Usertest op Society 5.0', target: 'sprint-2-testen' },
-                        { label: 'Analyseren', text: 'Feedback ordenen en conclusies trekken', target: 'sprint-2-analyseren' },
-                    ],
-                    iterations: [
-                        {
-                            label: 'Bewustzijn over manipulatie',
-                            steps: [
-                                { sprint: 1, text: 'Ontbrak volledig' },
-                                { sprint: 2, text: 'Dashboard gebouwd, maar bij de spiegel zeiden nog 6 van de 21 testers dat de dark kant niet overkwam' },
-                            ],
-                        },
-                    ],
+                    title: 'De app bouwen en testen op Society 5.0',
+                    intro: 'In sprint 2 hebben we het werk opgedeeld in user stories. Daarna heb ik de app gebouwd, front-end en back-end, en een vragenlijst gemaakt voor de usertest op Society 5.0. Daar hebben 21 bezoekers ons prototype getest.',
                     sections: [
                         {
                             id: 'sprint-2-plannen',
-                            title: '1. Plannen: user stories',
+                            title: 'User stories opstellen',
                             blocks: [
                                 {
-                                    type: 'process',
-                                    what: 'Het werk voor deze sprint vastleggen in user stories.',
-                                    why: 'Met vijf mensen aan één product moet voor iedereen duidelijk zijn wat er af moet zijn en wanneer iets echt klaar is.',
-                                    how: 'User stories in GitLab (project extreme-profiling), elk met een vaste opbouw.',
-                                    result: 'Een backlog waar de hele groep mee aan de slag kon.',
+                                    type: 'image-row',
+                                    images: [darkTechImages.storyUi, darkTechImages.storyFrontend, darkTechImages.storyVragenlijst],
                                 },
                                 {
                                     type: 'text',
                                     paragraphs: [
-                                        'We zijn de sprint begonnen met het opstellen van user stories in GitLab. Elke story heeft een vaste opbouw: user story, beschrijving, requirements, acceptatiecriteria en een Definition of Done. Die laatste is voor elke story hetzelfde: geen storingen, het product werkt zoals omschreven, het werk is in standaard Nederlands of Engels geschreven, en een medestudent heeft het gereviewd.',
+                                        'We zijn de sprint begonnen met het opstellen van user stories in GitLab. Met de hele groep aan één product moet voor iedereen duidelijk zijn wat er af moet zijn en wanneer iets echt klaar is.',
+                                        'Elke story heeft een vaste opbouw: user story, beschrijving, requirements, acceptatiecriteria en een Definition of Done. Die laatste is voor elke story hetzelfde: geen storingen, het product werkt zoals omschreven, het werk is in standaard Nederlands of Engels geschreven, en een medestudent heeft het gereviewd.',
                                         'Ik werkte onder andere aan deze stories:',
                                     ],
                                 },
@@ -403,73 +442,67 @@ export const projects: Project[] = [
                                         { lead: 'Vragenlijst:', text: 'een vragenlijst voor Society 5.0, zodat testers feedback kunnen geven waarmee we een betere versie maken.' },
                                     ],
                                 },
-                                {
-                                    type: 'image-row',
-                                    images: [darkTechImages.storyUi, darkTechImages.storyFrontend, darkTechImages.storyVragenlijst],
-                                },
                             ],
                         },
                         {
                             id: 'sprint-2-bouwen',
-                            title: '2. Bouwen: de app gerealiseerd',
+                            title: 'De app bouwen',
                             blocks: [
-                                {
-                                    type: 'process',
-                                    what: 'Het design uit sprint 1 omzetten naar een werkende app.',
-                                    why: 'Op Society 5.0 moesten bezoekers de ervaring echt kunnen doorlopen.',
-                                    how: 'Front-end in Vue met TypeScript, plus een back-end. Ik heb de schermen uit het sprint 1-design één voor één gebouwd en de feedback uit de guerrilla test meegenomen.',
-                                    result: '5 werkende kernschermen onder de werknaam Smaakmanipulate.',
-                                },
+                                { type: 'image-wide', image: darkTechImages.uitgebreidDesign },
                                 {
                                     type: 'text',
                                     paragraphs: [
                                         'Ik heb de app gebouwd, zowel de front-end als de back-end. De flow uit sprint 1 werkt nu echt: de Stijlspiegel herkent je, maakt een lichaamsscan en past je feed daarop aan.',
                                     ],
                                 },
-                                { type: 'image-wide', image: darkTechImages.uitgebreidDesign },
+                                { type: 'heading', text: 'Welkomstscherm' },
+                                { type: 'image-wide', image: darkTechImages.sprint2Welkom },
                                 {
                                     type: 'text',
-                                    lead: 'Welkomstscherm.',
                                     paragraphs: [
                                         'Na herkenning door de Stijlspiegel log je automatisch in. Een live-tijdlijn laat stap voor stap zien wat de spiegel deed: herkend, lichaamsscan, feed aangepast, activiteit van vrienden toegevoegd.',
                                     ],
                                 },
-                                { type: 'image-wide', image: darkTechImages.sprint2Welkom },
+                                { type: 'heading', text: 'Stijlscan' },
+                                { type: 'image-wide', image: darkTechImages.sprint2Stijlscan },
                                 {
                                     type: 'text',
-                                    lead: 'Stijlscan.',
                                     paragraphs: [
                                         'De foto uit de spiegel krijgt een stijlscore (62/100), afgezet tegen het gemiddelde van je vrienden (78). Drie aandachtspunten wijzen aan wat er "mis" is, zoals schoenen die niet waterdicht zijn omdat er morgen regen wordt verwacht.',
                                     ],
                                 },
-                                { type: 'image-wide', image: darkTechImages.sprint2Stijlscan },
+                                { type: 'heading', text: 'Feed' },
+                                { type: 'image-wide', image: darkTechImages.sprint2Feed },
                                 {
                                     type: 'text',
-                                    lead: 'Feed.',
                                     paragraphs: [
                                         'Vrienden bovenaan, trends uit je stad en aanbevelingen met "-20% via de spiegel": sociale druk en exclusiviteit als sturingsmiddel.',
                                     ],
                                 },
-                                { type: 'image-wide', image: darkTechImages.sprint2Feed },
+                                { type: 'heading', text: 'Profiel' },
+                                { type: 'image-wide', image: darkTechImages.sprint2Profiel },
                                 {
                                     type: 'text',
-                                    lead: 'Profiel.',
                                     paragraphs: [
                                         'Laat zien wat de spiegel van je weet: persoonlijke gegevens, maar ook lengte, kledingmaat en postuur, "gemeten zonder dat je iets hoefde te doen".',
                                     ],
                                 },
-                                { type: 'image-wide', image: darkTechImages.sprint2Profiel },
+                                { type: 'heading', text: 'Dashboard' },
+                                { type: 'image-wide', image: darkTechImages.sprint2Dashboard },
                                 {
                                     type: 'text',
-                                    lead: 'Dashboard.',
                                     paragraphs: [
                                         'Nieuw in deze sprint. Het toont een live beïnvloedingsscore, momenten van beïnvloeding, gedeelde datapunten en welke tactieken er op je zijn gebruikt (onzekerheid uit je scan, score onder vrienden, sociale druk, exclusieve spiegelprijs).',
                                     ],
                                 },
-                                { type: 'image-wide', image: darkTechImages.sprint2Dashboard },
+                            ],
+                        },
+                        {
+                            id: 'sprint-2-veranderd',
+                            title: 'Wat ik veranderde na sprint 1',
+                            blocks: [
                                 {
                                     type: 'loop',
-                                    title: 'Van sprint 1 naar sprint 2',
                                     columns: ['Verbeterpunt uit sprint 1', 'Wat ik deed in sprint 2', 'Wat de test liet zien'],
                                     rows: [
                                         { from: 'Nergens in de app wordt bewustzijn gecreëerd', did: 'Dashboard dat laat zien welke tactieken op je zijn gebruikt', result: 'De dark kant kwam bij de spiegel nog niet over (6 testers)' },
@@ -481,15 +514,8 @@ export const projects: Project[] = [
                         },
                         {
                             id: 'sprint-2-vragenlijst',
-                            title: '3. Testvoorbereiding: de vragenlijst',
+                            title: 'De vragenlijst',
                             blocks: [
-                                {
-                                    type: 'process',
-                                    what: 'Een vragenlijst voor de usertest op Society 5.0.',
-                                    why: 'Open feedback van echte bezoekers verzamelen, en daarnaast keuzes over het fysieke ontwerp onderbouwen met data.',
-                                    how: 'Eisen uit de user story: de vragen gaan over het project, minimaal drie vragen, open vragen. Aangevuld met twee keuzevragen over het ontwerp van de spiegel.',
-                                    result: '3 open vragen en 2 keuzevragen.',
-                                },
                                 {
                                     type: 'text',
                                     paragraphs: ['Voor de test op Society 5.0 heb ik de vragenlijst gemaakt:'],
@@ -514,14 +540,13 @@ export const projects: Project[] = [
                         },
                         {
                             id: 'sprint-2-testen',
-                            title: '4. Testen: usertest op Society 5.0',
+                            title: 'Testen op Society 5.0',
                             blocks: [
                                 {
-                                    type: 'process',
-                                    what: 'Het prototype laten testen door bezoekers van Society 5.0.',
-                                    why: 'Testen met mensen die het project niet kennen, net als bij de guerrilla test in sprint 1, maar nu met een werkend prototype en een grotere groep.',
-                                    how: 'Bezoekers doorliepen de ervaring met de spiegel (ingebouwd scherm en camera, accessoires kiezen) en vulden daarna de vragenlijst in.',
-                                    result: '21 ingevulde vragenlijsten.',
+                                    type: 'text',
+                                    paragraphs: [
+                                        'Bezoekers van Society 5.0 doorliepen de ervaring met de spiegel (ingebouwd scherm en camera, accessoires kiezen) en vulden daarna de vragenlijst in. Dat leverde 21 ingevulde vragenlijsten op.',
+                                    ],
                                 },
                                 {
                                     type: 'quotes',
@@ -539,14 +564,11 @@ export const projects: Project[] = [
                         },
                         {
                             id: 'sprint-2-analyseren',
-                            title: '5. Analyseren: van feedback naar inzichten',
+                            title: 'Resultaten van de test',
                             blocks: [
                                 {
-                                    type: 'process',
-                                    what: 'De 21 antwoorden ordenen tot bruikbare inzichten.',
-                                    why: 'Losse antwoorden zijn lastig om op te sturen; patronen laten zien wat het belangrijkst is.',
-                                    how: 'Elk open antwoord gelezen, gegroepeerd per thema en per thema geteld hoeveel testers het noemden. De keuzevragen geteld.',
-                                    result: 'Een top-3 aan problemen en concrete acties voor sprint 3.',
+                                    type: 'text',
+                                    paragraphs: ['Ik heb alle antwoorden gelezen, per thema gegroepeerd en geteld hoeveel testers iets noemden.'],
                                 },
                                 {
                                     type: 'bars',
@@ -600,22 +622,11 @@ export const projects: Project[] = [
                                         { value: '12/16', label: 'wil de knoppen onder de spiegel' },
                                     ],
                                 },
-                                {
-                                    type: 'insights',
-                                    title: 'Inzicht → actie voor sprint 3',
-                                    columns: ['Inzicht', 'Actie in sprint 3'],
-                                    rows: [
-                                        { insight: 'Het dashboard laat de manipulatie zien, maar testers van de spiegel zagen dat niet', action: 'Het dark-verhaal zichtbaar maken in de installatie zelf' },
-                                        { insight: 'Twee testers vroegen om een analyse van hun uiterlijk, en dat is precies wat de stijlscan in de app doet', action: 'Spiegel en app tijdens de ervaring zichtbaar aan elkaar koppelen' },
-                                        { insight: 'Testers wilden producten op zichzelf zien en een reactie na hun keuze', action: 'Producten op de gebruiker tonen, meer keuze en feedback na elke keuze' },
-                                        { insight: 'Aanbevelingen pasten niet altijd bij de persoon', action: 'Aanbevelingen afstemmen op wie er voor de spiegel staat' },
-                                        { insight: '14/16 verticaal, 12/16 knoppen onder', action: 'Verticale opstelling met knoppen onder de spiegel in plaats van een toetsenbord' },
-                                    ],
-                                },
                             ],
                         },
+                    ],
+                    review: [
                         {
-                            id: 'sprint-2-medestudenten',
                             title: 'Feedback van medestudenten',
                             blocks: [
                                 {
@@ -637,8 +648,7 @@ export const projects: Project[] = [
                             ],
                         },
                         {
-                            id: 'sprint-2-geleerd',
-                            title: 'Wat ik leerde deze sprint',
+                            title: 'Wat ik leerde',
                             blocks: [
                                 {
                                     type: 'list',
@@ -651,7 +661,6 @@ export const projects: Project[] = [
                             ],
                         },
                         {
-                            id: 'sprint-2-tegenaan',
                             title: 'Waar ik nog tegenaan loop',
                             blocks: [
                                 {
@@ -667,65 +676,73 @@ export const projects: Project[] = [
                                 },
                             ],
                         },
+                        {
+                            title: 'Dit neem ik mee naar sprint 3',
+                            blocks: [
+                                {
+                                    type: 'list',
+                                    items: [
+                                        'Het dark-verhaal zichtbaar maken in de installatie zelf',
+                                        'Spiegel en app tijdens de ervaring zichtbaar aan elkaar koppelen',
+                                        'Producten op de gebruiker tonen, meer keuze en feedback na elke keuze',
+                                        'Aanbevelingen afstemmen op wie er voor de spiegel staat',
+                                        'Verticale opstelling met knoppen onder de spiegel in plaats van een toetsenbord',
+                                    ],
+                                },
+                            ],
+                        },
                     ],
                 },
                 {
                     number: 3,
                     status: 'done',
-                    title: 'Van losse onderdelen naar één ervaring',
+                    title: 'Alle onderdelen samenvoegen tot één ervaring',
+                    intro: 'In sprint 3 werkte ik aan drie user stories: het scorescherm na de scan, het overzichtsscherm aan het eind, en het samenvoegen van alle onderdelen tot één ervaring van begin tot eind. Er waren veel losse onderdelen, en die moesten nu één geheel worden.',
                     sections: [
                         {
-                            id: 'sprint-3-vraag',
-                            title: '1. De vraag van deze sprint',
+                            id: 'sprint-3-scorescherm',
+                            title: 'Scorescherm na de scan',
                             blocks: [
+                                { type: 'compare', design: darkTechImages.sprint3DesignScore, result: darkTechImages.sprint3EindScore },
+                                {
+                                    type: 'story',
+                                    text: 'Als gebruiker wil ik na mijn scan een scherm die mij een score geeft, zodat ik weet op wat ik advies ga ontvangen en wat mijn outfit op dat moment scoort.',
+                                },
                                 {
                                     type: 'text',
-                                    paragraphs: ['Hoe maak ik van alle losse onderdelen één volledige ervaring, waarin de boodschap overkomt?'],
+                                    paragraphs: ['Na de scan zie je een score voor je outfit, korte punten over wat goed is en wat beter kan, en een knop om verder te gaan naar de aanbevelingen.'],
                                 },
                             ],
                         },
                         {
-                            id: 'sprint-3-kort',
-                            title: '2. In het kort',
+                            id: 'sprint-3-overzicht',
+                            title: 'Overzicht en checkout aan het eind',
                             blocks: [
+                                { type: 'compare', design: darkTechImages.sprint3DesignOverzicht, result: darkTechImages.sprint3EindCheckout },
+                                {
+                                    type: 'story',
+                                    text: 'Als gebruiker wil ik aan het einde van mijn ervaring een overzichtsscherm, zodat ik een overzicht te zien krijg van hetgeen wat ik aanbevolen heb gekregen.',
+                                },
                                 {
                                     type: 'text',
-                                    paragraphs: ['In sprint 3 werkte ik aan drie user stories: het scorescherm na de scan, het overzichtsscherm aan het eind, en het samenvoegen van alle onderdelen tot één ervaring van begin tot eind. Er waren veel losse onderdelen, en die moesten nu één geheel worden.'],
+                                    paragraphs: ['Tijdens de ervaring kun je aanbevelingen accepteren of afwijzen. Aan het eind zie je je score, een kleine foto van je scan en alle aanbevelingen die je hebt gekozen. Het laatste scherm is een checkout: "That\'s it for today!", totaal € 0,00, verwachte levertijd 4 minuten.'],
                                 },
                             ],
                         },
                         {
-                            id: 'sprint-3-gebouwd',
-                            title: '3. Wat ik heb gebouwd',
+                            id: 'sprint-3-ervaring',
+                            title: 'De hele ervaring aan elkaar koppelen',
                             blocks: [
                                 {
-                                    type: 'text',
-                                    lead: 'Scorescherm na de scan',
-                                    paragraphs: [
-                                        'User story: "Als gebruiker wil ik na mijn scan een scherm die mij een score geeft, zodat ik weet op wat ik advies ga ontvangen en wat mijn outfit op dat moment scoort."',
-                                        'Na de scan zie je een score voor je outfit, korte punten over wat goed is en wat beter kan, en een knop om verder te gaan naar de aanbevelingen.',
-                                    ],
-                                },
-                                { type: 'image-pair', images: [darkTechImages.sprint3DesignScore, darkTechImages.sprint3EindScore] },
-                                {
-                                    type: 'text',
-                                    lead: 'Overzichtsscherm aan het eind',
-                                    paragraphs: [
-                                        'User story: "Als gebruiker wil ik aan het einde van mijn ervaring een overzichtsscherm, zodat ik een overzicht te zien krijg van hetgeen wat ik aanbevolen heb gekregen."',
-                                        'Tijdens de ervaring kun je aanbevelingen accepteren of afwijzen. Aan het eind zie je je score, een kleine foto van je scan en alle aanbevelingen die je hebt gekozen. Het laatste scherm is een checkout: "That\'s it for today!", totaal € 0,00, verwachte levertijd 4 minuten.',
-                                    ],
-                                },
-                                { type: 'image-pair', images: [darkTechImages.sprint3DesignOverzicht, darkTechImages.sprint3EindCheckout] },
-                                {
-                                    type: 'text',
-                                    lead: 'De ervaring samengesteld',
-                                    paragraphs: [
-                                        'User story: "Als gebruiker wil ik een volledige ervaring meemaken, zodat ik het bericht van de provocatype kan begrijpen."',
-                                        'Hier hoefde ik niks nieuws te maken, maar moest ik zorgen dat alles samenwerkt. De flow:',
-                                    ],
+                                    type: 'story',
+                                    text: 'Als gebruiker wil ik een volledige ervaring meemaken, zodat ik het bericht van de provocatype kan begrijpen.',
                                 },
                                 {
-                                    type: 'list',
+                                    type: 'text',
+                                    paragraphs: ['Hier hoefde ik niks nieuws te maken, maar moest ik zorgen dat alles samenwerkt. De flow:'],
+                                },
+                                {
+                                    type: 'timeline',
                                     items: [
                                         'Idle-scherm',
                                         'Inloggen: de camera vindt je, of iemand achter de schermen drukt op enter',
@@ -743,22 +760,25 @@ export const projects: Project[] = [
                                 },
                             ],
                         },
+                    ],
+                    review: [
                         {
-                            id: 'sprint-3-problemen',
-                            title: '4. Problemen en hoe ik ze oploste',
+                            title: 'Problemen en oplossingen',
                             blocks: [
                                 {
-                                    type: 'text',
-                                    paragraphs: [
-                                        'Probleem: er waren veel losse onderdelen die nog geen geheel vormden.',
-                                        'Oplossing: een aparte user story om de hele ervaring samen te stellen, waarbij ik continu met de rest van het team overlegde om alles op elkaar af te stemmen.',
+                                    type: 'insights',
+                                    columns: ['Probleem', 'Oplossing'],
+                                    rows: [
+                                        {
+                                            insight: 'Er waren veel losse onderdelen die nog geen geheel vormden.',
+                                            action: 'Een aparte user story om de hele ervaring samen te stellen, waarbij ik continu met de rest van het team overlegde om alles op elkaar af te stemmen.',
+                                        },
                                     ],
                                 },
                             ],
                         },
                         {
-                            id: 'sprint-3-volgende',
-                            title: '5. Volgende stap',
+                            title: 'Dit neem ik mee naar sprint 4',
                             blocks: [
                                 {
                                     type: 'text',
@@ -768,10 +788,15 @@ export const projects: Project[] = [
                         },
                     ],
                 },
-                // Sprint 4: zet status op 'done' en vul title en sections (zelfde vorm als Sprint 3).
+                // Sprint 4: zet status op 'done' en vul title, intro, sections en review (zelfde vorm als Sprint 3),
+                // en voeg een kaartje toe aan cards hierboven.
                 // Afbeeldingen: zet ze in public/projects/dark-tech/ en voeg ze toe aan darkTechImages hierboven.
-                { number: 3, status: 'soon' },
                 { number: 4, status: 'soon' },
+            ],
+            closing: [
+                { id: 'eindresultaat', title: 'Eindresultaat', text: 'Volgt na sprint 4.' },
+                { id: 'geleerd', title: 'Wat ik heb geleerd', text: 'Volgt na sprint 4.' },
+                { id: 'anders', title: 'Wat ik volgende keer anders zou doen', text: 'Volgt na sprint 4.' },
             ],
         },
     },
