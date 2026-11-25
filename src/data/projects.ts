@@ -221,6 +221,26 @@ const darkTechImages = {
         'User story: vragenlijst voor Society 5.0',
         1210, 1360,
     ),
+    sprint3DesignScore: darkTechImg(
+        'sprint3-design-score.jpg',
+        'Design van het scorescherm na de scan',
+        366, 564,
+    ),
+    sprint3EindScore: darkTechImg(
+        'sprint3-eind-score.jpg',
+        'Eindproduct van het scorescherm na de scan',
+        1292, 1400,
+    ),
+    sprint3DesignOverzicht: darkTechImg(
+        'sprint3-design-overzicht.jpg',
+        'Design van het overzichtsscherm aan het eind',
+        354, 550,
+    ),
+    sprint3EindCheckout: darkTechImg(
+        'sprint3-eind-checkout.jpg',
+        'Eindproduct van het laatste scherm: checkout met totaal € 0,00',
+        1818, 1342,
+    ),
     prototype2: darkTechImg(
         'sprint1-fysiek-prototype-2.jpg',
         'Kartonnen schaalmodel van de winkelruimte met zitbank voor de spiegel',
@@ -233,7 +253,7 @@ export const projects: Project[] = [
         slug: 'dark-tech-semester-1',
         title: 'Dark Tech – Semester 1',
         subtitle: 'Smaakmanipulatie',
-        status: 'In ontwikkeling – Sprint 2 van 4',
+        status: 'In ontwikkeling – Sprint 3 van 4',
         description: 'Een installatie en app die laten zien hoe makkelijk je smaak te sturen is – via herhaling, sociale bevestiging en een spiegel die meekijkt.',
         technologies: ['UX/UI Design', 'Prototyping', 'User Testing', 'Dark Patterns'],
         category: 'Design',
@@ -649,7 +669,106 @@ export const projects: Project[] = [
                         },
                     ],
                 },
-                // Sprint 3–4: zet status op 'done' en vul title, overview, timeline en sections (zelfde vorm als Sprint 2).
+                {
+                    number: 3,
+                    status: 'done',
+                    title: 'Van losse onderdelen naar één ervaring',
+                    sections: [
+                        {
+                            id: 'sprint-3-vraag',
+                            title: '1. De vraag van deze sprint',
+                            blocks: [
+                                {
+                                    type: 'text',
+                                    paragraphs: ['Hoe maak ik van alle losse onderdelen één volledige ervaring, waarin de boodschap overkomt?'],
+                                },
+                            ],
+                        },
+                        {
+                            id: 'sprint-3-kort',
+                            title: '2. In het kort',
+                            blocks: [
+                                {
+                                    type: 'text',
+                                    paragraphs: ['In sprint 3 werkte ik aan drie user stories: het scorescherm na de scan, het overzichtsscherm aan het eind, en het samenvoegen van alle onderdelen tot één ervaring van begin tot eind. Er waren veel losse onderdelen, en die moesten nu één geheel worden.'],
+                                },
+                            ],
+                        },
+                        {
+                            id: 'sprint-3-gebouwd',
+                            title: '3. Wat ik heb gebouwd',
+                            blocks: [
+                                {
+                                    type: 'text',
+                                    lead: 'Scorescherm na de scan',
+                                    paragraphs: [
+                                        'User story: "Als gebruiker wil ik na mijn scan een scherm die mij een score geeft, zodat ik weet op wat ik advies ga ontvangen en wat mijn outfit op dat moment scoort."',
+                                        'Na de scan zie je een score voor je outfit, korte punten over wat goed is en wat beter kan, en een knop om verder te gaan naar de aanbevelingen.',
+                                    ],
+                                },
+                                { type: 'image-pair', images: [darkTechImages.sprint3DesignScore, darkTechImages.sprint3EindScore] },
+                                {
+                                    type: 'text',
+                                    lead: 'Overzichtsscherm aan het eind',
+                                    paragraphs: [
+                                        'User story: "Als gebruiker wil ik aan het einde van mijn ervaring een overzichtsscherm, zodat ik een overzicht te zien krijg van hetgeen wat ik aanbevolen heb gekregen."',
+                                        'Tijdens de ervaring kun je aanbevelingen accepteren of afwijzen. Aan het eind zie je je score, een kleine foto van je scan en alle aanbevelingen die je hebt gekozen. Het laatste scherm is een checkout: "That\'s it for today!", totaal € 0,00, verwachte levertijd 4 minuten.',
+                                    ],
+                                },
+                                { type: 'image-pair', images: [darkTechImages.sprint3DesignOverzicht, darkTechImages.sprint3EindCheckout] },
+                                {
+                                    type: 'text',
+                                    lead: 'De ervaring samengesteld',
+                                    paragraphs: [
+                                        'User story: "Als gebruiker wil ik een volledige ervaring meemaken, zodat ik het bericht van de provocatype kan begrijpen."',
+                                        'Hier hoefde ik niks nieuws te maken, maar moest ik zorgen dat alles samenwerkt. De flow:',
+                                    ],
+                                },
+                                {
+                                    type: 'list',
+                                    items: [
+                                        'Idle-scherm',
+                                        'Inloggen: de camera vindt je, of iemand achter de schermen drukt op enter',
+                                        'Homescherm, met een pop-up die je naar het scanscherm stuurt',
+                                        'Scan: de webcam maakt een foto en de AI genereert een antwoord',
+                                        'Scorescherm met de resultaten',
+                                        'Aanbevelingen uit een vast profiel, uitgekozen door de AI. De laatste aanbeveling gaat altijd over plastische chirurgie.',
+                                        'Resultaat: alles wat je "gekocht" hebt, met een lage totaalprijs',
+                                        'Het scherm blijft staan tot de gebruiker wegloopt of iemand op enter drukt. Daarna wordt alle informatie gewist, zodat de volgende gebruiker geen gegevens van de vorige ziet.',
+                                    ],
+                                },
+                                {
+                                    type: 'text',
+                                    paragraphs: ['Tech: front-end in Vue, back-end met pyboot.'],
+                                },
+                            ],
+                        },
+                        {
+                            id: 'sprint-3-problemen',
+                            title: '4. Problemen en hoe ik ze oploste',
+                            blocks: [
+                                {
+                                    type: 'text',
+                                    paragraphs: [
+                                        'Probleem: er waren veel losse onderdelen die nog geen geheel vormden.',
+                                        'Oplossing: een aparte user story om de hele ervaring samen te stellen, waarbij ik continu met de rest van het team overlegde om alles op elkaar af te stemmen.',
+                                    ],
+                                },
+                            ],
+                        },
+                        {
+                            id: 'sprint-3-volgende',
+                            title: '5. Volgende stap',
+                            blocks: [
+                                {
+                                    type: 'text',
+                                    paragraphs: ['De usertests afnemen en de feedback verwerken.'],
+                                },
+                            ],
+                        },
+                    ],
+                },
+                // Sprint 4: zet status op 'done' en vul title en sections (zelfde vorm als Sprint 3).
                 // Afbeeldingen: zet ze in public/projects/dark-tech/ en voeg ze toe aan darkTechImages hierboven.
                 { number: 3, status: 'soon' },
                 { number: 4, status: 'soon' },
