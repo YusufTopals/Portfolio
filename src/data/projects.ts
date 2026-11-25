@@ -11,14 +11,12 @@ export type SprintBlock =
     | { type: 'text'; paragraphs: string[]; lead?: string }
     /** Klein tussenkopje binnen een stap, bijv. een scherm van de app */
     | { type: 'heading'; text: string }
-    /** User story als screenshot (uit GitLab), met klein label "User story" */
-    | { type: 'story'; image: ProjectImage }
     /** Breed overzicht op volle contentbreedte, klikbaar (lightbox) */
     | { type: 'image-wide'; image: ProjectImage }
     /** Twee foto's: naast elkaar op desktop, onder elkaar op mobiel */
     | { type: 'image-pair'; images: [ProjectImage, ProjectImage] }
-    /** Design naast eindproduct (gestapeld op mobiel), niet bijgesneden */
-    | { type: 'compare'; design: ProjectImage; result: ProjectImage }
+    /** Twee beelden naast elkaar (gestapeld op mobiel), niet bijgesneden; standaard gelabeld Design / Eindproduct */
+    | { type: 'compare'; design: ProjectImage; result: ProjectImage; labels?: [string, string] }
     /** Twee blokken naast elkaar, bijv. wat werkte / wat niet werkte */
     | { type: 'feedback'; positive: FeedbackList; attention: FeedbackList }
     /** Thema's met aantal (bijv. testers); balkbreedte = aantal t.o.v. het hoogste in de lijst */
@@ -721,47 +719,69 @@ export const projects: Project[] = [
                 {
                     number: 3,
                     status: 'done',
-                    title: 'Alle onderdelen samenvoegen tot één ervaring',
-                    intro: 'In sprint 3 werkte ik aan drie user stories: het scorescherm na de scan, het overzichtsscherm aan het eind, en het samenvoegen van alle onderdelen tot één ervaring van begin tot eind. Er waren veel losse onderdelen, en die moesten nu één geheel worden. Elk design deelde ik eerst met de groep of met iemand uit de groep. Samen wisselden we gedachtes en ideeën uit. Daardoor heb ik schermen aangepast, omdat sommige keuzes achteraf minder logisch waren.',
+                    title: 'Van design naar realisatie: één volledige ervaring',
+                    intro: 'In sprint 3 moesten alle losse onderdelen één geheel worden. Ik ging daarbij van design naar realisatie: eerst de designs maken, ze checken met een groepsgenoot, ze aanpassen na elkaars feedback, en ze daarna bouwen en aan elkaar koppelen.',
                     sections: [
                         {
-                            id: 'sprint-3-scorescherm',
-                            title: 'Scorescherm na de scan',
+                            id: 'sprint-3-user-stories',
+                            title: 'User stories opstellen',
                             blocks: [
-                                { type: 'compare', design: darkTechImages.sprint3DesignScore, result: darkTechImages.sprint3EindScore },
-                                { type: 'story', image: darkTechImages.storyScorescherm },
                                 {
-                                    type: 'text',
-                                    paragraphs: ['Na de scan zie je een score voor je outfit, korte punten over wat goed is en wat beter kan, en een knop om verder te gaan naar de aanbevelingen.'],
+                                    type: 'image-row',
+                                    images: [darkTechImages.storyScorescherm, darkTechImages.storyOverzichtsscherm, darkTechImages.storyErvaring],
                                 },
-                                { type: 'heading', text: 'Feedback uit de groep' },
-                                { type: 'image-wide', image: darkTechImages.sprint3FeedbackScore },
                                 {
                                     type: 'text',
-                                    paragraphs: [
-                                        'Een groepsgenoot had in de les ook het resultaatscherm herontworpen. Ik heb haar mijn design gestuurd, zodat we ze naast elkaar konden leggen.',
-                                        'Zij vond mijn versie vooral mooi in de stijl van de spiegel en niet te overweldigend. Wel is het scherm klein, dus het gezichtje kon groter.',
-                                        'Ze vroeg zich ook af hoe we aan een afbeelding van de complete outfit komen. Een LLM kan iets verkeerds genereren, waardoor dat misschien niet stabiel werkt.',
-                                    ],
+                                    paragraphs: ['Ik werkte aan drie user stories: het scorescherm na de scan, het overzichtsscherm aan het eind, en het samenvoegen van alle onderdelen tot één ervaring van begin tot eind.'],
                                 },
                             ],
                         },
                         {
-                            id: 'sprint-3-overzicht',
-                            title: 'Overzicht en checkout aan het eind',
+                            id: 'sprint-3-designs',
+                            title: 'De eerste designs',
                             blocks: [
-                                { type: 'compare', design: darkTechImages.sprint3DesignOverzicht, result: darkTechImages.sprint3EindCheckout },
-                                { type: 'story', image: darkTechImages.storyOverzichtsscherm },
+                                {
+                                    type: 'compare',
+                                    labels: ['Scorescherm', 'Overzichtsscherm'],
+                                    design: darkTechImages.sprint3DesignScore,
+                                    result: darkTechImages.sprint3DesignOverzicht,
+                                },
                                 {
                                     type: 'text',
-                                    paragraphs: ['Tijdens de ervaring kun je aanbevelingen accepteren of afwijzen. Aan het eind zie je je score, een kleine foto van je scan en alle aanbevelingen die je hebt gekozen. Het laatste scherm is een checkout: "That\'s it for today!", totaal € 0,00, verwachte levertijd 4 minuten.'],
+                                    lead: 'Scorescherm.',
+                                    paragraphs: ['Na de scan zie je een score voor je outfit, korte punten over wat goed is en wat beter kan, en een knop om verder te gaan naar de aanbevelingen.'],
                                 },
-                                { type: 'heading', text: 'Feedback uit de groep' },
+                                {
+                                    type: 'text',
+                                    lead: 'Overzichtsscherm.',
+                                    paragraphs: ['Tijdens de ervaring kun je aanbevelingen accepteren of afwijzen. Aan het eind zie je je score, een kleine foto van je scan en alle aanbevelingen die je hebt gekozen.'],
+                                },
+                            ],
+                        },
+                        {
+                            id: 'sprint-3-feedback',
+                            title: 'Designs checken met een groepsgenoot',
+                            blocks: [
+                                {
+                                    type: 'text',
+                                    paragraphs: ['Mijn designs heb ik eerst samen met een groepsgenoot gecheckt. We gaven elkaar feedback en wisselden ideeën uit.'],
+                                },
+                                { type: 'heading', text: 'Scorescherm' },
+                                { type: 'image-wide', image: darkTechImages.sprint3FeedbackScore },
+                                {
+                                    type: 'text',
+                                    paragraphs: [
+                                        'Mijn groepsgenoot had in de les ook het resultaatscherm herontworpen. Ik heb haar mijn design gestuurd, zodat we ze naast elkaar konden leggen.',
+                                        'Zij vond mijn versie vooral mooi in de stijl van de spiegel en niet te overweldigend. Wel is het scherm klein, dus het gezichtje kon groter.',
+                                        'Ze vroeg zich ook af hoe we aan een afbeelding van de complete outfit komen. Een LLM kan iets verkeerds genereren, waardoor dat misschien niet stabiel werkt.',
+                                    ],
+                                },
+                                { type: 'heading', text: 'Overzichtsscherm' },
                                 { type: 'image-wide', image: darkTechImages.sprint3FeedbackOverzicht },
                                 {
                                     type: 'text',
                                     paragraphs: [
-                                        'Ook het overzichtsscherm heb ik eerst gedeeld. Mijn groepsgenoot vond het er netjes uitzien, maar ze vroeg zich af of het herhalen van de outfit score niet overbodig is. Ook kon de afbeelding van de gebruiker verkeerd zijn, en zat er nog geen prijs bij.',
+                                        'Ze vond het overzichtsscherm er netjes uitzien, maar vroeg zich af of het herhalen van de outfit score niet overbodig is. Ook kon de afbeelding van de gebruiker verkeerd zijn, en zat er nog geen prijs bij.',
                                         'Ze had mijn ontwerp aangepast tot een checkout met prijzen en witte achtergronden, omdat donkergrijs misschien niet zichtbaar is.',
                                         'Ik legde uit dat de afbeelding de foto van de eerste scan is, en geen foto van de gebruiker met de items erop. Daarna spraken we af om de goede aspecten van beide ontwerpen te combineren. De witte achtergrond vond ik een goed idee.',
                                     ],
@@ -769,13 +789,30 @@ export const projects: Project[] = [
                             ],
                         },
                         {
+                            id: 'sprint-3-realisatie',
+                            title: 'Van design naar realisatie',
+                            blocks: [
+                                {
+                                    type: 'text',
+                                    paragraphs: ['Na het uitwisselen van ideeën heb ik de designs aangepast, omdat sommige keuzes achteraf minder logisch waren. Daarna heb ik de schermen gebouwd.'],
+                                },
+                                { type: 'heading', text: 'Scorescherm' },
+                                { type: 'compare', design: darkTechImages.sprint3DesignScore, result: darkTechImages.sprint3EindScore },
+                                { type: 'heading', text: 'Overzicht en checkout' },
+                                { type: 'compare', design: darkTechImages.sprint3DesignOverzicht, result: darkTechImages.sprint3EindCheckout },
+                                {
+                                    type: 'text',
+                                    paragraphs: ['Het laatste scherm is een checkout: "That\'s it for today!", totaal € 0,00, verwachte levertijd 4 minuten.'],
+                                },
+                            ],
+                        },
+                        {
                             id: 'sprint-3-ervaring',
                             title: 'De hele ervaring aan elkaar koppelen',
                             blocks: [
-                                { type: 'story', image: darkTechImages.storyErvaring },
                                 {
                                     type: 'text',
-                                    paragraphs: ['Hier hoefde ik niks nieuws te maken, maar moest ik zorgen dat alles samenwerkt. De flow:'],
+                                    paragraphs: ['Voor de laatste user story hoefde ik niks nieuws te maken, maar moest ik zorgen dat alles samenwerkt. De flow:'],
                                 },
                                 {
                                     type: 'timeline',
