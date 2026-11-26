@@ -147,14 +147,18 @@ export interface ProjectDetail {
     highlights?: ProjectImage[]
     /** Over het project: persoonlijke inleiding */
     intro: string[]
-    /** Mijn rol */
-    role?: string
+    /** Mijn rol als Creative Technologist */
+    role?: SprintBlock[]
     /** Wat we gebruikten (lege lijsten worden niet getoond) */
     tools?: { hardware: string[]; software: string[] }
     /** Hoe het project zich ontwikkelde: één kaartje per sprint */
     cards?: SprintCard[]
     /** Iteraties met cijfers: voor → na */
     iterations?: Iteration[]
+    /** Mijn leerdoelen en hoe ik feedback van docenten verwerk */
+    goals?: SprintBlock[]
+    /** Mijn ethische afweging */
+    ethics?: SprintBlock[]
     sprints: Sprint[]
     /** Afsluitende secties onderaan (eindresultaat, geleerd, anders doen) */
     closing?: { id: string; title: string; text: string }[]
@@ -318,14 +322,93 @@ export const projects: Project[] = [
             seoDescription: 'Devlog van Smaakmanipulatie (Dark Tech, semester 1): van user stories in GitLab naar een werkende app en spiegel-installatie, getest met 21 bezoekers op Society 5.0.',
             intro: [
                 'Dit is de devlog van mijn bijdrage aan het schoolproject Smaakmanipulatie, onderdeel van Dark Tech in semester 1. Het project bestaat uit een fysieke installatie en een app, en loopt in vier sprints. Per sprint laat ik zien wat ik heb gemaakt, getest en geleerd.',
-                'Het idee: we laten mensen ervaren hoe hun smaak in kleding gemanipuleerd kan worden – via herhaling en sociale bevestiging. Iets wat je eerst lelijk vindt, ga je na honderd keer zien toch mooi vinden. Aan het eind krijgt de bezoeker inzicht in hoe hij gemanipuleerd is.',
+                'Het idee: we laten mensen ervaren hoe hun smaak in kleding gemanipuleerd kan worden, via herhaling en sociale bevestiging. Iets wat je eerst lelijk vindt, ga je na honderd keer zien toch mooi vinden. Aan het eind krijgt de bezoeker inzicht in hoe hij gemanipuleerd is.',
             ],
-            role: 'UI-design van de app maken, user stories uitwerken, front-end en back-end van de app bouwen, de vragenlijst voor de usertest maken en de feedback analyseren.',
+            role: [
+                {
+                    type: 'text',
+                    paragraphs: [
+                        'In het team ben ik Creative Technologist. Ik denk mee over hoe de spiegel aanvoelt voor de bezoeker, en ik zorg dat de ideeën ook echt werken. Concreet maak ik het UI-design van de app, werk ik user stories uit, bouw ik de front-end en back-end, maak ik vragenlijsten voor usertests en analyseer ik de feedback.',
+                    ],
+                },
+                {
+                    type: 'text',
+                    lead: 'Ideeën en meningen.',
+                    paragraphs: ['Ik breng veel ideeën en meningen in. Mijn designs laat ik eerst aan een groepsgenoot zien. We geven elkaar feedback en daarna pas ik ze aan.'],
+                },
+                {
+                    type: 'text',
+                    lead: 'Usertesting.',
+                    paragraphs: ['Ik ben veel bezig met usertesting, omdat ik graag feedback verzamel. In sprint 1 heb ik een guerrilla test afgenomen. Voor de test op Society 5.0 heb ik de vragenlijst voorbereid. En deze sprint neem ik weer een guerrilla test af.'],
+                },
+                {
+                    type: 'text',
+                    lead: 'Initiatief en kennis delen.',
+                    paragraphs: ['In sprint 2 heb ik het Vue-framework met TypeScript opgezet, met voorbeeldbestanden, zodat de rest van de groep meteen aan de front-end kon werken. Ook neem ik zelf het initiatief voor de usertests, van de guerrilla test in sprint 1 tot de vragenlijst voor Society 5.0.'],
+                },
+                {
+                    type: 'text',
+                    lead: 'De app darker maken.',
+                    paragraphs: ['Ik wilde de app darker maken. Ik zocht naar ideeën en vroeg mijn groepsgenoten om mee te denken. Daar kwam uit dat alle aanbevelingen direct naar je huis worden besteld. Zo forceer je de gebruiker erin.'],
+                },
+                {
+                    type: 'text',
+                    lead: 'Mijn bijdrage aan de spiegel.',
+                    paragraphs: ['Ik heb verschillende onderdelen van de spiegelapp gemaakt, zoals het scorescherm en het overzicht met de checkout. Ook heb ik de hele ervaring aan elkaar gekoppeld, van het idle-scherm tot het wissen van de gegevens voor de volgende bezoeker.'],
+                },
+            ],
             tools: {
                 // AANVULLEN: computer / Raspberry Pi en overige onderdelen
                 hardware: ['Spiegel met ingebouwd scherm', 'Camera', 'Toetsenbord voor de bediening'],
                 software: ['Vue met TypeScript (front-end)', 'Back-end met pyboot', 'GitLab (user stories)'],
             },
+            goals: [
+                {
+                    type: 'text',
+                    lead: 'Er een echte ervaring van maken.',
+                    paragraphs: ['Vorig semester heb ik dit project ook gemaakt, maar het voelde niet echt als een ervaring. Dit semester wil ik er echt een ervaring van maken.'],
+                },
+                {
+                    type: 'text',
+                    lead: 'Een patroon in mijn werk.',
+                    paragraphs: [
+                        'Als ik terugkijk, zie ik dat ik vaak terugval op de app en de front-end. Vorig semester deed ik dat ook, en in sprint 1 koos ik er weer bewust voor om een app te bouwen. Dat is waar ik al ervaring mee heb, maar daardoor ontwikkel ik me minder breed.',
+                        'In sprint 3 ben ik daarom meer bezig geweest met de hele ervaring: camera, scan, AI en schermen aan elkaar koppelen tot één flow. Mijn volgende stap is meer bijdragen aan de spiegel zelf, en aan het dark-verhaal in de installatie.',
+                    ],
+                },
+                {
+                    type: 'text',
+                    lead: 'Meer dan alleen de app.',
+                    paragraphs: ['Ik wil me ontwikkelen als Creative Technologist, niet alleen in de app en de front-end. Ik wil meer bijdragen aan de ervaring van de spiegel zelf.'],
+                },
+                {
+                    type: 'text',
+                    lead: 'Feedback van docenten verwerken.',
+                    paragraphs: [
+                        'Bij elke opdracht verwerk ik de feedback van de docenten. Deze devlog is daar een voorbeeld van.',
+                        'Op mijn vorige devlog kreeg ik als feedback dat ik, net als in het vorige project, veel met de app en de front-end deed, en dat daar weinig ontwikkeling in te zien was. Ook zag mijn docent geen feedback van collega\'s uit de werkgroep, en wilde ze weten wat mijn rol als Creative Technologist in het team is.',
+                        'Daarom heb ik mijn devlog aangepast. Ik heb mijn rol als Creative Technologist uitgeschreven, per sprint de feedback van collega\'s en de opdrachtgever toegevoegd, en ik laat nu per stap zien hoe ik tot mijn keuzes kwam.',
+                    ],
+                },
+            ],
+            ethics: [
+                {
+                    type: 'text',
+                    paragraphs: [
+                        'Een ethische afweging die we hebben gemaakt, is dat we de foto\'s van gebruikers niet opslaan. Bij het scannen van je outfit wordt een foto gemaakt en ingestuurd.',
+                        'Mijn eerste gedachte was dat opslaan het project darker zou maken. Uiteindelijk is besloten om de foto\'s niet op te slaan. Ik heb er zelf wel bij stilgestaan, maar de groep heeft het volgens mij achterwege gelaten omdat het onnodig was.',
+                        'Na elke bezoeker wordt alle informatie gewist, zodat de volgende gebruiker geen gegevens van de vorige ziet.',
+                    ],
+                },
+                {
+                    type: 'text',
+                    lead: 'Mijn mening.',
+                    paragraphs: [
+                        'Ik vind dat dit project meer dark mag, en dat het de ethische grenzen meer mag opzoeken. Het is een provocatype: het doel is dat bezoekers voelen hoe ver beïnvloeding kan gaan. Als het te veilig blijft, merkt niemand iets. Dat zagen we op Society 5.0, waar 6 van de 21 testers zeiden dat de dark kant niet overkwam. Ook de opdrachtgever vroeg om meer de dark side op te gaan.',
+                        'Daarom vind ik keuzes als de aanbeveling voor plastische chirurgie en het direct laten bestellen van alle aanbevelingen goed. Ze zijn ongemakkelijk, en dat is precies de bedoeling. Mijn grens ligt bij echte schade aan de bezoeker. Daarom vind ik het wel goed dat we geen foto\'s opslaan en alle gegevens wissen.',
+                    ],
+                },
+            ],
             cards: [
                 { sprint: 1, text: 'Eerste design en een kartonnen prototype van de spiegel', image: darkTechImages.prototype1 },
                 { sprint: 2, text: 'Een echte spiegel met scherm en camera, en een werkende app', image: darkTechImages.sprint2Dashboard },
@@ -355,7 +438,9 @@ export const projects: Project[] = [
                                 {
                                     type: 'text',
                                     paragraphs: [
-                                        'Ik heb een eerste UI-design gemaakt voor de app die hoort bij de "Stijlspiegel" (de spiegel-installatie in de winkel). De flow: een bezoeker wordt automatisch ingelogd via de spiegel, krijgt een stijlscan met een score en aandachtspunten, en komt in een feed terecht met gepersonaliseerde kledingaanbevelingen – inclusief een voortgangsscherm met statistieken.',
+                                        'In sprint 1 twijfelde ik of ik een app zou bouwen. De spiegel was op dat moment vrij simpel, omdat veel nog hardcoded was. Ik overwoog om een app te maken om meer diepgang aan ons project toe te voegen, en daar heb ik voor gekozen.',
+                                        'Ik heb een eerste UI-design gemaakt voor de app die hoort bij de "Stijlspiegel" (de spiegel-installatie in de winkel). De flow: een bezoeker wordt automatisch ingelogd via de spiegel, krijgt een stijlscan met een score en aandachtspunten, en komt in een feed terecht met gepersonaliseerde kledingaanbevelingen, en een voortgangsscherm met statistieken.',
+                                        'Voor dit design haalde ik inspiratie uit schermen die al gemaakt waren. Vorig semester heb ik dit project ook al gemaakt, dus sommige dingen kon ik hergebruiken.',
                                     ],
                                 },
                             ],
@@ -366,7 +451,31 @@ export const projects: Project[] = [
                             blocks: [
                                 {
                                     type: 'text',
-                                    paragraphs: ['Met dit eerste design heb ik een guerrilla test afgenomen. Wat goed werkte en wat niet, staat in de terugblik onderaan deze sprint.'],
+                                    paragraphs: [
+                                        'Met dit eerste design heb ik een guerrilla test afgenomen. Daar koos ik voor omdat er op dat moment alleen een design was. Ik wilde zoveel mogelijk feedback verzamelen, en ik nam de test op zodat ik er meer uit kon halen.',
+                                        'Ik had ook een survey met foto\'s kunnen maken. Maar omdat het design nog simpel was, verwachtte ik veel overlappende feedback. Dan haal ik liever veel feedback uit één persoon.',
+                                        'Dit kwam eruit:',
+                                    ],
+                                },
+                                {
+                                    type: 'feedback',
+                                    positive: {
+                                        title: 'Wat werkte',
+                                        items: [
+                                            'Welkomstpagina ziet er goed uit',
+                                            'Scorescherm is overzichtelijk, met duidelijke aandachtspunten',
+                                            'Suggesties en het kopen van suggesties zien er goed uit',
+                                            'De app spreekt voor zich, er is geen uitleg nodig',
+                                        ],
+                                    },
+                                    attention: {
+                                        title: 'Wat niet werkte',
+                                        items: [
+                                            'Het fysieke prototype was onduidelijk zonder toelichting; testers moesten gokken',
+                                            'Nergens in de app wordt daadwerkelijk bewustzijn gecreëerd rond het onderwerp (manipulatie van smaak)',
+                                            'Statistieken zijn nergens terug te zien',
+                                        ],
+                                    },
                                 },
                             ],
                         },
@@ -389,7 +498,7 @@ export const projects: Project[] = [
                                 {
                                     type: 'text',
                                     paragraphs: [
-                                        'Het fysieke prototype en de app vullen elkaar aan. Het prototype stelt een winkel voor met een spiegel die bezoekers subtiel fotografeert; die foto\'s vormen de input voor de stijlscan in de app – vandaar dat je in de app automatisch wordt ingelogd via de "Stijlspiegel" en meteen een score en aandachtspunten te zien krijgt. Ik heb dit concept tastbaar gemaakt met een kartonnen schaalmodel van de winkelruimte: een ingelijste "spiegel" aan de wand en een zitbank. Dit sluit ook aan op het verbeterpunt uit de guerrilla test dat het fysieke prototype zonder toelichting onduidelijk was – testers begrepen niet meteen dat de spiegel hen fotografeert.',
+                                        'Het fysieke prototype en de app vullen elkaar aan. Het prototype stelt een winkel voor met een spiegel die bezoekers subtiel fotografeert. Die foto\'s vormen de input voor de stijlscan in de app. Daarom word je in de app automatisch ingelogd via de "Stijlspiegel" en krijg je meteen een score en aandachtspunten te zien. Ik heb dit concept tastbaar gemaakt met een kartonnen schaalmodel van de winkelruimte: een ingelijste "spiegel" aan de wand en een zitbank. Dit sluit ook aan op het verbeterpunt uit de guerrilla test dat het fysieke prototype zonder toelichting onduidelijk was. Testers begrepen niet meteen dat de spiegel hen fotografeert.',
                                     ],
                                 },
                             ],
@@ -397,26 +506,34 @@ export const projects: Project[] = [
                     ],
                     review: [
                         {
+                            title: 'Feedback van de opdrachtgever',
                             blocks: [
+                                {
+                                    type: 'text',
+                                    paragraphs: ['In de sprint review lieten we drie concepten zien aan de opdrachtgever, Tinker: Ethical TechLab. Mijn concept, samen met een groepsgenoot: in de winkel wordt een lichaamsscan gemaakt en die informatie komt in een app, met tips van een stylist en korting via de spiegel. De opdrachtgever vond het concept van een smart mirror voor in huis het meest provocatief, en onderdelen van de andere spiegels konden daar zeker aan worden toegevoegd.'],
+                                },
                                 {
                                     type: 'feedback',
                                     positive: {
-                                        title: 'Wat werkte',
+                                        title: 'Wat goed was',
                                         items: [
-                                            'Welkomstpagina ziet er goed uit',
-                                            'Scorescherm is overzichtelijk, met duidelijke aandachtspunten',
-                                            'Suggesties en het kopen van suggesties zien er goed uit',
-                                            'De app spreekt voor zich – geen uitleg nodig',
+                                            'Er is goed geluisterd en belangrijke concepten uit het project zijn goed vertaald',
+                                            'Afspraken uit de debrief zijn nagekomen en goed uitgewerkt',
+                                            'Veel exploratie en ideeën',
                                         ],
                                     },
                                     attention: {
-                                        title: 'Wat niet werkte',
+                                        title: 'Verbeterpunten',
                                         items: [
-                                            'Het fysieke prototype was onduidelijk zonder toelichting; testers moesten gokken',
-                                            'Nergens in de app wordt daadwerkelijk bewustzijn gecreëerd rond het onderwerp (manipulatie van smaak)',
-                                            'Statistieken zijn nergens terug te zien',
+                                            'Er zijn vooral veel uitkomsten gedeeld, nog niet veel geleerde inzichten',
+                                            'Test ook met gebruikers en onderbouw keuzes met bewijs. Sommige inzichten moeten echt uit het prototype zelf komen',
                                         ],
                                     },
+                                },
+                                {
+                                    type: 'text',
+                                    lead: 'Wat ik ermee deed.',
+                                    paragraphs: ['In sprint 2 hebben we getest met echte gebruikers: 21 bezoekers op Society 5.0. Ik heb per thema geteld hoeveel testers iets noemden, zodat onze keuzes onderbouwd zijn met wat testers zeiden.'],
                                 },
                             ],
                         },
@@ -426,6 +543,7 @@ export const projects: Project[] = [
                                 {
                                     type: 'list',
                                     items: [
+                                        'Testen met echte gebruikers en keuzes onderbouwen met bewijs',
                                         'Bewustzijn over manipulatie in de app laten zien',
                                         'Statistieken toevoegen',
                                         'Het fysieke deel duidelijker maken',
@@ -516,21 +634,7 @@ export const projects: Project[] = [
                                     type: 'text',
                                     paragraphs: [
                                         'Nieuw in deze sprint. Het toont een live beïnvloedingsscore, momenten van beïnvloeding, gedeelde datapunten en welke tactieken er op je zijn gebruikt (onzekerheid uit je scan, score onder vrienden, sociale druk, exclusieve spiegelprijs).',
-                                    ],
-                                },
-                            ],
-                        },
-                        {
-                            id: 'sprint-2-veranderd',
-                            title: 'Wat ik veranderde na sprint 1',
-                            blocks: [
-                                {
-                                    type: 'loop',
-                                    columns: ['Verbeterpunt uit sprint 1', 'Wat ik deed in sprint 2', 'Wat de test liet zien'],
-                                    rows: [
-                                        { from: 'Nergens in de app wordt bewustzijn gecreëerd', did: 'Dashboard dat laat zien welke tactieken op je zijn gebruikt', result: 'De dark kant kwam bij de spiegel nog niet over (6 testers)' },
-                                        { from: 'Statistieken zijn nergens terug te zien', did: 'Dashboard met beïnvloedingsscore, momenten en datapunten' },
-                                        { from: 'Fysiek prototype onduidelijk zonder toelichting', did: 'Echte spiegel met ingebouwd scherm en camera', result: 'Spiegel werd het meest gewaardeerd (9 testers)' },
+                                        'Dit scherm kwam er omdat uit de guerrilla test in sprint 1 bleek dat de app nergens bewustzijn creëerde, en dat statistieken nergens terug te zien waren.',
                                     ],
                                 },
                             ],
@@ -556,6 +660,7 @@ export const projects: Project[] = [
                                 {
                                     type: 'text',
                                     paragraphs: [
+                                        'Als testmethode koos ik voor een vragenlijst, omdat we ons project op Society 5.0 lieten zien. Met een QR-code naar de vragenlijst kun je daar heel veel feedback verzamelen.',
                                         'De open vragen geven ruimte voor wat wij zelf niet hadden bedacht. De twee keuzevragen gaan direct over het fysieke ontwerp, zodat we die keuzes op data kunnen baseren in plaats van op onze eigen voorkeur.',
                                     ],
                                 },
@@ -563,11 +668,12 @@ export const projects: Project[] = [
                         },
                         {
                             id: 'sprint-2-testen',
-                            title: 'Testen op Society 5.0',
+                            title: 'Testen op Society 5.0 en de uitkomsten',
                             blocks: [
                                 {
                                     type: 'text',
                                     paragraphs: [
+                                        'In sprint 1 was het kartonnen prototype onduidelijk zonder uitleg. Nu testten we met een echte spiegel met een ingebouwd scherm en een camera.',
                                         'Bezoekers van Society 5.0 doorliepen de ervaring met de spiegel (ingebouwd scherm en camera, accessoires kiezen) en vulden daarna de vragenlijst in. Dat leverde 21 ingevulde vragenlijsten op.',
                                     ],
                                 },
@@ -583,15 +689,9 @@ export const projects: Project[] = [
                                         'Moet je echt stimuleren dat iemand nog meer koopt?',
                                     ],
                                 },
-                            ],
-                        },
-                        {
-                            id: 'sprint-2-analyseren',
-                            title: 'Resultaten van de test',
-                            blocks: [
                                 {
                                     type: 'text',
-                                    paragraphs: ['Ik heb alle antwoorden gelezen, per thema gegroepeerd en geteld hoeveel testers iets noemden.'],
+                                    paragraphs: ['Dit kwam eruit. Ik heb alle antwoorden gelezen, per thema gegroepeerd en geteld hoeveel testers iets noemden.'],
                                 },
                                 {
                                     type: 'bars',
@@ -650,6 +750,36 @@ export const projects: Project[] = [
                     ],
                     review: [
                         {
+                            title: 'Feedback van de opdrachtgever',
+                            blocks: [
+                                {
+                                    type: 'feedback',
+                                    positive: {
+                                        title: 'Wat goed was',
+                                        items: [
+                                            'De spiegel werkt nu echt als spiegel',
+                                            'Het sterkste punt van deze sprint: de spiegel',
+                                        ],
+                                    },
+                                    attention: {
+                                        title: 'Verbeterpunten',
+                                        items: [
+                                            'Er was iets minder dan verwacht in de digitale ervaring',
+                                            'Het onderdeel over plastische chirurgie en beïnvloeding uit de vorige sprint ontbrak',
+                                            'Het moet meer de dark side op gaan, en de beïnvloeding op plastische chirurgie moet terugkomen',
+                                        ],
+                                    },
+                                },
+                                {
+                                    type: 'text',
+                                    paragraphs: [
+                                        'Tijdens de sprint review kon ik de app nog niet laten zien. Ik vertelde de opdrachtgever wel over het idee van een app die samengaat met de fysieke spiegel, maar die was er niet heel enthousiast over.',
+                                        'Ik overwoog toen om de app achterwege te laten, of om de app om te gooien en bijvoorbeeld plastische chirurgie aan te bevelen.',
+                                    ],
+                                },
+                            ],
+                        },
+                        {
                             title: 'Feedback van medestudenten',
                             blocks: [
                                 {
@@ -667,6 +797,11 @@ export const projects: Project[] = [
                                             'Meer proces tonen, dus mijn portfolio uitbreiden',
                                         ],
                                     },
+                                },
+                                {
+                                    type: 'text',
+                                    lead: 'Wat ik ermee deed.',
+                                    paragraphs: ['Ik heb mijn devlog uitgebreid. Per sprint laat ik nu stap voor stap zien hoe ik van design naar realisatie ging, met de feedback die ik onderweg kreeg.'],
                                 },
                             ],
                         },
@@ -710,6 +845,7 @@ export const projects: Project[] = [
                                         'Producten op de gebruiker tonen, meer keuze en feedback na elke keuze',
                                         'Aanbevelingen afstemmen op wie er voor de spiegel staat',
                                         'Verticale opstelling met knoppen onder de spiegel in plaats van een toetsenbord',
+                                        'Mogelijk de app weer naar voren brengen, om de feedback over plastische chirurgie verder uit te breiden en toe te passen',
                                     ],
                                 },
                             ],
@@ -756,6 +892,11 @@ export const projects: Project[] = [
                                     lead: 'Overzichtsscherm.',
                                     paragraphs: ['Tijdens de ervaring kun je aanbevelingen accepteren of afwijzen. Aan het eind zie je je score, een kleine foto van je scan en alle aanbevelingen die je hebt gekozen.'],
                                 },
+                                {
+                                    type: 'text',
+                                    lead: 'Hoe ik op deze designs kwam.',
+                                    paragraphs: ['Net als in sprint 1 haalde ik inspiratie uit schermen die al gemaakt waren, en kon ik dingen hergebruiken uit mijn versie van vorig semester. Samen met een groepsgenoot keek ik naar de feedback die ik van hen kreeg. We bedachten wat het beste werkte en wat het meest laagdrempelig was.'],
+                                },
                             ],
                         },
                         {
@@ -774,6 +915,7 @@ export const projects: Project[] = [
                                         'Mijn groepsgenoot had in de les ook het resultaatscherm herontworpen. Ik heb haar mijn design gestuurd, zodat we ze naast elkaar konden leggen.',
                                         'Zij vond mijn versie vooral mooi in de stijl van de spiegel en niet te overweldigend. Wel is het scherm klein, dus het gezichtje kon groter.',
                                         'Ze vroeg zich ook af hoe we aan een afbeelding van de complete outfit komen. Een LLM kan iets verkeerds genereren, waardoor dat misschien niet stabiel werkt.',
+                                        'Ik had de keuze tussen mijn design en dat van haar. Ik koos ervoor om haar feedback mee te nemen, omdat beide designs goede aspecten hadden die we konden combineren.',
                                     ],
                                 },
                                 { type: 'heading', text: 'Overzichtsscherm' },
@@ -802,7 +944,10 @@ export const projects: Project[] = [
                                 { type: 'compare', design: darkTechImages.sprint3DesignOverzicht, result: darkTechImages.sprint3EindCheckout },
                                 {
                                     type: 'text',
-                                    paragraphs: ['Het laatste scherm is een checkout: "That\'s it for today!", totaal € 0,00, verwachte levertijd 4 minuten.'],
+                                    paragraphs: [
+                                        'Het laatste scherm is een checkout: "That\'s it for today!", totaal € 0,00, verwachte levertijd 4 minuten.',
+                                        'Dat alles direct wordt besteld, komt uit mijn zoektocht om de app darker te maken. Ik vroeg mijn groepsgenoten om mee te denken, en we kwamen uit op het idee om alle aanbevelingen direct naar je huis te laten bestellen. Zo forceer je de gebruiker erin.',
+                                    ],
                                 },
                             ],
                         },
@@ -829,7 +974,10 @@ export const projects: Project[] = [
                                 },
                                 {
                                     type: 'text',
-                                    paragraphs: ['Tech: front-end in Vue, back-end met pyboot.'],
+                                    paragraphs: [
+                                        'De laatste aanbeveling gaat altijd over plastische chirurgie. Daarmee pakken we de feedback van de opdrachtgever uit sprint 2 op: de beïnvloeding op plastische chirurgie moest terugkomen, en het moest meer de dark side op gaan.',
+                                        'Tech: front-end in Vue, back-end met pyboot.',
+                                    ],
                                 },
                             ],
                         },
@@ -855,7 +1003,7 @@ export const projects: Project[] = [
                             blocks: [
                                 {
                                     type: 'text',
-                                    paragraphs: ['De usertests afnemen en de feedback verwerken.'],
+                                    paragraphs: ['Een guerrilla test afnemen en de feedback verwerken. Ik kies weer voor een guerrilla test, omdat het nu een ervaring is. Dat kun je niet goed overbrengen met bijvoorbeeld een vragenlijst.'],
                                 },
                             ],
                         },

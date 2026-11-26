@@ -81,9 +81,15 @@
         </section>
 
         <!-- 3. Mijn rol -->
-        <section v-if="detail.role" id="mijn-rol" class="scroll-mt-28">
-          <h2 v-reveal class="mb-6 text-3xl font-medium tracking-tight md:text-4xl">Mijn rol</h2>
-          <p v-reveal class="max-w-3xl text-lg leading-relaxed text-cream/70">{{ detail.role }}</p>
+        <section v-if="detail.role?.length" id="mijn-rol" class="scroll-mt-28">
+          <h2 v-reveal class="mb-6 text-3xl font-medium tracking-tight md:text-4xl">Mijn rol als Creative Technologist</h2>
+          <SprintBlocks :blocks="detail.role" @open="lightboxImage = $event" />
+        </section>
+
+        <!-- Mijn leerdoelen -->
+        <section v-if="detail.goals?.length" id="leerdoelen" class="scroll-mt-28">
+          <h2 v-reveal class="mb-6 text-3xl font-medium tracking-tight md:text-4xl">Mijn leerdoelen</h2>
+          <SprintBlocks :blocks="detail.goals" @open="lightboxImage = $event" />
         </section>
 
         <!-- 4. Wat we gebruikten -->
@@ -243,6 +249,12 @@
             </template>
           </div>
         </div>
+
+        <!-- Mijn ethische afweging -->
+        <section v-if="detail.ethics?.length" id="ethiek" class="scroll-mt-28">
+          <h2 v-reveal class="mb-6 text-3xl font-medium tracking-tight md:text-4xl">Mijn ethische afweging</h2>
+          <SprintBlocks :blocks="detail.ethics" @open="lightboxImage = $event" />
+        </section>
 
         <!-- 7. Eindresultaat · Wat ik heb geleerd · Wat ik volgende keer anders zou doen -->
         <section v-for="item in detail.closing" :id="item.id" :key="item.id" class="scroll-mt-28">
