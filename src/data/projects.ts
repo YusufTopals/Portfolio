@@ -339,7 +339,7 @@ export const projects: Project[] = [
                 {
                     type: 'text',
                     lead: 'Usertesting.',
-                    paragraphs: ['Ik ben veel bezig met usertesting, omdat ik graag feedback verzamel. In sprint 1 heb ik een guerrilla test afgenomen. Voor de test op Society 5.0 heb ik de vragenlijst voorbereid. En deze sprint neem ik weer een guerrilla test af.'],
+                    paragraphs: ['Ik ben veel bezig met usertesting, omdat ik graag feedback verzamel. In sprint 1 heb ik een guerrilla test afgenomen. Voor de test op Society 5.0 heb ik de vragenlijst voorbereid. In sprint 3 heb ik weer een guerrilla test afgenomen.'],
                 },
                 {
                     type: 'text',
@@ -828,10 +828,6 @@ export const projects: Project[] = [
                                         'De aanbevelingen pasten ook niet altijd bij wie er voor de spiegel stond, zoals oorbellen voor een man. Dat werkte gewoon nog niet.',
                                     ],
                                 },
-                                {
-                                    type: 'question',
-                                    question: 'Heb jij een idee hoe je manipulatie kunt laten voelen zonder dat het meteen duidelijk is?',
-                                },
                             ],
                         },
                         {
@@ -981,6 +977,49 @@ export const projects: Project[] = [
                                 },
                             ],
                         },
+                        {
+                            id: 'sprint-3-guerrilla-test',
+                            title: 'Guerrilla test',
+                            blocks: [
+                                {
+                                    type: 'text',
+                                    paragraphs: ['Om te testen of de ervaring werkt, heb ik weer een guerrilla test afgenomen. Ik koos weer voor een guerrilla test, omdat het nu een ervaring is. Dat kun je niet goed overbrengen met bijvoorbeeld een vragenlijst. Dit kwam eruit:'],
+                                },
+                                {
+                                    type: 'feedback',
+                                    positive: {
+                                        title: 'Wat goed werkte',
+                                        items: [
+                                            'Je komt zonder problemen door de hele ervaring',
+                                            'De score en tips voelen persoonlijk',
+                                            'De keuzeschermen zijn duidelijk, met grote foto\'s, naam en prijs',
+                                            'Kiezen met A/D en Enter is makkelijk',
+                                            'Het overzicht laat precies zien wat je gekozen hebt',
+                                            'Op het startscherm zie je daarna je score van vandaag',
+                                            'De overgangen tussen de schermen zijn rustig en overal hetzelfde',
+                                        ],
+                                    },
+                                    attention: {
+                                        title: 'Wat beter kan',
+                                        items: [
+                                            'Je moet lang wachten voordat je je score ziet',
+                                            'Het is niet altijd duidelijk dat je op Enter moet drukken',
+                                            'Je merkt niet dat er een foto van je wordt gemaakt',
+                                            'Nederlands en Engels staan door elkaar',
+                                            'De tips passen niet altijd bij de producten die je kunt kiezen',
+                                            'Er staat geen uitleg waarom je een product krijgt',
+                                            'Sommige productnamen zien er onaf uit',
+                                            'Er staat een typfout op het scorescherm ("proced")',
+                                        ],
+                                    },
+                                },
+                                {
+                                    type: 'text',
+                                    lead: 'Conclusie.',
+                                    paragraphs: ['De ervaring werkt goed en voelt compleet. Het belangrijkste verbeterpunt: duidelijker maken wat de gebruiker moet doen, en het wachten korter laten voelen.'],
+                                },
+                            ],
+                        },
                     ],
                     review: [
                         {
@@ -1003,7 +1042,7 @@ export const projects: Project[] = [
                             blocks: [
                                 {
                                     type: 'text',
-                                    paragraphs: ['Een guerrilla test afnemen en de feedback verwerken. Ik kies weer voor een guerrilla test, omdat het nu een ervaring is. Dat kun je niet goed overbrengen met bijvoorbeeld een vragenlijst.'],
+                                    paragraphs: ['Duidelijker maken wat de gebruiker moet doen, en het wachten korter laten voelen.'],
                                 },
                             ],
                         },
